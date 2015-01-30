@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+        <string name="TxtMensaje">Mensaje</string>
+        <string name="TxtAnomalia">Anomalia</string>
+        <string name="TxtTipoUso">Tipo Uso</string>
+
+</resources>

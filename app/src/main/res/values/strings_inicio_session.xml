@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="StringCodigo">Codigo</string>
+    <string name="StringNombre">Inspector_sin_asignar</string>
+    <string name="BtnIngresar">Ingresar</string>
+    <string name="VersionBD">Version BD</string>
+    <string name="VersionML">Version MobileLecturas</string>
+    <string name="cargarRuta">Cargar Ruta</string>
+    <string name="verRutas">Ver Rutas</string>
+    <string name="backupBD">Backup BD</string>
+    <string name="salir">Salir</string>
+
+</resources>

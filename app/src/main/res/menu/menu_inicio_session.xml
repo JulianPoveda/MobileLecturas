@@ -1,6 +1,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".InicioSession">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/InicioMenuRuta"
+          android:title="@string/cargarRuta"
+          android:orderInCategory="100"
+          app:showAsAction="never" />
+
+    <item android:id="@+id/InicioMenuTrabajo"
+        android:title="@string/verRutas"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/InicioMenuBackup"
+        android:title="@string/backupBD"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/InicioMenuSalir"
+        android:title="@string/salir"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
 </menu>

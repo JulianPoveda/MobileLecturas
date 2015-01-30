@@ -16,6 +16,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".informacion_rutas"
+            android:label="@string/title_activity_informacion_rutas" >
+        </activity>
+        <activity
+            android:name=".lista_rutas"
+            android:label="@string/title_activity_lista_rutas" >
+        </activity>
+        <activity
+            android:name=".tomar_lectura"
+            android:label="@string/title_activity_tomar_lectura" >
+        </activity>
+        <activity
+            android:name=".lista_informacion_rutas"
+            android:label="@string/title_activity_lista_informacion_rutas" >
+        </activity>
     </application>
 
 </manifest>
