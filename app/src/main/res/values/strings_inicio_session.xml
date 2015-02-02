@@ -10,5 +10,6 @@
     <string name="verRutas">Ver Rutas</string>
     <string name="backupBD">Backup BD</string>
     <string name="salir">Salir</string>
+    <string name="cargarParametros">Cargar Parametros</string>
 
 </resources>

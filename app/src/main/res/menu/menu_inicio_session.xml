@@ -1,17 +1,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".InicioSession">
-    <item android:id="@+id/InicioMenuRuta"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".InicioSession">
+
+    <item android:id="@+id/InicioCargarParametros"
+        android:title="@string/cargarParametros"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/InicioCargarRuta"
           android:title="@string/cargarRuta"
           android:orderInCategory="100"
           app:showAsAction="never" />
 
-    <item android:id="@+id/InicioMenuTrabajo"
+    <item android:id="@+id/InicioVerRutas"
         android:title="@string/verRutas"
         android:orderInCategory="100"
         app:showAsAction="never" />
 
-    <item android:id="@+id/InicioMenuBackup"
+    <item android:id="@+id/InicioCrearBackup"
         android:title="@string/backupBD"
         android:orderInCategory="100"
         app:showAsAction="never" />

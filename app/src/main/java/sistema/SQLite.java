@@ -21,6 +21,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import lecturas.sypelc.mobilelecturas.InicioSession;
+
 public class SQLite {
     private static Archivos ArchSQL;
     private static String N_BD = null;
@@ -77,7 +79,7 @@ public class SQLite {
             //Tabla con los datos de configuracion
             db.execSQL("CREATE TABLE    param_critica   (minimo                 NUMERIC(15,7) NOT NULL," +
                                                         "maximo                 NUMERIC(15,7) NOT NULL," +
-                                                        "descripcion            VARCHAR((255) PRIMARY KEY)");
+                                                        "descripcion            VARCHAR(255) PRIMARY KEY)");
 
             db.execSQL("CREATE TABLE    param_municipios(id_municipio           INTEGER NOT NULL PRIMARY KEY," +
                                                         "nombre                 VARCHAR(255) NOT NULL)");
@@ -87,7 +89,7 @@ public class SQLite {
                                                         "fecha_cargue           TIMESTAMP NOT NULL DEFAULT current_timestamp," +
                                                         "PRIMARY KEY(id_inspector,ruta))");
 
-            db.execSQL("CRETE TABLE     maestro_clientes(id_serial              INTEGER NOT NULL PRIMARY KEY," +
+            db.execSQL("CREATE TABLE     maestro_clientes(id_serial              INTEGER NOT NULL PRIMARY KEY," +
                                                         "cuenta                 NUMERIC(15,0) NOT NULL," +
                                                         "nombre                 VARCHAR(255) NOT NULL," +
                                                         "direccion              VARCHAR(255) NOT NULL," +
@@ -134,8 +136,17 @@ public class SQLite {
         }
     }
 
+    public SQLite (Context c, String CurrentDirectory){
+        this.nContexto = c;
+        this.Directorio = CurrentDirectory;
+        SQLite.N_BD = this.Directorio + File.separator + InicioSession.name_database;
+        ArchSQL = new Archivos(this.nContexto, this.Directorio, 10);
+        if(!ArchSQL.ExistFolderOrFile(this.Directorio)){
+            ArchSQL.MakeDirectory();
+        }
+    }
 
-    public boolean SQLString(String Query){
+    /*public boolean SQLString(String Query){
         ValorRetorno = false;
         try{
             nBD.execSQL(Query);
@@ -144,18 +155,10 @@ public class SQLite {
             ValorRetorno = false;
         }
         return ValorRetorno;
-    }
+    }*/
 
 
-    public SQLite (Context c, String CurrentDirectory){
-        this.nContexto = c;
-        this.Directorio = CurrentDirectory;
-        SQLite.N_BD = this.Directorio + File.separator + "BdDesviaciones_Lecturas";
-        ArchSQL = new Archivos(this.nContexto, this.Directorio, 10);
-        if(!ArchSQL.ExistFolderOrFile(this.Directorio)){
-            ArchSQL.MakeDirectory();
-        }
-    }
+
 
 
     private SQLite abrir(){
