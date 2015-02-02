@@ -4,5 +4,9 @@
     <string name="app_name">MobileLecturas</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_informacion_rutas">informacion_rutas</string>
+    <string name="title_activity_lista_rutas">lista_rutas</string>
+    <string name="title_activity_tomar_lectura">tomar_lectura</string>
+    <string name="title_activity_lista_informacion_rutas">AdaptadorInformacionRutas</string>
 
 </resources>
