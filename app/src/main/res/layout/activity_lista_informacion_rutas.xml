@@ -11,27 +11,27 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:text="New Text"
-        android:id="@+id/textView" />
+        android:id="@+id/ListaInfoTxtRutas" />
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:text="New Text"
-        android:id="@+id/textView2" />
+        android:id="@+id/ListaInfoTxtPendientes" />
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:text="New Text"
-        android:id="@+id/textView3" />
+        android:id="@+id/ListaInfoTxtLeidas" />
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:text="New Text"
-        android:id="@+id/textView4"/>
+        android:id="@+id/ListaInfoTxtTotal"/>
 
 </LinearLayout>
