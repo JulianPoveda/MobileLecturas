@@ -59,7 +59,7 @@ public class SQLite {
                                                             "valor  VARCHAR(100) NOT NULL, " +
                                                             "nivel  INTEGER NOT NULL)");
 
-            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Servidor','http://192.168.0.37',0) ");
+            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Servidor','http://192.168.1.37',0) ");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Puerto','80',0) ");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Modulo','DesarrolloLecturas/ServerMobile',0) ");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Web_Service','WS_Lecturas.php?wsdl',0)");
