@@ -83,7 +83,7 @@ public class ClassUsuario {
         this.nombre = nombre;
     }
 
-    private int getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 

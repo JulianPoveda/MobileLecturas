@@ -1,5 +1,7 @@
 package lecturas.sypelc.mobilelecturas;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Environment;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import java.io.File;
 
+import async_task.DownLoadParametros;
 import sistema.SQLite;
 import clases.ClassUsuario;
 
@@ -42,7 +45,6 @@ public class InicioSession extends ActionBarActivity implements OnClickListener{
         this._lblNombre = (TextView) findViewById(R.id.LoginTxtNombre);
 
         invalidateOptionsMenu();
-
         this._btnLoggin.setOnClickListener(this);
     }
 
@@ -56,17 +58,19 @@ public class InicioSession extends ActionBarActivity implements OnClickListener{
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         if(this.FcnUsuario.isInicio_sesion()) {
-            menu.findItem(R.id.InicioMenuRuta).setEnabled(true);
-            menu.findItem(R.id.InicioMenuBackup).setEnabled(true);
-            menu.findItem(R.id.InicioMenuTrabajo).setEnabled(true);
+            menu.findItem(R.id.InicioCargarParametros).setEnabled(true);
+            menu.findItem(R.id.InicioCargarRuta).setEnabled(true);
+            menu.findItem(R.id.InicioVerRutas).setEnabled(true);
+            menu.findItem(R.id.InicioCrearBackup).setEnabled(true);
 
             this._txtCodigo.setEnabled(false);
             this._lblNombre.setText(this.FcnUsuario.getNombre());
             this._btnLoggin.setEnabled(false);
         }else{
-            menu.findItem(R.id.InicioMenuRuta).setEnabled(false);
-            menu.findItem(R.id.InicioMenuBackup).setEnabled(false);
-            menu.findItem(R.id.InicioMenuTrabajo).setEnabled(false);
+            menu.findItem(R.id.InicioCargarParametros).setEnabled(false);
+            menu.findItem(R.id.InicioCargarRuta).setEnabled(false);
+            menu.findItem(R.id.InicioVerRutas).setEnabled(false);
+            menu.findItem(R.id.InicioCrearBackup).setEnabled(false);
         }
         return true;
     }
@@ -75,6 +79,7 @@ public class InicioSession extends ActionBarActivity implements OnClickListener{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.InicioCargarParametros:
+                new DownLoadParametros(this).execute(this.FcnUsuario.getCodigo()+"");
                 break;
 
             case R.id.InicioCargarRuta:

@@ -61,8 +61,8 @@ public class SQLite {
 
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Servidor','http://192.168.0.37',0) ");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Puerto','80',0) ");
-            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Modulo','TomaLecturas/WS',0) ");
-            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Web_Service','AndroidWS.php?wsdl',0)");
+            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Modulo','DesarrolloLecturas/ServerMobile',0) ");
+            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Web_Service','WS_Lecturas.php?wsdl',0)");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Impresora','Sin Asignar',1)");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Version_Software','1.0',0)");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Version_BD','1.0',0)");
@@ -82,7 +82,7 @@ public class SQLite {
                                                         "descripcion            VARCHAR(255) PRIMARY KEY)");
 
             db.execSQL("CREATE TABLE    param_municipios(id_municipio           INTEGER NOT NULL PRIMARY KEY," +
-                                                        "nombre                 VARCHAR(255) NOT NULL)");
+                                                        "municipio              VARCHAR(255) NOT NULL)");
 
             db.execSQL("CREATE TABLE    maestro_rutas   (id_inspector           INTEGER NOT NULL," +
                                                         "ruta                   VARCHAR(255) NOT NULL," +

@@ -12,6 +12,7 @@ package async_task;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import clases.ClassFlujoInformacion;
 import lecturas.sypelc.mobilelecturas.InicioSession;
 import sistema.Archivos;
 import org.kobjects.base64.Base64;
@@ -33,8 +34,9 @@ import android.widget.Toast;
 public class DownLoadParametros extends AsyncTask<String, Integer, Integer>{ //doInBakGround, Progress, onPostExecute
 
     /**Instancias a clases**/
-    private Archivos 			FcnArch;
-    private ClassConfiguracion 	FcnCfg;
+    private Archivos 			    FcnArch;
+    private ClassConfiguracion 	    FcnCfg;
+    private ClassFlujoInformacion   FcnInformacion;
 
     /**Variables Locales**/
     private Context 			ConnectServerContext;
@@ -51,10 +53,11 @@ public class DownLoadParametros extends AsyncTask<String, Integer, Integer>{ //d
 
 
     //Contructor de la clase
-    public DownLoadParametros(Context context, String Directorio){
+    public DownLoadParametros(Context context){
         this.ConnectServerContext 		= context;
         this.FcnCfg						= ClassConfiguracion.getInstance(this.ConnectServerContext);
-        this.FcnArch					= new Archivos(this.ConnectServerContext, InicioSession.path_files_app,10);
+        this.FcnInformacion             = new ClassFlujoInformacion(this.ConnectServerContext);
+        this.FcnArch					= new Archivos(this.ConnectServerContext, InicioSession.path_files_app, 10);
     }
 
 
@@ -81,9 +84,6 @@ public class DownLoadParametros extends AsyncTask<String, Integer, Integer>{ //d
         int _retorno = 0;
         try{
             SoapObject so=new SoapObject(NAMESPACE, METHOD_NAME);
-            PropertyInfo p1 = new PropertyInfo();
-            p1.setName("size");
-            p1.setType(_data);
             so.addProperty("id_interno", params[0]);
             SoapSerializationEnvelope sse=new SoapSerializationEnvelope(SoapEnvelope.VER11);
             sse.dotNet=true;
@@ -98,12 +98,13 @@ public class DownLoadParametros extends AsyncTask<String, Integer, Integer>{ //d
             }else if(response.toString().isEmpty()){
                 _retorno = -2;
             }else{
-                byte[] resultado = Base64.decode(response.toString());
                 try {
-                    this.FcnArch.ByteArrayToFile(resultado, "Parametros.txt");
-                    this.InformacionDescarga = FcnArch.FileToArrayString("Parametros.txt",false);
-                    //this.FcnParametros.InsertParametros(this.InformacionDescarga);
-                    this.FcnArch.DeleteFile("Parametros.txt");
+                    String informacion[] = new String(Base64.decode(response.toString()), "UTF-8").split("\\n");
+                    this.InformacionDescarga.clear();
+                    for(int i=0;i<informacion.length;i++){
+                        this.InformacionDescarga.add(informacion[i]);
+                    }
+                    this.FcnInformacion.CargarParametros(this.InformacionDescarga,"\\|");
                     _retorno = 1;
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -111,7 +112,8 @@ public class DownLoadParametros extends AsyncTask<String, Integer, Integer>{ //d
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.toString();
+            _retorno = -4;
         }
         return _retorno;
     }
