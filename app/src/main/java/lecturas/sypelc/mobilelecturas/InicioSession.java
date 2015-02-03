@@ -18,6 +18,7 @@ import android.widget.TextView;
 import java.io.File;
 
 import async_task.DownLoadParametros;
+import async_task.DownLoadTrabajo;
 import sistema.SQLite;
 import clases.ClassUsuario;
 
@@ -83,6 +84,7 @@ public class InicioSession extends ActionBarActivity implements OnClickListener{
                 break;
 
             case R.id.InicioCargarRuta:
+                new DownLoadTrabajo(this).execute(this.FcnUsuario.getCodigo()+"");
                 break;
 
             case R.id.InicioVerRutas:
