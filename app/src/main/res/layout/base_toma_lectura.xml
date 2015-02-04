@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="13">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="New Text"
+        android:id="@+id/LecturaTxtRuta"
+        android:gravity="bottom" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="New Text"
+            android:id="@+id/LecturaTxtCuenta"
+            android:gravity="bottom" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="New Text"
+            android:id="@+id/LecturaTxtMedidor"
+            android:gravity="bottom" />
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="New Text"
+        android:id="@+id/LecturaTxtNombre"
+        android:gravity="bottom" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="New Text"
+        android:id="@+id/LecturaTxtDireccion"
+        android:gravity="bottom" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/TxtTipoUso"
+            android:id="@+id/LecturaTxtTipoUso"
+            android:gravity="center_vertical|right" />
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:id="@+id/LecturaSpnTipoUso" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/TxtAnomalia"
+            android:id="@+id/LecturaTxtAnomalia"
+            android:gravity="center_vertical|right" />
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:id="@+id/LecturaSpnAnomalia"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/TxtLectura1"
+            android:id="@+id/LecturaTxtLectura1"
+            android:gravity="bottom|right" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:inputType="textMultiLine"
+            android:id="@+id/LecturaEditLectura1"
+            android:layout_weight="2" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/TxtLectura2"
+            android:id="@+id/LecturaTxtLectura2"
+            android:gravity="bottom|right" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:inputType="textMultiLine"
+            android:id="@+id/LecturaEditLectura2"
+            android:layout_weight="2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="6">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/TxtLectura3"
+            android:id="@+id/LecturaTxtLectura3"
+            android:gravity="center_vertical|right" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:inputType="textMultiLine"
+            android:id="@+id/LecturaEditLectura3"
+            android:layout_weight="2" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="@string/TxtMensaje"
+        android:id="@+id/LecturaTxtMensaje"
+        android:gravity="bottom|left" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:inputType="textMultiLine"
+        android:id="@+id/LecturaEditMensaje"
+        android:layout_weight="3" />
+</LinearLayout>
