@@ -63,7 +63,7 @@ public class ClassConfiguracion {
 
     public void setIp_server(String ip_server) {
         this._tempRegistro.clear();
-        this._tempRegistro.put("Servidor",ip_server);
+        this._tempRegistro.put("valor",ip_server);
         if(this.FcnSQL.UpdateRegistro("param_configuracion",this._tempRegistro,"item='Servidor'")){
             this.ip_server = ip_server;
         }
@@ -75,7 +75,7 @@ public class ClassConfiguracion {
 
     public void setPort(String port) {
         this._tempRegistro.clear();
-        this._tempRegistro.put("Puerto",port);
+        this._tempRegistro.put("valor",port);
         if(this.FcnSQL.UpdateRegistro("param_configuracion",this._tempRegistro,"item='Puerto'")){
             this.port = port;
         }
@@ -87,7 +87,7 @@ public class ClassConfiguracion {
 
     public void setModule_web_service(String module_web_service) {
         this._tempRegistro.clear();
-        this._tempRegistro.put("Modulo",module_web_service);
+        this._tempRegistro.put("valor",module_web_service);
         if(this.FcnSQL.UpdateRegistro("param_configuracion",this._tempRegistro,"item='Modulo'")){
             this.module_web_service = module_web_service;
         }
@@ -99,7 +99,7 @@ public class ClassConfiguracion {
 
     public void setWeb_service(String web_service) {
         this._tempRegistro.clear();
-        this._tempRegistro.put("Web_Service",web_service);
+        this._tempRegistro.put("valor",web_service);
         if(this.FcnSQL.UpdateRegistro("param_configuracion",this._tempRegistro,"item='Web_Service'")){
             this.web_service = web_service;
         }
@@ -111,7 +111,7 @@ public class ClassConfiguracion {
 
     public void setPrinter(String printer) {
         this._tempRegistro.clear();
-        this._tempRegistro.put("Impresora",printer);
+        this._tempRegistro.put("valor",printer);
         if(this.FcnSQL.UpdateRegistro("param_configuracion",this._tempRegistro,"item='Impresora'")){
             this.printer = printer;
         }
@@ -123,7 +123,7 @@ public class ClassConfiguracion {
 
     public void setVersion_software(String version_software) {
         this._tempRegistro.clear();
-        this._tempRegistro.put("Version_Software",version_software);
+        this._tempRegistro.put("valor",version_software);
         if(this.FcnSQL.UpdateRegistro("param_configuracion",this._tempRegistro,"item='Version_Software'")){
             this.version_software = version_software;
         }
@@ -135,7 +135,7 @@ public class ClassConfiguracion {
 
     public void setVersion_bd(String version_bd) {
         this._tempRegistro.clear();
-        this._tempRegistro.put("Version_BD",version_bd);
+        this._tempRegistro.put("valor",version_bd);
         if(this.FcnSQL.UpdateRegistro("param_configuracion",this._tempRegistro,"item='Version_BD'")){
             this.version_bd = version_bd;
         }

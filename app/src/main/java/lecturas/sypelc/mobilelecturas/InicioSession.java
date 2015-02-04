@@ -19,6 +19,7 @@ import java.io.File;
 
 import async_task.DownLoadParametros;
 import async_task.DownLoadTrabajo;
+import clases.ClassConfiguracion;
 import sistema.SQLite;
 import clases.ClassUsuario;
 
@@ -27,12 +28,13 @@ public class InicioSession extends ActionBarActivity implements OnClickListener{
     public static String name_database  = "TomaLecturasBD";
     public static String path_files_app = Environment.getExternalStorageDirectory() + File.separator + "TomaLecturas";
 
-    private Intent          new_form;
-    private ClassUsuario    FcnUsuario;
+    private Intent              new_form;
+    private ClassUsuario        FcnUsuario;
+    private ClassConfiguracion  FcnCfg;
 
     private Button      _btnLoggin;
     private EditText    _txtCodigo;
-    private TextView    _lblNombre;
+    private TextView    _lblNombre, _lblVersionSoft, _lblVersionBD;
 
 
     @Override
@@ -41,10 +43,16 @@ public class InicioSession extends ActionBarActivity implements OnClickListener{
         setContentView(R.layout.activity_inicio_session);
 
         this.FcnUsuario = ClassUsuario.getInstance(this);
+        this.FcnCfg     = ClassConfiguracion.getInstance(this);
 
-        this._btnLoggin = (Button) findViewById(R.id.LoginBtnIngresar);
-        this._txtCodigo = (EditText) findViewById(R.id.LoginEditTextCodigo);
-        this._lblNombre = (TextView) findViewById(R.id.LoginTxtNombre);
+        this._btnLoggin     = (Button) findViewById(R.id.LoginBtnIngresar);
+        this._txtCodigo     = (EditText) findViewById(R.id.LoginEditTextCodigo);
+        this._lblNombre     = (TextView) findViewById(R.id.LoginTxtNombre);
+        this._lblVersionBD  = (TextView) findViewById(R.id.LoginTxtVersionBD);
+        this._lblVersionSoft= (TextView) findViewById(R.id.LoginTxtVersionSoft);
+
+        this._lblVersionBD.setText("Version BD "+this.FcnCfg.getVersion_bd());
+        this._lblVersionSoft.setText("Version Software "+this.FcnCfg.getVersion_bd());
 
         invalidateOptionsMenu();
         this._btnLoggin.setOnClickListener(this);
