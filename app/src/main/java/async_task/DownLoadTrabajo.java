@@ -32,7 +32,6 @@ public class DownLoadTrabajo extends AsyncTask<String, Integer, Integer>{ //doIn
 
     /**Variables Locales**/
     private Context ConnectServerContext;
-    private ArrayList<String> InformacionDescarga = new ArrayList<String>();
 
     private String URL;
     private String NAMESPACE;
@@ -57,7 +56,7 @@ public class DownLoadTrabajo extends AsyncTask<String, Integer, Integer>{ //doIn
 
         Toast.makeText(this.ConnectServerContext,"Iniciando conexion con el servidor, por favor espere...", Toast.LENGTH_SHORT).show();
         _pDialog = new ProgressDialog(this.ConnectServerContext);
-        _pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        _pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         _pDialog.setMessage("Ejecutando operaciones...");
         _pDialog.setCancelable(false);
         _pDialog.setProgress(0);
@@ -87,11 +86,10 @@ public class DownLoadTrabajo extends AsyncTask<String, Integer, Integer>{ //doIn
             }else{
                 try {
                     String informacion[] = new String(Base64.decode(response.toString()), "UTF-8").split("\\n");
-                    this.InformacionDescarga.clear();
                     for(int i=0;i<informacion.length;i++){
-                        this.InformacionDescarga.add(informacion[i]);
+                        this.FcnInformacion.CargarTrabajo(informacion[i],"\\|");
+                        this.onProgressUpdate(i*100/informacion.length);
                     }
-                   this.FcnInformacion.CargarTrabajo(this.InformacionDescarga,"\\|");
                     _retorno = 1;
                 } catch (IOException e) {
                     e.printStackTrace();
