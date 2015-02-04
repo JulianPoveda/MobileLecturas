@@ -80,18 +80,23 @@ public class ClassFlujoInformacion {
                 this._tempRegistro.put("fecha_cargue",currentDateandTime);
                 this.FcnSQL.InsertRegistro("maestro_rutas",this._tempRegistro);
             }else if(this._campos[0].equals("MaestroClientes")){
-                this._tempRegistro.put("cuenta",this._campos[1]);
-                this._tempRegistro.put("nombre",this._campos[2]);
-                this._tempRegistro.put("direccion",this._campos[3]);
-                this._tempRegistro.put("marca_medidor",this._campos[4]);
-                this._tempRegistro.put("serie_medidor",this._campos[5]);
-                this._tempRegistro.put("digitos_medidor",this._campos[6]);
-                this._tempRegistro.put("tipo_lectura",this._campos[7]);
-                if(this._campos[8].isEmpty()){
-                    this._campos[8]="0";
+                this._tempRegistro.put("id_serial_maestro_emsa",this._campos[1]);
+                this._tempRegistro.put("ruta",this._campos[2]);
+                this._tempRegistro.put("consecutivo_ruta",this._campos[3]);
+                this._tempRegistro.put("cuenta",this._campos[4]);
+                this._tempRegistro.put("nombre",this._campos[5]);
+                this._tempRegistro.put("direccion",this._campos[6]);
+                this._tempRegistro.put("marca_medidor",this._campos[7]);
+                this._tempRegistro.put("serie_medidor",this._campos[8]);
+                this._tempRegistro.put("digitos_medidor",this._campos[9]);
+                this._tempRegistro.put("tipo_lectura",this._campos[10]);
+                if(this._campos[11].isEmpty()){
+                    this._campos[11]="0";
                 }
-                this._tempRegistro.put("anomalia",this._campos[8]);
-                this._tempRegistro.put("lectura",this._campos[9]);
+                this._tempRegistro.put("anomalia",this._campos[11]);
+                this._tempRegistro.put("lectura",this._campos[12]);
+                this._tempRegistro.put("medida",this._campos[13]);
+                this._tempRegistro.put("estado","P");
                 this.FcnSQL.InsertRegistro("maestro_clientes",this._tempRegistro);
             }
         }

@@ -89,7 +89,10 @@ public class SQLite {
                                                         "fecha_cargue           TIMESTAMP NOT NULL DEFAULT current_timestamp," +
                                                         "PRIMARY KEY(id_inspector,ruta))");
 
-            db.execSQL("CREATE TABLE     maestro_clientes(id_serial              INTEGER NOT NULL PRIMARY KEY," +
+            db.execSQL("CREATE TABLE     maestro_clientes(id_serial             INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                                                        "id_serial_maestro_emsa NUMERIC(15,0) NOT NULL," +
+                                                        "ruta                   VARCHAR(255) NOT NULL,"+
+                                                        "consecutivo_ruta       NUMERIC(15,0) NOT NULL,"+
                                                         "cuenta                 NUMERIC(15,0) NOT NULL," +
                                                         "nombre                 VARCHAR(255) NOT NULL," +
                                                         "direccion              VARCHAR(255) NOT NULL," +
@@ -98,7 +101,10 @@ public class SQLite {
                                                         "digitos_medidor        INTEGER NOT NULL," +
                                                         "tipo_lectura           VARCHAR(10) NOT NULL," +
                                                         "lectura                INTEGER NOT NULL," +
-                                                        "anomalia               INTEGER NOT NULL)");
+                                                        "anomalia               INTEGER NOT NULL," +
+                                                        "medida                 INTEGER NOT NULL,"+
+                                                        "estado                 VARCHAR(50) NOT NULL)"
+                                                         );
 
             db.execSQL("CREATE TABLE    toma_lectura    (id                     INTEGER PRIMARY KEY AUTOINCREMENT," +
                                                         "id_serial              INTEGER NOT NULL," +
@@ -203,6 +209,7 @@ public class SQLite {
                 ValorRetorno = true;
             }
         }catch(Exception e){
+            e.toString();
         }
         cerrar();
         return ValorRetorno;
