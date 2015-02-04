@@ -11,5 +11,6 @@
     <string name="backupBD">Backup BD</string>
     <string name="salir">Salir</string>
     <string name="cargarParametros">Cargar Parametros</string>
+    <string name="InicioMenuConfiguracion">Configuracion</string>
 
 </resources>

@@ -42,6 +42,10 @@
             android:name=".lista_informacion_rutas"
             android:label="@string/title_activity_lista_informacion_rutas" >
         </activity>
+        <activity
+            android:name=".configuracion"
+            android:label="@string/title_activity_configuracion" >
+        </activity>
     </application>
 
 </manifest>

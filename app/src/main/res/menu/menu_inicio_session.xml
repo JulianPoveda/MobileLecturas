@@ -23,6 +23,11 @@
         android:orderInCategory="100"
         app:showAsAction="never" />
 
+    <item android:id="@+id/InicioConfiguracion"
+        android:title="@string/InicioMenuConfiguracion"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
     <item android:id="@+id/InicioMenuSalir"
         android:title="@string/salir"
         android:orderInCategory="100"

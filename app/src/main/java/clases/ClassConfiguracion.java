@@ -61,7 +61,7 @@ public class ClassConfiguracion {
         return ip_server;
     }
 
-    private void setIp_server(String ip_server) {
+    public void setIp_server(String ip_server) {
         this._tempRegistro.clear();
         this._tempRegistro.put("Servidor",ip_server);
         if(this.FcnSQL.UpdateRegistro("param_configuracion",this._tempRegistro,"item='Servidor'")){

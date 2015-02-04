@@ -6,20 +6,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 
-public class tomar_lectura extends ActionBarActivity implements View.OnTouchListener{
+public class tomar_lectura extends ActionBarActivity implements OnTouchListener, OnClickListener{
 
     private ViewFlipper _viewFlipper;
     private TextView    _lblCuenta, _lblNombre, _lblDireccion, _lblRuta, _lblMedidor, _lblTipoUso;
     private TextView    _lblAnomalia, _lblLectura1, _lblLectura2, _lblLectura3, _lblMensaje;
     private EditText    _txtLectura1, _txtLectura2, _txtLectura3, _txtMensaje;
-
     private Spinner     _cmbTipoUso, _cmbAnomalia;
+    private Button      _btnGuardar, _btnImprimir;
 
 
     
@@ -41,6 +44,9 @@ public class tomar_lectura extends ActionBarActivity implements View.OnTouchList
 
         this._cmbAnomalia   = (Spinner) findViewById(R.id.LecturaSpnAnomalia);
         this._cmbTipoUso    = (Spinner) findViewById(R.id.LecturaSpnTipoUso);
+
+        this._btnGuardar    = (Button) findViewById(R.id.LecturasBtnGuardar);
+        this._btnImprimir   = (Button) findViewById(R.id.LecturasBtnImprimir);
 
         this._viewFlipper = (ViewFlipper) findViewById(R.id.InicioViewFlipper);
         this._viewFlipper.setOnTouchListener(this);
@@ -68,6 +74,21 @@ public class tomar_lectura extends ActionBarActivity implements View.OnTouchList
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.LecturasBtnGuardar:
+                break;
+
+            case R.id.LecturasBtnImprimir:
+                break;
+
+            default:
+                break;
+        }
+    }
+
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {

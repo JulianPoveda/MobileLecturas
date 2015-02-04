@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ConfiguracionLblServidor">Servidor</string>
+    <string name="ConfiguracionLblPuerto">Puerto</string>
+    <string name="ConfiguracionLblModulo">Modulo</string>
+    <string name="ConfiguracionLblWebService">Web Service</string>
+    <string name="ConfiguracionLblImpresora">Impresora</string>
+    <string name="ConfiguracionBtnGuardar">Guardar</string>
+</resources>

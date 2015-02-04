@@ -27,6 +27,7 @@ public class InicioSession extends ActionBarActivity implements OnClickListener{
     public static String name_database  = "TomaLecturasBD";
     public static String path_files_app = Environment.getExternalStorageDirectory() + File.separator + "TomaLecturas";
 
+    private Intent          new_form;
     private ClassUsuario    FcnUsuario;
 
     private Button      _btnLoggin;
@@ -88,6 +89,13 @@ public class InicioSession extends ActionBarActivity implements OnClickListener{
                 break;
 
             case R.id.InicioVerRutas:
+                this.new_form = new Intent(this, informacion_rutas.class);
+                startActivity(this.new_form);
+                break;
+
+            case R.id.InicioConfiguracion:
+                this.new_form = new Intent(this, configuracion.class);
+                startActivity(this.new_form);
                 break;
 
             case R.id.InicioCrearBackup:

@@ -8,5 +8,6 @@
     <string name="title_activity_lista_rutas">lista_rutas</string>
     <string name="title_activity_tomar_lectura">tomar_lectura</string>
     <string name="title_activity_lista_informacion_rutas">AdaptadorInformacionRutas</string>
+    <string name="title_activity_configuracion">Configuracion</string>
 
 </resources>
