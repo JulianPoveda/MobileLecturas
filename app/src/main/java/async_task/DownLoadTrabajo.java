@@ -47,7 +47,7 @@ public class DownLoadTrabajo extends AsyncTask<String, Integer, Integer>{ //doIn
     public DownLoadTrabajo(Context context){
         this.ConnectServerContext 		= context;
         this.FcnCfg						= ClassConfiguracion.getInstance(this.ConnectServerContext);
-        //this.FcnInformacion             = new ClassFlujoInformacion(this.ConnectServerContext);
+        this.FcnInformacion             = new ClassFlujoInformacion(this.ConnectServerContext);
         this.FcnArch					= new Archivos(this.ConnectServerContext, InicioSession.path_files_app, 10);
     }
     //Operaciones antes de realizar la conexion con el servidor
@@ -110,11 +110,11 @@ public class DownLoadTrabajo extends AsyncTask<String, Integer, Integer>{ //doIn
     @Override
     protected void onPostExecute(Integer rta) {
         if(rta==1){
-            Toast.makeText(this.ConnectServerContext,"Carga de parametros finalizada.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this.ConnectServerContext,"Carga de Ruta finalizada.", Toast.LENGTH_LONG).show();
         }else if(rta==-1){
             Toast.makeText(this.ConnectServerContext,"Intento fallido, el servidor no ha respondido.", Toast.LENGTH_SHORT).show();
         }else if(rta==-2){
-            Toast.makeText(this.ConnectServerContext,"No hay nuevas ordenes pendientes para cargar.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.ConnectServerContext,"No hay Rutas pendientes para cargar.", Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(this.ConnectServerContext,"Error desconocido.", Toast.LENGTH_SHORT).show();
         }
