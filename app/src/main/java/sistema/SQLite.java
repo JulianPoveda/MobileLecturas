@@ -89,7 +89,7 @@ public class SQLite {
                                                         "fecha_cargue           TIMESTAMP NOT NULL DEFAULT current_timestamp," +
                                                         "PRIMARY KEY(id_inspector,ruta))");
 
-            db.execSQL("CREATE TABLE     maestro_clientes(id_serial             INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+            db.execSQL("CREATE TABLE     maestro_clientes(id_serial             INTEGER AUTOINCREMENT," +
                                                         "id_serial_maestro_emsa NUMERIC(15,0) NOT NULL," +
                                                         "ruta                   VARCHAR(255) NOT NULL,"+
                                                         "consecutivo_ruta       NUMERIC(15,0) NOT NULL,"+
@@ -103,8 +103,8 @@ public class SQLite {
                                                         "lectura                INTEGER NOT NULL," +
                                                         "anomalia               INTEGER NOT NULL," +
                                                         "medida                 INTEGER NOT NULL,"+
-                                                        "estado                 VARCHAR(50) NOT NULL)"
-                                                         );
+                                                        "estado                 VARCHAR(50) NOT NULL)"+
+                                                        "PRIMARY KEY (id_serial_maestro_emsa,ruta,consecutivo_ruta, cuenta, marca_medidor, serie_medidor,digitos_medidor, tipo_lectura, medida))");
 
             db.execSQL("CREATE TABLE    toma_lectura    (id                     INTEGER PRIMARY KEY AUTOINCREMENT," +
                                                         "id_serial              INTEGER NOT NULL," +

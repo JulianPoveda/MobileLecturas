@@ -97,7 +97,8 @@ public class InicioSession extends ActionBarActivity implements OnClickListener{
                 break;
 
             case R.id.InicioVerRutas:
-                this.new_form = new Intent(this, informacion_rutas.class);
+                this.new_form = new Intent(this, InformacionRutas.class);
+                this.new_form.putExtra("FolderAplicacion",Environment.getExternalStorageDirectory() + File.separator + "TomaLecturas");
                 startActivity(this.new_form);
                 break;
 
