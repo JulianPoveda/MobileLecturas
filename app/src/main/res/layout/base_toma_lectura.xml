@@ -11,7 +11,9 @@
         android:layout_weight="1"
         android:text="New Text"
         android:id="@+id/LecturaTxtRuta"
-        android:gravity="bottom" />
+        android:gravity="bottom|center"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +27,9 @@
             android:layout_weight="1"
             android:text="New Text"
             android:id="@+id/LecturaTxtCuenta"
-            android:gravity="bottom" />
+            android:gravity="bottom|center"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
 
         <TextView
             android:layout_width="0dp"
@@ -33,7 +37,9 @@
             android:layout_weight="1"
             android:text="New Text"
             android:id="@+id/LecturaTxtMedidor"
-            android:gravity="bottom" />
+            android:gravity="bottom|center"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
     </LinearLayout>
 
 
@@ -43,7 +49,8 @@
         android:layout_weight="1"
         android:text="New Text"
         android:id="@+id/LecturaTxtNombre"
-        android:gravity="bottom" />
+        android:gravity="bottom"
+        android:textSize="15dp"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -51,7 +58,8 @@
         android:layout_weight="1"
         android:text="New Text"
         android:id="@+id/LecturaTxtDireccion"
-        android:gravity="bottom" />
+        android:gravity="bottom"
+        android:textSize="15dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -65,7 +73,8 @@
             android:layout_weight="1"
             android:text="@string/TxtTipoUso"
             android:id="@+id/LecturaTxtTipoUso"
-            android:gravity="center_vertical|right" />
+            android:gravity="center_vertical|right"
+            android:textSize="15dp"/>
 
         <Spinner
             android:layout_width="0dp"
@@ -79,7 +88,8 @@
             android:layout_weight="1"
             android:text="@string/TxtAnomalia"
             android:id="@+id/LecturaTxtAnomalia"
-            android:gravity="center_vertical|right" />
+            android:gravity="center_vertical|right"
+            android:textSize="15dp"/>
 
         <Spinner
             android:layout_width="0dp"
@@ -101,14 +111,17 @@
             android:layout_weight="1"
             android:text="@string/TxtLectura1"
             android:id="@+id/LecturaTxtLectura1"
-            android:gravity="bottom|right" />
+            android:gravity="bottom|right"
+            android:textSize="15dp"/>
 
         <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:inputType="textMultiLine"
             android:id="@+id/LecturaEditLectura1"
-            android:layout_weight="2" />
+            android:layout_weight="1"
+            android:gravity="bottom|center"
+            android:textSize="15dp"/>
 
         <TextView
             android:layout_width="0dp"
@@ -116,14 +129,17 @@
             android:layout_weight="1"
             android:text="@string/TxtLectura2"
             android:id="@+id/LecturaTxtLectura2"
-            android:gravity="bottom|right" />
+            android:gravity="bottom|right"
+            android:textSize="15dp"/>
 
         <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:inputType="textMultiLine"
             android:id="@+id/LecturaEditLectura2"
-            android:layout_weight="2" />
+            android:layout_weight="1"
+            android:gravity="bottom|center"
+            android:textSize="15dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -131,7 +147,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:weightSum="6">
+        android:weightSum="4">
 
         <TextView
             android:layout_width="0dp"
@@ -139,31 +155,46 @@
             android:layout_weight="1"
             android:text="@string/TxtLectura3"
             android:id="@+id/LecturaTxtLectura3"
-            android:gravity="center_vertical|right" />
+            android:gravity="center_vertical|right"
+            android:textSize="15dp"/>
 
         <EditText
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:inputType="textMultiLine"
             android:id="@+id/LecturaEditLectura3"
-            android:layout_weight="2" />
+            android:layout_weight="1"
+            android:gravity="bottom|center"
+            android:textSize="15dp"/>
     </LinearLayout>
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="@string/TxtMensaje"
-        android:id="@+id/LecturaTxtMensaje"
-        android:gravity="bottom|left" />
+        android:orientation="horizontal">
 
-    <EditText
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/TxtMensaje"
+            android:id="@+id/LecturaTxtMensaje"
+            android:gravity="bottom|left"
+            android:textSize="15dp"/>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:inputType="textMultiLine"
-        android:id="@+id/LecturaEditMensaje"
-        android:layout_weight="3" />
-
+        android:layout_weight="3"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:inputType="textMultiLine"
+            android:id="@+id/LecturaEditMensaje"
+            android:layout_weight="3"
+            android:gravity="top" />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -177,13 +208,15 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:text="@string/LecturasBtnGuardar"
-            android:id="@+id/LecturasBtnGuardar" />
+            android:id="@+id/LecturasBtnGuardar"
+            android:gravity="center" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:text="@string/LecturasBtnImprimir"
-            android:id="@+id/LecturasBtnImprimir" />
+            android:id="@+id/LecturasBtnImprimir"
+            android:gravity="center" />
     </LinearLayout>
 </LinearLayout>
