@@ -98,16 +98,16 @@ public class ClassFlujoInformacion {
             this._tempRegistro.put("tipo_energia_1",this._campos[12]);
             this._tempRegistro.put("anomalia_1",this._campos[13]);
             this._tempRegistro.put("critica_1",this._campos[14]);
-            this._tempRegistro.put("id_serial_1",this._campos[15]);
-            this._tempRegistro.put("lectura_1",this._campos[16]);
-            this._tempRegistro.put("tipo_energia_1",this._campos[17]);
-            this._tempRegistro.put("anomalia_1",this._campos[18]);
-            this._tempRegistro.put("critica_1",this._campos[19]);
-            this._tempRegistro.put("id_serial_1",this._campos[20]);
-            this._tempRegistro.put("lectura_1",this._campos[21]);
-            this._tempRegistro.put("tipo_energia_1",this._campos[22]);
-            this._tempRegistro.put("anomalia_1",this._campos[23]);
-            this._tempRegistro.put("critica_1",this._campos[24]);
+            this._tempRegistro.put("id_serial_2",this._campos[15]);
+            this._tempRegistro.put("lectura_2",this._campos[16]);
+            this._tempRegistro.put("tipo_energia_2",this._campos[17]);
+            this._tempRegistro.put("anomalia_2",this._campos[18]);
+            this._tempRegistro.put("critica_2",this._campos[19]);
+            this._tempRegistro.put("id_serial_3",this._campos[20]);
+            this._tempRegistro.put("lectura_3",this._campos[21]);
+            this._tempRegistro.put("tipo_energia_3",this._campos[22]);
+            this._tempRegistro.put("anomalia_3",this._campos[23]);
+            this._tempRegistro.put("critica_3",this._campos[24]);
             this._tempRegistro.put("estado","P");
             this.FcnSQL.InsertRegistro("maestro_clientes",this._tempRegistro);
         }
