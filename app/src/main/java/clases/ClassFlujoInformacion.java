@@ -3,9 +3,10 @@ package clases;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
-import java.util.ArrayList;
+
 import java.text.SimpleDateFormat;
-import lecturas.sypelc.mobilelecturas.InicioSession;
+
+import lecturas.sypelc.mobilelecturas.FormInicioSession;
 import sistema.SQLite;
 
 /**
@@ -25,7 +26,7 @@ public class ClassFlujoInformacion {
     public ClassFlujoInformacion(Context _ctx){
         this.context        = _ctx;
         this._tempRegistro  = new ContentValues();
-        this.FcnSQL         = new SQLite(this.context, InicioSession.path_files_app);
+        this.FcnSQL         = new SQLite(this.context, FormInicioSession.path_files_app);
         long date = System.currentTimeMillis();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
         currentDateandTime = sdf.format(date);

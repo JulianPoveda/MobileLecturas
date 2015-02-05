@@ -1,6 +1,6 @@
 package clases;
 
-import lecturas.sypelc.mobilelecturas.InicioSession;
+import lecturas.sypelc.mobilelecturas.FormInicioSession;
 import sistema.SQLite;
 import android.content.Context;
 import android.content.ContentValues;
@@ -45,7 +45,7 @@ public class ClassUsuario {
         this.nombre         = null;
         this._tempRegistro  = new ContentValues();
         this._tempTabla     = new ArrayList<ContentValues>();
-        this.FcnSQL         = new SQLite(this.context, InicioSession.path_files_app);
+        this.FcnSQL         = new SQLite(this.context, FormInicioSession.path_files_app);
     }
 
 

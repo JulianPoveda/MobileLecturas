@@ -11,27 +11,35 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:text="New Text"
-        android:id="@+id/ListaInfoTxtRutas" />
+        android:id="@+id/ListaInfoTxtRutas"
+        android:gravity="fill_horizontal|center_vertical"
+        android:minHeight="30dp"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:text="New Text"
-        android:id="@+id/ListaInfoTxtPendientes" />
+        android:id="@+id/ListaInfoTxtPendientes"
+        android:gravity="center_vertical|center_horizontal"
+        android:minHeight="30dp"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:text="New Text"
-        android:id="@+id/ListaInfoTxtLeidas" />
+        android:id="@+id/ListaInfoTxtLeidas"
+        android:gravity="center_vertical|center_horizontal"
+        android:minHeight="30dp"/>
 
     <TextView
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:text="New Text"
-        android:id="@+id/ListaInfoTxtTotal"/>
+        android:id="@+id/ListaInfoTxtTotal"
+        android:gravity="center_vertical|center_horizontal"
+        android:minHeight="30dp"/>
 
 </LinearLayout>

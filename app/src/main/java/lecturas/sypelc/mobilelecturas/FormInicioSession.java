@@ -1,6 +1,5 @@
 package lecturas.sypelc.mobilelecturas;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Environment;
@@ -20,11 +19,10 @@ import java.io.File;
 import async_task.DownLoadParametros;
 import async_task.DownLoadTrabajo;
 import clases.ClassConfiguracion;
-import sistema.SQLite;
 import clases.ClassUsuario;
 
 
-public class InicioSession extends ActionBarActivity implements OnClickListener{
+public class FormInicioSession extends ActionBarActivity implements OnClickListener{
     public static String name_database  = "TomaLecturasBD";
     public static String path_files_app = Environment.getExternalStorageDirectory() + File.separator + "TomaLecturas";
 
@@ -97,13 +95,13 @@ public class InicioSession extends ActionBarActivity implements OnClickListener{
                 break;
 
             case R.id.InicioVerRutas:
-                this.new_form = new Intent(this, InformacionRutas.class);
+                this.new_form = new Intent(this, FormInformacionRutas.class);
                 this.new_form.putExtra("FolderAplicacion",Environment.getExternalStorageDirectory() + File.separator + "TomaLecturas");
                 startActivity(this.new_form);
                 break;
 
             case R.id.InicioConfiguracion:
-                this.new_form = new Intent(this, configuracion.class);
+                this.new_form = new Intent(this, FormConfiguracion.class);
                 startActivity(this.new_form);
                 break;
 

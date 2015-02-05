@@ -10,14 +10,12 @@ package async_task;
  */
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import clases.ClassFlujoInformacion;
-import lecturas.sypelc.mobilelecturas.InicioSession;
+import lecturas.sypelc.mobilelecturas.FormInicioSession;
 import sistema.Archivos;
 import org.kobjects.base64.Base64;
 import org.ksoap2.SoapEnvelope;
-import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
@@ -56,7 +54,7 @@ public class DownLoadParametros extends AsyncTask<String, Integer, Integer>{ //d
         this.ConnectServerContext 		= context;
         this.FcnCfg						= ClassConfiguracion.getInstance(this.ConnectServerContext);
         this.FcnInformacion             = new ClassFlujoInformacion(this.ConnectServerContext);
-        this.FcnArch					= new Archivos(this.ConnectServerContext, InicioSession.path_files_app, 10);
+        this.FcnArch					= new Archivos(this.ConnectServerContext, FormInicioSession.path_files_app, 10);
     }
 
 

@@ -12,11 +12,10 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import clases.ClassConfiguracion;
 import clases.ClassFlujoInformacion;
-import lecturas.sypelc.mobilelecturas.InicioSession;
+import lecturas.sypelc.mobilelecturas.FormInicioSession;
 import sistema.Archivos;
 import android.os.AsyncTask;
 
@@ -47,7 +46,7 @@ public class DownLoadTrabajo extends AsyncTask<String, Integer, Integer>{ //doIn
         this.ConnectServerContext 		= context;
         this.FcnCfg						= ClassConfiguracion.getInstance(this.ConnectServerContext);
         this.FcnInformacion             = new ClassFlujoInformacion(this.ConnectServerContext);
-        this.FcnArch					= new Archivos(this.ConnectServerContext, InicioSession.path_files_app, 10);
+        this.FcnArch					= new Archivos(this.ConnectServerContext, FormInicioSession.path_files_app, 10);
     }
     //Operaciones antes de realizar la conexion con el servidor
     protected void onPreExecute(){

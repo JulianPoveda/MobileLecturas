@@ -18,7 +18,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".InicioSession"
+            android:name=".FormInicioSession"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,15 +27,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".InformacionRutas"
+            android:name=".FormInformacionRutas"
             android:label="@string/title_activity_informacion_rutas" >
         </activity>
         <activity
-            android:name=".tomar_lectura"
+            android:name=".FormTomarLectura"
             android:label="@string/title_activity_tomar_lectura" >
         </activity>
         <activity
-            android:name=".configuracion"
+            android:name=".FormConfiguracion"
             android:label="@string/title_activity_configuracion" >
         </activity>
     </application>

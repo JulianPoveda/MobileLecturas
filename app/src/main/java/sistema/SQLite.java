@@ -21,7 +21,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import lecturas.sypelc.mobilelecturas.InicioSession;
+import lecturas.sypelc.mobilelecturas.FormInicioSession;
 
 public class SQLite {
     private static Archivos ArchSQL;
@@ -155,7 +155,7 @@ public class SQLite {
     public SQLite (Context c, String CurrentDirectory){
         this.nContexto = c;
         this.Directorio = CurrentDirectory;
-        SQLite.N_BD = this.Directorio + File.separator + InicioSession.name_database;
+        SQLite.N_BD = this.Directorio + File.separator + FormInicioSession.name_database;
         ArchSQL = new Archivos(this.nContexto, this.Directorio, 10);
         if(!ArchSQL.ExistFolderOrFile(this.Directorio)){
             ArchSQL.MakeDirectory();

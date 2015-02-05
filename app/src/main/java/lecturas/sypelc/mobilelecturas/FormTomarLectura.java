@@ -14,8 +14,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import clases.ClassTomarLectura;
 
-public class tomar_lectura extends ActionBarActivity implements OnTouchListener, OnClickListener{
+
+public class FormTomarLectura extends ActionBarActivity implements OnTouchListener, OnClickListener{
+
+    private ClassTomarLectura   FcnLectura;
 
     private ViewFlipper _viewFlipper;
     private TextView    _lblCuenta, _lblNombre, _lblDireccion, _lblRuta, _lblMedidor, _lblTipoUso;
@@ -24,12 +28,20 @@ public class tomar_lectura extends ActionBarActivity implements OnTouchListener,
     private Spinner     _cmbTipoUso, _cmbAnomalia;
     private Button      _btnGuardar, _btnImprimir;
 
+    private String      _ruta;
+    private int         _consecutivo_ruta;
+    private float         init_x;
+
 
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tomar_lectura);
+        Bundle bundle   = getIntent().getExtras();
+        this._ruta      = bundle.getString("Ruta");
+
+        this.FcnLectura = new ClassTomarLectura(this,this._ruta);
 
         this._lblCuenta     = (TextView) findViewById(R.id.LecturaTxtCuenta);
         this._lblNombre     = (TextView) findViewById(R.id.LecturaTxtNombre);
@@ -50,8 +62,20 @@ public class tomar_lectura extends ActionBarActivity implements OnTouchListener,
 
         this._viewFlipper = (ViewFlipper) findViewById(R.id.InicioViewFlipper);
         this._viewFlipper.setOnTouchListener(this);
+
+        this.FcnLectura.getNextDatosUsuario();
+        this.MostrarDatos();
+
     }
 
+
+    private void MostrarDatos(){
+        this._lblCuenta.setText(this.FcnLectura.getCuenta());
+        this._lblNombre.setText(this.FcnLectura.getNombre());
+        this._lblDireccion.setText(this.FcnLectura.getDireccion());
+        this._lblRuta.setText(this.FcnLectura.getRuta());
+        this._lblMedidor.setText(this.FcnLectura.getMarca_medidor()+" "+this.FcnLectura.getSerie_medidor());
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -94,18 +118,20 @@ public class tomar_lectura extends ActionBarActivity implements OnTouchListener,
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: //Cuando el usuario toca la pantalla por primera vez
-                //init_x=event.getX();
+                init_x = event.getX();
                 return true;
             case MotionEvent.ACTION_UP: //Cuando el usuario deja de presionar
-                //float distance =init_x-event.getX();
+                float distance =init_x-event.getX();
 
-                /*if(distance>0){
-                    _viewFlipper.showPrevious();
+                if(distance>0){
+                    //_viewFlipper.showPrevious();
                 }
 
                 if(distance<0){
-                    _viewFlipper.showNext();
-                }*/
+                    this.FcnLectura.getNextDatosUsuario();
+                    this.MostrarDatos();
+                    // _viewFlipper.showNext();
+                }
 
             default:
                 break;

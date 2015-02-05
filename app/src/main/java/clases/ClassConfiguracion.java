@@ -5,7 +5,7 @@ import android.content.Context;
 
 import java.util.ArrayList;
 
-import lecturas.sypelc.mobilelecturas.InicioSession;
+import lecturas.sypelc.mobilelecturas.FormInicioSession;
 import sistema.SQLite;
 
 /**
@@ -46,7 +46,7 @@ public class ClassConfiguracion {
         this.context        = _ctx;
         this._tempRegistro  = new ContentValues();
         this._tempTabla     = new ArrayList<ContentValues>();
-        this.FcnSQL         = new SQLite(this.context, InicioSession.path_files_app);
+        this.FcnSQL         = new SQLite(this.context, FormInicioSession.path_files_app);
 
         this.ip_server          = this.FcnSQL.StrSelectShieldWhere("param_configuracion","valor","item='Servidor'");
         this.port               = this.FcnSQL.StrSelectShieldWhere("param_configuracion","valor","item='Puerto'");

@@ -16,7 +16,7 @@ import clases.ClassUsuario;
 import sistema.Bluetooth;
 
 
-public class configuracion extends ActionBarActivity implements OnClickListener {
+public class FormConfiguracion extends ActionBarActivity implements OnClickListener {
     private ClassConfiguracion  FcnCfg;
     private ClassUsuario        FcnUsuario;
     private Bluetooth           FcnBluetooth;
