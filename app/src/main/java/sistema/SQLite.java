@@ -89,22 +89,32 @@ public class SQLite {
                                                         "fecha_cargue           TIMESTAMP NOT NULL DEFAULT current_timestamp," +
                                                         "PRIMARY KEY(id_inspector,ruta))");
 
-            db.execSQL("CREATE TABLE     maestro_clientes(id_serial             INTEGER AUTOINCREMENT," +
-                                                        "id_serial_maestro_emsa NUMERIC(15,0) NOT NULL," +
+            db.execSQL("CREATE TABLE     maestro_clientes(id_serial             INTEGER NOT NULL PRIMARY KEY," +
+                                                        "id_secuencia           NUMERIC(15,0) NOT NULL," +
+                                                        "id_ciclo               VARCHAR(255) NOT NULL,"+
                                                         "ruta                   VARCHAR(255) NOT NULL,"+
-                                                        "consecutivo_ruta       NUMERIC(15,0) NOT NULL,"+
                                                         "cuenta                 NUMERIC(15,0) NOT NULL," +
-                                                        "nombre                 VARCHAR(255) NOT NULL," +
-                                                        "direccion              VARCHAR(255) NOT NULL," +
-                                                        "marca_medidor          VARCHAR(50) NOT NULL," +
-                                                        "serie_medidor          VARCHAR(50) NOT NULL," +
-                                                        "digitos_medidor        INTEGER NOT NULL," +
-                                                        "tipo_lectura           VARCHAR(10) NOT NULL," +
-                                                        "lectura                INTEGER NOT NULL," +
-                                                        "anomalia               INTEGER NOT NULL," +
-                                                        "medida                 INTEGER NOT NULL,"+
-                                                        "estado                 VARCHAR(50) NOT NULL)"+
-                                                        "PRIMARY KEY (id_serial_maestro_emsa,ruta,consecutivo_ruta, cuenta, marca_medidor, serie_medidor,digitos_medidor, tipo_lectura, medida))");
+                                                        "marca_medidor          VARCHAR(255) NOT NULL," +
+                                                        "serie_medidor          VARCHAR(255) NOT NULL," +
+                                                        "digitos                VARCHAR(50) NOT NULL," +
+                                                        "nombre                 VARCHAR(50) NOT NULL," +
+                                                        "direccion              INTEGER NOT NULL," +
+                                                        "id_serial_1            INTEGER NOT NULL," +
+                                                        "lectura_1              INTEGER NOT NULL," +
+                                                        "tipo_energia_1         VARCHAR(15) NOT NULL," +
+                                                        "anomalia_1             VARCHAR(20),"+
+                                                        "critica_1              VARCHAR(20),"+
+                                                        "id_serial_2            VARCHAR(20)," +
+                                                        "lectura_2              VARCHAR(20)," +
+                                                        "tipo_energia_2         VARCHAR(15)," +
+                                                        "anomalia_2             VARCHAR(20),"+
+                                                        "critica_2              VARCHAR(20),"+
+                                                        "id_serial_3            VARCHAR(20)," +
+                                                        "lectura_3              VARCHAR(20)," +
+                                                        "tipo_energia_3         VARCHAR(15)," +
+                                                        "anomalia_3             VARCHAR(20),"+
+                                                        "critica_3              VARCHAR(20)," +
+                                                        "estado                 VARCHAR(15) NOT NULL)");
 
             db.execSQL("CREATE TABLE    toma_lectura    (id                     INTEGER PRIMARY KEY AUTOINCREMENT," +
                                                         "id_serial              INTEGER NOT NULL," +
