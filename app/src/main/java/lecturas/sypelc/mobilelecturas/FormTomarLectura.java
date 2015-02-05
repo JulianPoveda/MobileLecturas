@@ -49,6 +49,10 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         this._lblRuta       = (TextView) findViewById(R.id.LecturaTxtRuta);
         this._lblMedidor    = (TextView) findViewById(R.id.LecturaTxtMedidor);
 
+        this._lblLectura1   = (TextView) findViewById(R.id.LecturaTxtLectura1);
+        this._lblLectura2   = (TextView) findViewById(R.id.LecturaTxtLectura2);
+        this._lblLectura3   = (TextView) findViewById(R.id.LecturaTxtLectura3);
+
         this._txtLectura1   = (EditText) findViewById(R.id.LecturaEditLectura1);
         this._txtLectura2   = (EditText) findViewById(R.id.LecturaEditLectura2);
         this._txtLectura3   = (EditText) findViewById(R.id.LecturaEditLectura3);
@@ -66,7 +70,6 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         if(this.FcnLectura.getNextDatosUsuario()) {
             this.MostrarDatos();
         }
-
     }
 
 
@@ -76,6 +79,52 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         this._lblDireccion.setText(this.FcnLectura.getDireccion());
         this._lblRuta.setText(this.FcnLectura.getRuta());
         this._lblMedidor.setText(this.FcnLectura.getMarca_medidor()+" "+this.FcnLectura.getSerie_medidor());
+
+        if(this.FcnLectura.getId_serial1() != -1){
+            this._lblLectura1.setVisibility(View.VISIBLE);
+            this._txtLectura1.setVisibility(View.VISIBLE);
+            if(this.FcnLectura.getTipo_energia1().equals("A")){
+                this._lblLectura1.setText("Activa");
+            }else if(this.FcnLectura.getTipo_energia1().equals("R")){
+                this._lblLectura1.setText("Reactiva");
+            }else{
+                this._lblLectura1.setText("No Valido");
+            }
+        }else{
+            this._lblLectura2.setVisibility(View.INVISIBLE);
+            this._txtLectura2.setVisibility(View.INVISIBLE);
+        }
+
+
+        if(this.FcnLectura.getId_serial2() != -1){
+            this._lblLectura2.setVisibility(View.VISIBLE);
+            this._txtLectura2.setVisibility(View.VISIBLE);
+            if(this.FcnLectura.getTipo_energia2().equals("A")){
+                this._lblLectura2.setText("Activa");
+            }else if(this.FcnLectura.getTipo_energia2().equals("R")){
+                this._lblLectura2.setText("Reactiva");
+            }else{
+                this._lblLectura2.setText("No Valido");
+            }
+        }else{
+            this._lblLectura2.setVisibility(View.INVISIBLE);
+            this._txtLectura2.setVisibility(View.INVISIBLE);
+        }
+
+        if(this.FcnLectura.getId_serial3() != -1){
+            this._lblLectura3.setVisibility(View.VISIBLE);
+            this._txtLectura3.setVisibility(View.VISIBLE);
+            if(this.FcnLectura.getTipo_energia3().equals("A")){
+                this._lblLectura3.setText("Activa");
+            }else if(this.FcnLectura.getTipo_energia3().equals("R")){
+                this._lblLectura3.setText("Reactiva");
+            }else{
+                this._lblLectura3.setText("No Valido");
+            }
+        }else{
+            this._lblLectura3.setVisibility(View.INVISIBLE);
+            this._txtLectura3.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
