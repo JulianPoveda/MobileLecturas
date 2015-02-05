@@ -52,31 +52,56 @@ public class ClassTomarLectura {
         }else{
             this._tempRegistro =    this.FcnSQL.SelectDataRegistro( "maestro_clientes",
                                                                     "id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,id_serial_1,lectura_1,tipo_energia_1,id_serial_2,lectura_2,tipo_energia_2,id_serial_3,lectura_3,tipo_energia_3",
-                                                                    "ruta='"+this.ruta+"' AND id_secuencia_ruta>"+this.id_consecutivo+" AND estado='P' ORDER BY id_secuencia ASC");
+                                                                    "ruta='"+this.ruta+"' AND id_secuencia>"+this.id_consecutivo+" AND estado='P' ORDER BY id_secuencia ASC");
         }
 
         if(this._tempRegistro.size()>0){
             _retorno = true;
-            this.setId_consecutivo(this._tempRegistro.getAsInteger("id_secuencia"));
-            this.setCuenta(this._tempRegistro.getAsInteger("cuenta"));
-            this.setMarca_medidor(this._tempRegistro.getAsString("marca_medidor"));
-            this.setSerie_medidor(this._tempRegistro.getAsString("serie_medidor"));
-            this.setNombre(this._tempRegistro.getAsString("nombre"));
-            this.setDireccion(this._tempRegistro.getAsString("direccion"));
-
-            this.setId_serial1(this._tempRegistro.getAsInteger("id_serial_1"));
-            this.setLectura_anterior1(this._tempRegistro.getAsInteger("lectura_1"));
-            this.setTipo_energia1(this._tempRegistro.getAsString("tipo_energia_1"));
-
-            this.setId_serial2(this._tempRegistro.getAsInteger("id_serial_2"));
-            this.setLectura_anterior2(this._tempRegistro.getAsInteger("lectura_2"));
-            this.setTipo_energia2(this._tempRegistro.getAsString("tipo_energia_2"));
-
-            this.setId_serial3(this._tempRegistro.getAsInteger("id_serial_3"));
-            this.setLectura_anterior3(this._tempRegistro.getAsInteger("lectura_3"));
-            this.setTipo_energia3(this._tempRegistro.getAsString("tipo_energia_3"));
+            this.getDatosConsulta();
         }
         return _retorno;
+    }
+
+
+    public boolean getBackDatosUsuario(){
+        boolean _retorno  = false;
+        if(this.id_consecutivo == -1){
+            this._tempRegistro =    this.FcnSQL.SelectDataRegistro( "maestro_clientes",
+                                                                    "id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,id_serial_1,lectura_1,tipo_energia_1,id_serial_2,lectura_2,tipo_energia_2,id_serial_3,lectura_3,tipo_energia_3",
+                                                                    "ruta='"+this.ruta+"' AND estado='P' ORDER BY id_secuencia ASC");
+        }else{
+            this._tempRegistro =    this.FcnSQL.SelectDataRegistro( "maestro_clientes",
+                    "id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,id_serial_1,lectura_1,tipo_energia_1,id_serial_2,lectura_2,tipo_energia_2,id_serial_3,lectura_3,tipo_energia_3",
+                    "ruta='"+this.ruta+"' AND id_secuencia<"+this.id_consecutivo+" AND estado='P' ORDER BY id_secuencia DESC");
+        }
+
+        if(this._tempRegistro.size()>0){
+            _retorno = true;
+            this.getDatosConsulta();
+        }
+        return _retorno;
+    }
+
+
+    private void getDatosConsulta(){
+        this.setId_consecutivo(this._tempRegistro.getAsInteger("id_secuencia"));
+        this.setCuenta(this._tempRegistro.getAsInteger("cuenta"));
+        this.setMarca_medidor(this._tempRegistro.getAsString("marca_medidor"));
+        this.setSerie_medidor(this._tempRegistro.getAsString("serie_medidor"));
+        this.setNombre(this._tempRegistro.getAsString("nombre"));
+        this.setDireccion(this._tempRegistro.getAsString("direccion"));
+
+        this.setId_serial1(this._tempRegistro.getAsInteger("id_serial_1"));
+        this.setLectura_anterior1(this._tempRegistro.getAsInteger("lectura_1"));
+        this.setTipo_energia1(this._tempRegistro.getAsString("tipo_energia_1"));
+
+        this.setId_serial2(this._tempRegistro.getAsInteger("id_serial_2"));
+        this.setLectura_anterior2(this._tempRegistro.getAsInteger("lectura_2"));
+        this.setTipo_energia2(this._tempRegistro.getAsString("tipo_energia_2"));
+
+        this.setId_serial3(this._tempRegistro.getAsInteger("id_serial_3"));
+        this.setLectura_anterior3(this._tempRegistro.getAsInteger("lectura_3"));
+        this.setTipo_energia3(this._tempRegistro.getAsString("tipo_energia_3"));
     }
 
     public String getRuta() {

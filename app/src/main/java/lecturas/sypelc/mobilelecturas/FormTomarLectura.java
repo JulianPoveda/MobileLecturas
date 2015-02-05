@@ -63,14 +63,15 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         this._viewFlipper = (ViewFlipper) findViewById(R.id.InicioViewFlipper);
         this._viewFlipper.setOnTouchListener(this);
 
-        this.FcnLectura.getNextDatosUsuario();
-        this.MostrarDatos();
+        if(this.FcnLectura.getNextDatosUsuario()) {
+            this.MostrarDatos();
+        }
 
     }
 
 
     private void MostrarDatos(){
-        this._lblCuenta.setText(this.FcnLectura.getCuenta());
+        this._lblCuenta.setText(this.FcnLectura.getCuenta()+"");
         this._lblNombre.setText(this.FcnLectura.getNombre());
         this._lblDireccion.setText(this.FcnLectura.getDireccion());
         this._lblRuta.setText(this.FcnLectura.getRuta());
@@ -124,13 +125,15 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                 float distance =init_x-event.getX();
 
                 if(distance>0){
-                    //_viewFlipper.showPrevious();
+                    if(this.FcnLectura.getNextDatosUsuario()) {
+                        this.MostrarDatos();
+                    }
                 }
 
                 if(distance<0){
-                    this.FcnLectura.getNextDatosUsuario();
-                    this.MostrarDatos();
-                    // _viewFlipper.showNext();
+                    if(this.FcnLectura.getBackDatosUsuario()) {
+                        this.MostrarDatos();
+                    }
                 }
 
             default:
