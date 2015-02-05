@@ -110,6 +110,8 @@ public class InicioSession extends ActionBarActivity implements OnClickListener{
             case R.id.InicioCrearBackup:
                 break;
 
+            case R.id.InicioMenuSalir:
+                finish();
             default:
                 break;
         }

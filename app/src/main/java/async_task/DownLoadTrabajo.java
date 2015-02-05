@@ -85,7 +85,7 @@ public class DownLoadTrabajo extends AsyncTask<String, Integer, Integer>{ //doIn
                 _retorno = -2;
             }else{
                 try {
-                    String informacion[] = new String(Base64.decode(response.toString()), "UTF-8").split("\\n");
+                    String informacion[] = new String(Base64.decode(response.toString()), "ISO-8859-1").split("\\n");
                     for(int i=0;i<informacion.length;i++){
                         this.FcnInformacion.CargarTrabajo(informacion[i],"\\|");
                         this.onProgressUpdate(i*100/informacion.length);

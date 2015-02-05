@@ -28,9 +28,10 @@
             android:layout_weight="1"
             android:text="@string/StringCodigo"
             android:id="@+id/LoginTxtCodigo"
-            android:gravity="center_vertical|right"
+            android:gravity="bottom|right"
             android:textSize="25dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:paddingBottom="15dp" />
 
         <EditText
             android:layout_width="0dp"

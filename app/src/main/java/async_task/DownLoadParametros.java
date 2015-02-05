@@ -99,7 +99,7 @@ public class DownLoadParametros extends AsyncTask<String, Integer, Integer>{ //d
             }else{
                 try {
                     this.FcnInformacion.EliminarParametros();
-                    String informacion[] = new String(Base64.decode(response.toString()), "UTF-8").split("\\n");
+                    String informacion[] = new String(Base64.decode(response.toString()), "ISO-8859-1").split("\\n");
                     for(int i=0;i<informacion.length;i++){
                         this.FcnInformacion.CargarParametros(informacion[i],"\\|");
                         onProgressUpdate(i*100/informacion.length);

@@ -12,11 +12,13 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 
 import clases.ClassConfiguracion;
+import clases.ClassUsuario;
 import sistema.Bluetooth;
 
 
 public class configuracion extends ActionBarActivity implements OnClickListener {
     private ClassConfiguracion  FcnCfg;
+    private ClassUsuario        FcnUsuario;
     private Bluetooth           FcnBluetooth;
 
     private ArrayAdapter<String> AdapLstImpresoras;
@@ -31,7 +33,9 @@ public class configuracion extends ActionBarActivity implements OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracion);
 
+
         this.FcnCfg         = ClassConfiguracion.getInstance(this);
+        this.FcnUsuario     = ClassUsuario.getInstance(this);
         this.FcnBluetooth   = Bluetooth.getInstance();
 
         this._txtServidor   = (EditText) findViewById(R.id.ConfiguracionTxtServidor);
@@ -50,6 +54,18 @@ public class configuracion extends ActionBarActivity implements OnClickListener 
         this._txtPuerto.setText(this.FcnCfg.getPort());
         this._txtModulo.setText(this.FcnCfg.getModule_web_service());
         this._txtWebService.setText(this.FcnCfg.getWeb_service());
+
+        if(this.FcnUsuario.getNivel()==0){
+            this._txtServidor.setEnabled(true);
+            this._txtPuerto.setEnabled(true);
+            this._txtModulo.setEnabled(true);
+            this._txtWebService.setEnabled(true);
+        }else{
+            this._txtServidor.setEnabled(false);
+            this._txtPuerto.setEnabled(false);
+            this._txtModulo.setEnabled(false);
+            this._txtWebService.setEnabled(false);
+        }
 
         this._btnGuardar.setOnClickListener(this);
     }
