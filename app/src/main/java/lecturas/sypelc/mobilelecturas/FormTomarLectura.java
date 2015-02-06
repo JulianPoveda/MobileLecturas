@@ -46,7 +46,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     private ArrayAdapter<String>    AdaptadorAnomalias;
     private ArrayAdapter<String>    AdaptadorUso;
 
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
