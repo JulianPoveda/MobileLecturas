@@ -39,7 +39,15 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     private String      _ruta;
     private int         _consecutivo_ruta;
     private float         init_x;
+    float               critica1;
+    float               critica2;
+    float               critica3;
+    boolean             b_critica1, b_critica2,b_critica3;
+    boolean             critica_general;
+    private int         intentos;
+    private int         lectura1, lectura2,lectura3;
 
+    private int                     FotosTomadas;
     private ContentValues           DetalleAnomalia;
     private ArrayList<String>       ArrayAnomalias;
     private ArrayList<String>       ArrayUso;
@@ -51,8 +59,16 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tomar_lectura);
-        Bundle bundle   = getIntent().getExtras();
-        this._ruta      = bundle.getString("Ruta");
+        Bundle bundle       = getIntent().getExtras();
+        this._ruta          = bundle.getString("Ruta");
+        this.FotosTomadas   = 0;
+        this.intentos       = 1;
+        this.b_critica1     = false;
+        this.b_critica2     = false;
+        this.b_critica3     = false;
+        this.lectura1       = 0;
+        this.lectura2       = 0;
+        this.lectura3       = 0;
 
         this.FcnLectura     = new ClassTomarLectura(this,this._ruta);
         this.FcnAnomalia    = new ClassAnomalia(this);
@@ -167,6 +183,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         }
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_tomar_lectura, menu);
@@ -188,11 +205,137 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     }
 
 
+    private boolean ValidacionFoto(){
+        boolean _retorno= false;
+        if(this.DetalleAnomalia.getAsString("foto").equals("t")){
+            if(this.FotosTomadas>0){
+                _retorno = true;
+            }
+        }else{
+            _retorno = true;
+        }
+        return _retorno;
+    }
+
+
+    private boolean ValidacionMensaje(){
+        boolean _retorno= false;
+        if(this.DetalleAnomalia.getAsString("mensaje").equals("s")){
+            if(!this._txtMensaje.getText().toString().isEmpty()){
+                _retorno = true;
+            }
+        }else{
+            _retorno = true;
+        }
+        return _retorno;
+    }
+
+    private boolean ValidacionDatosCompletos(){
+        boolean _retorno1 = false;
+        boolean _retorno2 = false;
+        boolean _retorno3 = false;
+        if((this.FcnLectura.getId_serial1() != -1)){
+            if(this._txtLectura1.getText().toString().isEmpty()) {
+                _retorno1 = false;
+            }else {
+                validarCritica(1, _txtLectura1.getText().toString());
+                _retorno1 = true;
+            }
+        }else{
+            _retorno1 = true;
+        }
+
+        if((this.FcnLectura.getId_serial2() != -1)){
+            if(this._txtLectura2.getText().toString().isEmpty()) {
+                _retorno2 = false;
+            }else {
+                validarCritica(2, _txtLectura2.getText().toString());
+                _retorno2 = true;
+            }
+        }else{
+            _retorno2 = true;
+        }
+
+        if((this.FcnLectura.getId_serial3() != -1)){
+            if(this._txtLectura3.getText().toString().isEmpty()) {
+                _retorno3 = false;
+            }else {
+                validarCritica(3, _txtLectura3.getText().toString());
+                _retorno3 = true;
+            }
+        }else{
+            _retorno3 = true;
+        }
+
+        this.critica_general= this.b_critica1 | this.b_critica2 | this.b_critica3;
+        return _retorno1 & _retorno2 & _retorno3;
+    }
+
+    private void validarCritica(int indice, String lectura){
+
+        if(indice == 1){
+            int consumo1 = Integer.parseInt(lectura)- this.FcnLectura.getLectura_anterior1();
+            this.critica1 = (consumo1/this.FcnLectura.getPromedio1())*this.FcnLectura.getFactor_multiplicacion();
+            this.b_critica1= this.FcnLectura.getCritica(this.critica1);
+        }
+
+        if(indice == 2){
+            int consumo2 = Integer.parseInt(lectura)- this.FcnLectura.getLectura_anterior2();
+            this.critica2 = (consumo2/this.FcnLectura.getPromedio2())*this.FcnLectura.getFactor_multiplicacion();
+            this.b_critica2= this.FcnLectura.getCritica(this.critica2);
+        }
+
+        if(indice == 3){
+            int consumo3 = Integer.parseInt(lectura)- this.FcnLectura.getLectura_anterior3();
+            this.critica3 = (consumo3/this.FcnLectura.getPromedio3())*this.FcnLectura.getFactor_multiplicacion();
+            this.b_critica3= this.FcnLectura.getCritica(this.critica3);
+        }
+
+        //
+
+    }
+
 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.LecturasBtnGuardar:
+                if(this.ValidacionDatosCompletos()){
+                    if (this.ValidacionFoto() && this.ValidacionMensaje()){
+                        this.FcnLectura.guardarLectura(this.FcnLectura.getId_serial1(),
+                                                       this.DetalleAnomalia.getAsInteger("id_anomalia"),
+                                                       this._txtMensaje.getText().toString(),
+                                                       Integer.parseInt(this._txtLectura1.getText().toString()),
+                                                       Integer.parseInt(this._txtLectura2.getText().toString()),
+                                                       Integer.parseInt(this._txtLectura3.getText().toString()),
+                                                       this.critica1,
+                                                       this.critica2,
+                                                       this.critica3);
+                        if(this.critica_general && this.intentos == 1){
+                            this.intentos ++;
+                            this.lectura1 = Integer.parseInt(this._txtLectura1.getText().toString());
+                            this.lectura2 = Integer.parseInt(this._txtLectura2.getText().toString());
+                            this.lectura3 = Integer.parseInt(this._txtLectura3.getText().toString());
+
+                            deleteCamposLecturasGUI();
+                            
+                        }else if(this.critica_general && this.intentos == 2){
+                            this.intentos++;
+                            if(compararDatosLocales()){
+                               this._btnGuardar.setEnabled(false);
+                            }else{
+                                deleteCamposLecturasGUI();
+                                // Mostrar mensaje
+                            }
+                        }else{
+                            this._btnGuardar.setEnabled(false);
+                        }
+                    } else {
+                        //Mostrar mensaje de foto o mensaje
+                    }
+                }else{
+                    //Mensaje datos incompletos
+                }
                 break;
 
             case R.id.LecturasBtnImprimir:
@@ -203,12 +346,25 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         }
     }
 
+    public void deleteCamposLecturasGUI(){
+        this._txtLectura1.setText("");
+        this._txtLectura2.setText("");
+        this._txtLectura3.setText("");
+
+    }
+
+    public boolean compararDatosLocales(){
+        return  this._txtLectura1.getText().toString().equals(this.lectura1+"") &
+                this._txtLectura2.getText().toString().equals(this.lectura1+"") &
+                this._txtLectura3.getText().toString().equals(this.lectura1+"");
+    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch(parent.getId()){
             case R.id.LecturaSpnAnomalia:
-                //this.DetalleAnomalia = this.FcnAnomalia.validarDatosAnomalia(this._cmbAnomalia.getSelectedItem().toString());
+                this.DetalleAnomalia = this.FcnAnomalia.validarDatosAnomalia(this._cmbAnomalia.getSelectedItem().toString());
+                this.MostrarInputLectura(this.DetalleAnomalia.getAsString("lectura").equals("t"));
                 break;
 
             case R.id.LecturaSpnTipoUso:
@@ -237,14 +393,14 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                 if(distance>0){
                     if(this.FcnLectura.getNextDatosUsuario()) {
                         this.MostrarInformacionBasica();
-                        this.MostrarInputLectura(true);
+                        this._cmbAnomalia.setSelection(0);
                     }
                 }
 
                 if(distance<0){
                     if(this.FcnLectura.getBackDatosUsuario()) {
                         this.MostrarInformacionBasica();
-                        this.MostrarInputLectura(true);
+                        this._cmbAnomalia.setSelection(0);
                     }
                 }
 

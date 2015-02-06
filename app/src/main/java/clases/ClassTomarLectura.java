@@ -86,6 +86,26 @@ public class ClassTomarLectura {
         return _retorno;
     }
 
+    public boolean getCritica(float critica){
+        String descripcion = this.FcnSQL.StrSelectShieldWhere("param_critica","descripcion","minimo<="+critica+" AND maximo >= "+critica+"");
+        return !descripcion.equals("Normal");
+    }
+
+    public void guardarLectura(int id_serial,int anomalia, String mensaje ,int lectura1, int lectura2, int lectura3, float critica1, float critica2, float critica3){
+                this._tempRegistro.clear();
+                this._tempRegistro.put("id_serial",id_serial);
+                this._tempRegistro.put("anomlia",anomalia);
+                this._tempRegistro.put("mensaje",mensaje);
+                this._tempRegistro.put("lectura1",lectura1);
+                this._tempRegistro.put("lectura2",lectura2);
+                this._tempRegistro.put("lectura3",lectura3);
+                this._tempRegistro.put("critica1",critica1);
+                this._tempRegistro.put("critica2",critica2);
+                this._tempRegistro.put("critica3",critica3);
+
+                this.FcnSQL.InsertRegistro("toma_lectura",this._tempRegistro);
+    }
+
 
     private void getDatosConsulta(){
         this.setId_consecutivo(this._tempRegistro.getAsInteger("id_secuencia"));

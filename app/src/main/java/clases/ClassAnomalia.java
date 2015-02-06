@@ -19,7 +19,7 @@ public class ClassAnomalia {
 
     private SQLite FcnSQL;
 
-    private String anomalia;
+    private String anomalia[];
     private ArrayList<String> listadoAnomalias;
     private ArrayList<String> listarDatos;
 
@@ -34,18 +34,19 @@ public class ClassAnomalia {
     public ArrayList<String> listarAnomalias(String _tipo_uso) {
         this._tempRegistro.clear();
         if(_tipo_uso.equals("RS")){
-            this._tempRegistro =    this.FcnSQL.SelectDataRegistro( "param_anomalias",
-                                                                    "id_anomalia, descripcion",
-                                                                    "aplica_residencial='t'");
+            this._tempTabla =    this.FcnSQL.SelectData("param_anomalias",
+                                                        "id_anomalia, descripcion",
+                                                        "aplica_residencial='t'");
+        }else{
+            this._tempTabla =    this.FcnSQL.SelectData("param_anomalias",
+                                                        "id_anomalia, descripcion",
+                                                        "aplica_no_residencial='t'");
         }
-        else{
-            this._tempRegistro =    this.FcnSQL.SelectDataRegistro( "param_anomalias",
-                                                                    "id_anomalia, descripcion",
-                                                                    "aplica_no_residencial='t'");
-        }
+
+        this.listadoAnomalias.add("...");
         for(int i=0;i<this._tempTabla.size();i++){
             this._tempRegistro = this._tempTabla.get(i);
-            listadoAnomalias.add(this._tempRegistro.getAsString("id_anomalia")+ this._tempRegistro.getAsString("descripcion"));
+            listadoAnomalias.add(this._tempRegistro.getAsString("id_anomalia")+"-"+this._tempRegistro.getAsString("descripcion"));
         }
 
         return listadoAnomalias;
@@ -53,11 +54,19 @@ public class ClassAnomalia {
 
     public ContentValues validarDatosAnomalia(String _anomalia){
         this._tempRegistro.clear();
-        this.anomalia = _anomalia;
-        this._tempRegistro =    this.FcnSQL.SelectDataRegistro( "param_anomalias",
-                                                                "lectura, mensaje, foto",
-                                                                "id_anomalia='"+this.anomalia+"'");
-
+        this.anomalia = _anomalia.split("-");
+        if(this.anomalia.length > 1){
+            this._tempRegistro =    this.FcnSQL.SelectDataRegistro( "param_anomalias",
+                                    "id_anomalia, lectura, mensaje, foto",
+                                    "id_anomalia='"+this.anomalia[0]+"'");
+        }else{
+            this._tempRegistro.put("id_anomalia",-1);
+            this._tempRegistro.put("lectura","f");
+            this._tempRegistro.put("mensaje","f");
+            this._tempRegistro.put("foto","f");
+        }
         return _tempRegistro;
     }
+
+
 }
