@@ -94,18 +94,23 @@ public class ClassTomarLectura {
         this.setSerie_medidor(this._tempRegistro.getAsString("serie_medidor"));
         this.setNombre(this._tempRegistro.getAsString("nombre"));
         this.setDireccion(this._tempRegistro.getAsString("direccion"));
+        this.setFactor_multiplicacion(this._tempRegistro.getAsInteger("factor_multiplicacion"));
+        this.setTipo_uso(this._tempRegistro.getAsString("tipo_uso"));
 
         this.setId_serial1(this._tempRegistro.getAsInteger("id_serial_1"));
         this.setLectura_anterior1(this._tempRegistro.getAsInteger("lectura_anterior_1"));
         this.setTipo_energia1(this._tempRegistro.getAsString("tipo_energia_1"));
+        this.setPromedio1(this._tempRegistro.getAsInteger("promedio_1"));
 
         this.setId_serial2(this._tempRegistro.getAsInteger("id_serial_2"));
         this.setLectura_anterior2(this._tempRegistro.getAsInteger("lectura_anterior_2"));
         this.setTipo_energia2(this._tempRegistro.getAsString("tipo_energia_2"));
+        this.setPromedio2(this._tempRegistro.getAsInteger("promedio_2"));
 
         this.setId_serial3(this._tempRegistro.getAsInteger("id_serial_3"));
         this.setLectura_anterior3(this._tempRegistro.getAsInteger("lectura_anterior_3"));
         this.setTipo_energia3(this._tempRegistro.getAsString("tipo_energia_3"));
+        this.setPromedio3(this._tempRegistro.getAsInteger("promedio_3"));
     }
 
     public String getRuta() {
@@ -251,4 +256,16 @@ public class ClassTomarLectura {
     public void setTipo_energia3(String tipo_energia3) {
         this.tipo_energia3 = tipo_energia3;
     }
+
+    public int getPromedio1() {return promedio1;}
+
+    public void setPromedio1(int promedio1) {this.promedio1 = promedio1;}
+
+    public int getPromedio2() {return promedio2;}
+
+    public void setPromedio2(int promedio2) {this.promedio2 = promedio2;}
+
+    public int getPromedio3() {return promedio3;}
+
+    public void setPromedio3(int promedio3) {this.promedio3 = promedio3;}
 }
