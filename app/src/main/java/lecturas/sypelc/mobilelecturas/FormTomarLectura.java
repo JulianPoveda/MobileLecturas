@@ -1,5 +1,6 @@
 package lecturas.sypelc.mobilelecturas;
 
+import android.content.ContentValues;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,18 +11,23 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import java.util.ArrayList;
+
+import clases.ClassAnomalia;
 import clases.ClassTomarLectura;
 
 
 public class FormTomarLectura extends ActionBarActivity implements OnTouchListener, OnClickListener, OnItemSelectedListener{
 
     private ClassTomarLectura   FcnLectura;
+    private ClassAnomalia       FcnAnomalia;
 
     private ViewFlipper _viewFlipper;
     private TextView    _lblCuenta, _lblNombre, _lblDireccion, _lblRuta, _lblMedidor, _lblTipoUso;
@@ -34,6 +40,11 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     private int         _consecutivo_ruta;
     private float         init_x;
 
+    private ContentValues           DetalleAnomalia;
+    private ArrayList<String>       ArrayAnomalias;
+    private ArrayList<String>       ArrayUso;
+    private ArrayAdapter<String>    AdaptadorAnomalias;
+    private ArrayAdapter<String>    AdaptadorUso;
 
     
     @Override
@@ -43,7 +54,8 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         Bundle bundle   = getIntent().getExtras();
         this._ruta      = bundle.getString("Ruta");
 
-        this.FcnLectura = new ClassTomarLectura(this,this._ruta);
+        this.FcnLectura     = new ClassTomarLectura(this,this._ruta);
+        this.FcnAnomalia    = new ClassAnomalia(this);
 
         this._lblCuenta     = (TextView) findViewById(R.id.LecturaTxtCuenta);
         this._lblNombre     = (TextView) findViewById(R.id.LecturaTxtNombre);
@@ -73,6 +85,20 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
             this.MostrarInformacionBasica();
             this.MostrarInputLectura(true);
         }
+
+        this.ArrayAnomalias     = this.FcnAnomalia.listarAnomalias(this.FcnLectura.getTipo_uso());
+        this.AdaptadorAnomalias = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,this.ArrayAnomalias);
+        this._cmbAnomalia.setAdapter(this.AdaptadorAnomalias);
+
+        /*this.ArrayUso       = this.FcnParametros.listaUsos();
+        this.AdaptadorUso   = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,this.ArrayUso);
+        this._cmbTipoUso.setAdapter(this.AdaptadorUso);*/
+
+        this._cmbTipoUso.setOnItemSelectedListener(this);
+        this._cmbAnomalia.setOnItemSelectedListener(this);
+
+        this._btnGuardar.setOnClickListener(this);
+        this._btnImprimir.setOnClickListener(this);
     }
 
 
@@ -139,7 +165,6 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
             this._lblLectura3.setVisibility(View.INVISIBLE);
             this._txtLectura3.setVisibility(View.INVISIBLE);
         }
-
     }
 
     @Override
@@ -183,6 +208,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch(parent.getId()){
             case R.id.LecturaSpnAnomalia:
+                //this.DetalleAnomalia = this.FcnAnomalia.validarDatosAnomalia(this._cmbAnomalia.getSelectedItem().toString());
                 break;
 
             case R.id.LecturaSpnTipoUso:
