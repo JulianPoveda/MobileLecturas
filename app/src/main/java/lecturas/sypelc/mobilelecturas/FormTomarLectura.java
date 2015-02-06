@@ -8,6 +8,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -17,7 +19,7 @@ import android.widget.ViewFlipper;
 import clases.ClassTomarLectura;
 
 
-public class FormTomarLectura extends ActionBarActivity implements OnTouchListener, OnClickListener{
+public class FormTomarLectura extends ActionBarActivity implements OnTouchListener, OnClickListener, OnItemSelectedListener{
 
     private ClassTomarLectura   FcnLectura;
 
@@ -68,86 +70,99 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         this._viewFlipper.setOnTouchListener(this);
 
         if(this.FcnLectura.getNextDatosUsuario()) {
-            this.MostrarDatos();
+            this.MostrarInformacionBasica();
+            this.MostrarInputLectura(true);
         }
     }
 
 
-    private void MostrarDatos(){
+    private void MostrarInformacionBasica(){
         this._lblCuenta.setText(this.FcnLectura.getCuenta()+"");
         this._lblNombre.setText(this.FcnLectura.getNombre());
         this._lblDireccion.setText(this.FcnLectura.getDireccion());
         this._lblRuta.setText(this.FcnLectura.getRuta());
         this._lblMedidor.setText(this.FcnLectura.getMarca_medidor()+" "+this.FcnLectura.getSerie_medidor());
+    }
 
-        if(this.FcnLectura.getId_serial1() != -1){
-            this._lblLectura1.setVisibility(View.VISIBLE);
-            this._txtLectura1.setVisibility(View.VISIBLE);
-            if(this.FcnLectura.getTipo_energia1().equals("A")){
-                this._lblLectura1.setText("Activa");
-            }else if(this.FcnLectura.getTipo_energia1().equals("R")){
-                this._lblLectura1.setText("Reactiva");
+
+    private void MostrarInputLectura(boolean _caso){
+        if(_caso){
+            if(this.FcnLectura.getId_serial1() != -1){
+                this._lblLectura1.setVisibility(View.VISIBLE);
+                this._txtLectura1.setVisibility(View.VISIBLE);
+                if(this.FcnLectura.getTipo_energia1().equals("A")){
+                    this._lblLectura1.setText("Activa");
+                }else if(this.FcnLectura.getTipo_energia1().equals("R")){
+                    this._lblLectura1.setText("Reactiva");
+                }else{
+                    this._lblLectura1.setText("No Valido");
+                }
             }else{
-                this._lblLectura1.setText("No Valido");
+                this._lblLectura2.setVisibility(View.INVISIBLE);
+                this._txtLectura2.setVisibility(View.INVISIBLE);
+            }
+
+            if(this.FcnLectura.getId_serial2() != -1){
+                this._lblLectura2.setVisibility(View.VISIBLE);
+                this._txtLectura2.setVisibility(View.VISIBLE);
+                if(this.FcnLectura.getTipo_energia2().equals("A")){
+                    this._lblLectura2.setText("Activa");
+                }else if(this.FcnLectura.getTipo_energia2().equals("R")){
+                    this._lblLectura2.setText("Reactiva");
+                }else{
+                    this._lblLectura2.setText("No Valido");
+                }
+            }else{
+                this._lblLectura2.setVisibility(View.INVISIBLE);
+                this._txtLectura2.setVisibility(View.INVISIBLE);
+            }
+
+            if(this.FcnLectura.getId_serial3() != -1){
+                this._lblLectura3.setVisibility(View.VISIBLE);
+                this._txtLectura3.setVisibility(View.VISIBLE);
+                if(this.FcnLectura.getTipo_energia3().equals("A")){
+                    this._lblLectura3.setText("Activa");
+                }else if(this.FcnLectura.getTipo_energia3().equals("R")){
+                    this._lblLectura3.setText("Reactiva");
+                }else{
+                    this._lblLectura3.setText("No Valido");
+                }
+            }else{
+                this._lblLectura3.setVisibility(View.INVISIBLE);
+                this._txtLectura3.setVisibility(View.INVISIBLE);
             }
         }else{
+            this._lblLectura1.setVisibility(View.INVISIBLE);
+            this._txtLectura1.setVisibility(View.INVISIBLE);
             this._lblLectura2.setVisibility(View.INVISIBLE);
             this._txtLectura2.setVisibility(View.INVISIBLE);
-        }
-
-
-        if(this.FcnLectura.getId_serial2() != -1){
-            this._lblLectura2.setVisibility(View.VISIBLE);
-            this._txtLectura2.setVisibility(View.VISIBLE);
-            if(this.FcnLectura.getTipo_energia2().equals("A")){
-                this._lblLectura2.setText("Activa");
-            }else if(this.FcnLectura.getTipo_energia2().equals("R")){
-                this._lblLectura2.setText("Reactiva");
-            }else{
-                this._lblLectura2.setText("No Valido");
-            }
-        }else{
-            this._lblLectura2.setVisibility(View.INVISIBLE);
-            this._txtLectura2.setVisibility(View.INVISIBLE);
-        }
-
-        if(this.FcnLectura.getId_serial3() != -1){
-            this._lblLectura3.setVisibility(View.VISIBLE);
-            this._txtLectura3.setVisibility(View.VISIBLE);
-            if(this.FcnLectura.getTipo_energia3().equals("A")){
-                this._lblLectura3.setText("Activa");
-            }else if(this.FcnLectura.getTipo_energia3().equals("R")){
-                this._lblLectura3.setText("Reactiva");
-            }else{
-                this._lblLectura3.setText("No Valido");
-            }
-        }else{
             this._lblLectura3.setVisibility(View.INVISIBLE);
             this._txtLectura3.setVisibility(View.INVISIBLE);
         }
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_tomar_lectura, menu);
         return true;
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch(item.getItemId()){
+            case R.id.LecturaMenuBuscar:
+                break;
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+            case R.id.LecturaMenuFoto:
+                break;
         }
-
         return super.onOptionsItemSelected(item);
     }
+
+
 
     @Override
     public void onClick(View v) {
@@ -165,6 +180,26 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
 
 
     @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch(parent.getId()){
+            case R.id.LecturaSpnAnomalia:
+                break;
+
+            case R.id.LecturaSpnTipoUso:
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        // TODO Auto-generated method stub
+    }
+
+
+    @Override
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: //Cuando el usuario toca la pantalla por primera vez
@@ -175,13 +210,15 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
 
                 if(distance>0){
                     if(this.FcnLectura.getNextDatosUsuario()) {
-                        this.MostrarDatos();
+                        this.MostrarInformacionBasica();
+                        this.MostrarInputLectura(true);
                     }
                 }
 
                 if(distance<0){
                     if(this.FcnLectura.getBackDatosUsuario()) {
-                        this.MostrarDatos();
+                        this.MostrarInformacionBasica();
+                        this.MostrarInputLectura(true);
                     }
                 }
 
