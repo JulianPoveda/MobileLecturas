@@ -70,11 +70,11 @@ public class SQLite {
             //Tabla con los datos de configuracion
             db.execSQL("CREATE TABLE    param_anomalias (id_anomalia            INTEGER NOT NULL PRIMARY KEY, " +
                                                         "descripcion            VARCHAR(500) NOT NULL, " +
-                                                        "aplica_residencial     INTEGER NOT NULL," +
-                                                        "aplica_no_residencial  INTEGER NOT NULL," +
-                                                        "lectura                INTEGER NOT NULL," +
+                                                        "aplica_residencial     VARCHAR(10) NOT NULL," +
+                                                        "aplica_no_residencial  VARCHAR(10) NOT NULL," +
+                                                        "lectura                VARCHAR(10) NOT NULL," +
                                                         "mensaje                VARCHAR(1) NOT NULL," +
-                                                        "foto                   INTEGER NOT NULL)");
+                                                        "foto                   VARCHAR(10) NOT NULL)");
 
             //Tabla con los datos de configuracion
             db.execSQL("CREATE TABLE    param_critica   (minimo                 NUMERIC(15,7) NOT NULL," +
@@ -99,21 +99,23 @@ public class SQLite {
                                                         "digitos                VARCHAR(50) NOT NULL," +
                                                         "nombre                 VARCHAR(50) NOT NULL," +
                                                         "direccion              INTEGER NOT NULL," +
+                                                        "factor_multiplicacion  INTEGER NOT NULL,"  +
+                                                        "tipo_uso               VARCHAR(20) NOT NULL," +
                                                         "id_serial_1            INTEGER NOT NULL," +
-                                                        "lectura_1              INTEGER NOT NULL," +
+                                                        "lectura_anterior_1     INTEGER NOT NULL," +
                                                         "tipo_energia_1         VARCHAR(15) NOT NULL," +
-                                                        "anomalia_1             VARCHAR(20),"+
-                                                        "critica_1              VARCHAR(20),"+
+                                                        "anomalia_anterior_1    VARCHAR(20),"+
+                                                        "promedio_1             VARCHAR(20),"+
                                                         "id_serial_2            VARCHAR(20)," +
-                                                        "lectura_2              VARCHAR(20)," +
+                                                        "lectura_anterior_2     VARCHAR(20)," +
                                                         "tipo_energia_2         VARCHAR(15)," +
-                                                        "anomalia_2             VARCHAR(20),"+
-                                                        "critica_2              VARCHAR(20),"+
+                                                        "anomalia_anterior_2    VARCHAR(20),"+
+                                                        "promedio_2             VARCHAR(20),"+
                                                         "id_serial_3            VARCHAR(20)," +
-                                                        "lectura_3              VARCHAR(20)," +
+                                                        "lectura_anterior_3     VARCHAR(20)," +
                                                         "tipo_energia_3         VARCHAR(15)," +
-                                                        "anomalia_3             VARCHAR(20),"+
-                                                        "critica_3              VARCHAR(20)," +
+                                                        "anomalia_anterior_3    VARCHAR(20),"+
+                                                        "promedio_3             VARCHAR(20)," +
                                                         "estado                 VARCHAR(15) NOT NULL)");
 
             db.execSQL("CREATE TABLE    toma_lectura    (id                     INTEGER PRIMARY KEY AUTOINCREMENT," +

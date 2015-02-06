@@ -23,6 +23,8 @@ public class ClassTomarLectura {
     private String  serie_medidor;
     private String  nombre;
     private String  direccion;
+    private String  tipo_uso;
+    private int     factor_multiplicacion;
     private int     id_serial1;
     private int     id_serial2;
     private int     id_serial3;
@@ -32,7 +34,9 @@ public class ClassTomarLectura {
     private String  tipo_energia1;
     private String  tipo_energia2;
     private String  tipo_energia3;
-
+    private int     promedio1;
+    private int     promedio2;
+    private int     promedio3;
 
 
 
@@ -47,11 +51,11 @@ public class ClassTomarLectura {
         boolean _retorno  = false;
         if(this.id_consecutivo == -1){
             this._tempRegistro =    this.FcnSQL.SelectDataRegistro( "maestro_clientes",
-                                                                    "id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,id_serial_1,lectura_1,tipo_energia_1,id_serial_2,lectura_2,tipo_energia_2,id_serial_3,lectura_3,tipo_energia_3",
+                                                                    "id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,tipo_uso,factor_multiplicacion,id_serial_1,lectura_anterior_1,tipo_energia_1,promedio_1,id_serial_2,lectura_anterior_2,tipo_energia_2,promedio_2,id_serial_3,lectura_anterior_3,tipo_energia_3,promedio_3",
                                                                     "ruta='"+this.ruta+"' AND estado='P' ORDER BY id_secuencia ASC");
         }else{
             this._tempRegistro =    this.FcnSQL.SelectDataRegistro( "maestro_clientes",
-                                                                    "id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,id_serial_1,lectura_1,tipo_energia_1,id_serial_2,lectura_2,tipo_energia_2,id_serial_3,lectura_3,tipo_energia_3",
+                                                                    "id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,tipo_uso,factor_multiplicacion,id_serial_1,lectura_anterior_1,tipo_energia_1,promedio_1,id_serial_2,lectura_anterior_2,tipo_energia_2,promedio_2,id_serial_3,lectura_anterior_3,tipo_energia_3,promedio_3",
                                                                     "ruta='"+this.ruta+"' AND id_secuencia>"+this.id_consecutivo+" AND estado='P' ORDER BY id_secuencia ASC");
         }
 
@@ -67,11 +71,11 @@ public class ClassTomarLectura {
         boolean _retorno  = false;
         if(this.id_consecutivo == -1){
             this._tempRegistro =    this.FcnSQL.SelectDataRegistro( "maestro_clientes",
-                                                                    "id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,id_serial_1,lectura_1,tipo_energia_1,id_serial_2,lectura_2,tipo_energia_2,id_serial_3,lectura_3,tipo_energia_3",
+                                                                    "id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,tipo_uso,factor_multiplicacion,id_serial_1,lectura_anterior_1,tipo_energia_1,promedio_1,id_serial_2,lectura_anterior_2,tipo_energia_2,promedio_2,id_serial_3,lectura_anterior_3,tipo_energia_3,promedio_3",
                                                                     "ruta='"+this.ruta+"' AND estado='P' ORDER BY id_secuencia ASC");
         }else{
             this._tempRegistro =    this.FcnSQL.SelectDataRegistro( "maestro_clientes",
-                    "id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,id_serial_1,lectura_1,tipo_energia_1,id_serial_2,lectura_2,tipo_energia_2,id_serial_3,lectura_3,tipo_energia_3",
+                    "id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,tipo_uso,factor_multiplicacion,id_serial_1,lectura_anterior_1,tipo_energia_1,promedio_1,id_serial_2,lectura_anterior_2,tipo_energia_2,promedio_2,id_serial_3,lectura_anterior_3,tipo_energia_3,promedio_3",
                     "ruta='"+this.ruta+"' AND id_secuencia<"+this.id_consecutivo+" AND estado='P' ORDER BY id_secuencia DESC");
         }
 
@@ -92,15 +96,15 @@ public class ClassTomarLectura {
         this.setDireccion(this._tempRegistro.getAsString("direccion"));
 
         this.setId_serial1(this._tempRegistro.getAsInteger("id_serial_1"));
-        this.setLectura_anterior1(this._tempRegistro.getAsInteger("lectura_1"));
+        this.setLectura_anterior1(this._tempRegistro.getAsInteger("lectura_anterior_1"));
         this.setTipo_energia1(this._tempRegistro.getAsString("tipo_energia_1"));
 
         this.setId_serial2(this._tempRegistro.getAsInteger("id_serial_2"));
-        this.setLectura_anterior2(this._tempRegistro.getAsInteger("lectura_2"));
+        this.setLectura_anterior2(this._tempRegistro.getAsInteger("lectura_anterior_2"));
         this.setTipo_energia2(this._tempRegistro.getAsString("tipo_energia_2"));
 
         this.setId_serial3(this._tempRegistro.getAsInteger("id_serial_3"));
-        this.setLectura_anterior3(this._tempRegistro.getAsInteger("lectura_3"));
+        this.setLectura_anterior3(this._tempRegistro.getAsInteger("lectura_anterior_3"));
         this.setTipo_energia3(this._tempRegistro.getAsString("tipo_energia_3"));
     }
 
@@ -167,6 +171,14 @@ public class ClassTomarLectura {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
+
+    public String getTipo_uso(){return tipo_uso;}
+
+    public void  setTipo_uso(String tipo_uso){this.tipo_uso = tipo_uso;}
+
+    public int getFactor_multiplicacion(){return  factor_multiplicacion;}
+
+    public void  setFactor_multiplicacion(int factor_multiplicacion){this.factor_multiplicacion = factor_multiplicacion;}
 
     public int getId_serial1() {
         return id_serial1;
