@@ -94,7 +94,7 @@ public class ClassTomarLectura {
     public void guardarLectura(int id_serial,int anomalia, String mensaje ,int lectura1, int lectura2, int lectura3, float critica1, float critica2, float critica3){
                 this._tempRegistro.clear();
                 this._tempRegistro.put("id_serial",id_serial);
-                this._tempRegistro.put("anomlia",anomalia);
+                this._tempRegistro.put("anomalia",anomalia);
                 this._tempRegistro.put("mensaje",mensaje);
                 this._tempRegistro.put("lectura1",lectura1);
                 this._tempRegistro.put("lectura2",lectura2);
@@ -106,6 +106,12 @@ public class ClassTomarLectura {
                 this.FcnSQL.InsertRegistro("toma_lectura",this._tempRegistro);
     }
 
+    public void cambiarEstadoLectura(Integer secuencia){
+        this._tempRegistro.clear();
+        this._tempRegistro.put("estado","T");
+
+        this.FcnSQL.InsertOrUpdateRegistro("maestro_clientes",_tempRegistro,"id_secuencia="+secuencia+"");
+    }
 
     private void getDatosConsulta(){
         this.setId_consecutivo(this._tempRegistro.getAsInteger("id_secuencia"));

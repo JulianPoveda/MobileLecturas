@@ -46,7 +46,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     boolean             b_critica1, b_critica2,b_critica3;
     boolean             critica_general;
     private int         intentos;
-    private int         lectura1, lectura2,lectura3;
+    private int         lectura1, lectura2,lectura3, lecturaEnviar1, lecturaEnviar2, lecturaEnviar3;
 
     private int                     FotosTomadas;
     private ContentValues           DetalleAnomalia;
@@ -62,7 +62,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         setContentView(R.layout.activity_tomar_lectura);
         Bundle bundle       = getIntent().getExtras();
         this._ruta          = bundle.getString("Ruta");
-        this.FotosTomadas   = 0;
+        this.FotosTomadas   = 1; //para probar y me deje pasar por la foto
         this.intentos       = 1;
         this.b_critica1     = false;
         this.b_critica2     = false;
@@ -70,6 +70,9 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         this.lectura1       = 0;
         this.lectura2       = 0;
         this.lectura3       = 0;
+        this.lecturaEnviar1 = 0;
+        this.lecturaEnviar2 = 0;
+        this.lecturaEnviar3 = 0;
 
         this.FcnLectura     = new ClassTomarLectura(this,this._ruta);
         this.FcnAnomalia    = new ClassAnomalia(this);
@@ -221,7 +224,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
 
     private boolean ValidacionMensaje(){
         boolean _retorno= false;
-        if(this.DetalleAnomalia.getAsString("mensaje").equals("s")){
+        if(this.DetalleAnomalia.getAsString("mensaje").equals("S")){
             if(!this._txtMensaje.getText().toString().isEmpty()){
                 _retorno = true;
             }
@@ -240,6 +243,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                 _retorno1 = false;
             }else {
                 validarCritica(1, _txtLectura1.getText().toString());
+                this.lecturaEnviar1 = Integer.parseInt(this._txtLectura1.getText().toString());
                 _retorno1 = true;
             }
         }else{
@@ -251,6 +255,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                 _retorno2 = false;
             }else {
                 validarCritica(2, _txtLectura2.getText().toString());
+                this.lecturaEnviar2 = Integer.parseInt(this._txtLectura2.getText().toString());
                 _retorno2 = true;
             }
         }else{
@@ -262,6 +267,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                 _retorno3 = false;
             }else {
                 validarCritica(3, _txtLectura3.getText().toString());
+                this.lecturaEnviar3 = Integer.parseInt(this._txtLectura3.getText().toString());
                 _retorno3 = true;
             }
         }else{
@@ -292,8 +298,6 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
             this.b_critica3= this.FcnLectura.getCritica(this.critica3);
         }
 
-        //
-
     }
 
 
@@ -303,33 +307,50 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
             case R.id.LecturasBtnGuardar:
                 if(this.ValidacionDatosCompletos()){
                     if (this.ValidacionFoto() && this.ValidacionMensaje()){
+
                         this.FcnLectura.guardarLectura(this.FcnLectura.getId_serial1(),
                                                        this.DetalleAnomalia.getAsInteger("id_anomalia"),
                                                        this._txtMensaje.getText().toString(),
-                                                       Integer.parseInt(this._txtLectura1.getText().toString()),
-                                                       Integer.parseInt(this._txtLectura2.getText().toString()),
-                                                       Integer.parseInt(this._txtLectura3.getText().toString()),
+                                                       /*Integer.parseInt(this._txtLectura1.getText().toString())*/this.lecturaEnviar1,
+                                                       /*Integer.parseInt(this._txtLectura2.getText().toString())*/this.lecturaEnviar2,
+                                                       /*Integer.parseInt(this._txtLectura3.getText().toString())*/this.lecturaEnviar3,
                                                        this.critica1,
                                                        this.critica2,
                                                        this.critica3);
+
                         if(this.critica_general && this.intentos == 1){
                             this.intentos ++;
                             this.lectura1 = Integer.parseInt(this._txtLectura1.getText().toString());
-                            this.lectura2 = Integer.parseInt(this._txtLectura2.getText().toString());
-                            this.lectura3 = Integer.parseInt(this._txtLectura3.getText().toString());
+                            if(!this._txtLectura2.getText().toString().equals("")){
+                                this.lectura2 = Integer.parseInt(this._txtLectura2.getText().toString()); // Se realizo ya que si era una sola lectura generaba error en el parseint
+                            }
+                            if(!this._txtLectura3.getText().toString().equals("")){
+                                this.lectura3 = Integer.parseInt(this._txtLectura3.getText().toString());
+                            }
 
                             deleteCamposLecturasGUI();
-                            
+                            Toast.makeText(this, "Ingresar Datos de Nuevo.", Toast.LENGTH_LONG).show();
+
                         }else if(this.critica_general && this.intentos == 2){
                             this.intentos++;
                             if(compararDatosLocales()){
                                this._btnGuardar.setEnabled(false);
+                               deleteCamposLecturasGUI();
+                               this._txtMensaje.setText("");
+                               Toast.makeText(this, "Lectura Registrada.", Toast.LENGTH_LONG).show();
+                               this.FcnLectura.cambiarEstadoLectura(this.FcnLectura.getId_consecutivo());
+                              //Si se deshabilita el boton es por que ya se termino con ese usuario, entonces se borran los datos, se borra el msj, se muestra un mensaje y se debe cambiar elestado a  T
                             }else{
                                 deleteCamposLecturasGUI();
                                 Toast.makeText(this, "Ingresar Datos de Nuevo.", Toast.LENGTH_LONG).show();
                             }
                         }else{
                             this._btnGuardar.setEnabled(false);
+                            deleteCamposLecturasGUI();//Se borra la ultima vez ya que se pasaba al siguiente registro, se seleccionaba la misma anomalia que el anterior y mostraba la lectura digitada en el registro anterior.
+                            this._txtMensaje.setText("");//El mensaje solo se borra en el ultimo intento.
+                            Toast.makeText(this, "Lectura Registrada.", Toast.LENGTH_LONG).show();
+                            this.FcnLectura.cambiarEstadoLectura(this.FcnLectura.getId_consecutivo());
+                            //Si se deshabilita el boton es por que ya se termino con ese usuario, entonces se borran los datos, se borra el msj, se muestra un mensaje y se debe cambiar elestado a  T
                         }
                     } else {
                         Toast.makeText(this, "Datos Incompletos.", Toast.LENGTH_LONG).show();

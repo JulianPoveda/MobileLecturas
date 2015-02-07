@@ -120,10 +120,14 @@ public class SQLite {
 
             db.execSQL("CREATE TABLE    toma_lectura    (id                     INTEGER PRIMARY KEY AUTOINCREMENT," +
                                                         "id_serial              INTEGER NOT NULL," +
-                                                        "lectura                INTEGER NOT NULL," +
                                                         "anomalia               INTEGER NOT NULL," +
-                                                        "critica                NUMERIC(15,7) NOT NULL," +
                                                         "mensaje                VARCHAR(255)," +
+                                                        "lectura1               INTEGER NOT NULL," +
+                                                        "lectura2               INTEGER NOT NULL," +
+                                                        "lectura3               INTEGER NOT NULL," +
+                                                        "critica1               NUMERIC(15,7) NOT NULL," +
+                                                        "critica2               NUMERIC(15,7) NOT NULL," +
+                                                        "critica3               NUMERIC(15,7) NOT NULL," +
                                                         "fecha_toma             TIMESTAMP NOT NULL DEFAULT current_timestamp)");
 
             db.execSQL(	"CREATE TRIGGER tg_fecha_cargue AFTER INSERT ON maestro_rutas FOR EACH ROW BEGIN " +
