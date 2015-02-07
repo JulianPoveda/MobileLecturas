@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import java.util.ArrayList;
@@ -325,16 +326,16 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                                this._btnGuardar.setEnabled(false);
                             }else{
                                 deleteCamposLecturasGUI();
-                                // Mostrar mensaje
+                                Toast.makeText(this, "Ingresar Datos de Nuevo.", Toast.LENGTH_LONG).show();
                             }
                         }else{
                             this._btnGuardar.setEnabled(false);
                         }
                     } else {
-                        //Mostrar mensaje de foto o mensaje
+                        Toast.makeText(this, "Datos Incompletos.", Toast.LENGTH_LONG).show();
                     }
                 }else{
-                    //Mensaje datos incompletos
+                    Toast.makeText(this, "Datos Incompletos.", Toast.LENGTH_LONG).show();
                 }
                 break;
 
