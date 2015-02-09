@@ -119,7 +119,9 @@ public class SQLite {
                                                         "estado                 VARCHAR(15) NOT NULL)");
 
             db.execSQL("CREATE TABLE    toma_lectura    (id                     INTEGER PRIMARY KEY AUTOINCREMENT," +
-                                                        "id_serial              INTEGER NOT NULL," +
+                                                        "id_serial1             INTEGER NOT NULL," +
+                                                        "id_serial2             INTEGER NOT NULL," +
+                                                        "id_serial3             INTEGER NOT NULL," +
                                                         "anomalia               INTEGER NOT NULL," +
                                                         "mensaje                VARCHAR(255)," +
                                                         "lectura1               INTEGER NOT NULL," +
