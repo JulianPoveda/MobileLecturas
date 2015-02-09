@@ -350,9 +350,9 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                         this.FcnLectura.guardarLectura(this.FcnLectura.getId_serial1(),
                                                        this.DetalleAnomalia.getAsInteger("id_anomalia"),
                                                        this._txtMensaje.getText().toString(),
-                                                       /*Integer.parseInt(this._txtLectura1.getText().toString())*/this.lecturaEnviar1,
-                                                       /*Integer.parseInt(this._txtLectura2.getText().toString())*/this.lecturaEnviar2,
-                                                       /*Integer.parseInt(this._txtLectura3.getText().toString())*/this.lecturaEnviar3,
+                                                       this.lecturaEnviar1,
+                                                       this.lecturaEnviar2,
+                                                       this.lecturaEnviar3,
                                                        this.critica1,
                                                        this.critica2,
                                                        this.critica3);
