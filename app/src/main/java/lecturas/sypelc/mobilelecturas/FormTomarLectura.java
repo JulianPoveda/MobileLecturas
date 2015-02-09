@@ -32,7 +32,6 @@ import sistema.Archivos;
 
 public class FormTomarLectura extends ActionBarActivity implements OnTouchListener, OnClickListener, OnItemSelectedListener{
     static int 				    INICIAR_CAMARA			= 1;
-
     private Intent 			    IniciarCamara;
 
     private ClassTomarLectura   FcnLectura;
@@ -47,17 +46,12 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     private Button      _btnGuardar, _btnImprimir;
 
     private String      _ruta;
-    private int         _consecutivo_ruta;
     private float       init_x;
-    double              critica1;
-    double              critica2;
-    double              critica3;
-    boolean             b_critica1, b_critica2,b_critica3;
-    boolean             critica_general;
+    double              critica1, critica2, critica3;
+    boolean             b_critica1, b_critica2,b_critica3, critica_general;
     private int         intentos;
     private int         lectura1, lectura2,lectura3, lecturaEnviar1, lecturaEnviar2, lecturaEnviar3;
 
-    private int                     FotosTomadas;
     private ContentValues           DetalleAnomalia;
     private ContentValues           _tempRegistro;
     private ArrayList<String>       ArrayAnomalias;
@@ -81,9 +75,9 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         this.b_critica1     = false;
         this.b_critica2     = false;
         this.b_critica3     = false;
-        this.lecturaEnviar1 = 0;
-        this.lecturaEnviar2 = 0;
-        this.lecturaEnviar3 = 0;
+        //this.lecturaEnviar1 = 0;
+        //this.lecturaEnviar2 = 0;
+        //this.lecturaEnviar3 = 0;
 
         this._lblCuenta     = (TextView) findViewById(R.id.LecturaTxtCuenta);
         this._lblNombre     = (TextView) findViewById(R.id.LecturaTxtNombre);
@@ -111,12 +105,12 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
 
         if(this.FcnLectura.getNextDatosUsuario()) {
             this.MostrarInformacionBasica();
-            this.MostrarInputLectura(true);
             this.intentos       = this.FcnLectura.getIntentos();
             this._tempRegistro  = this.FcnLectura.getLecturasIntento();
             this.lectura1       = this._tempRegistro.getAsInteger("lectura1");
             this.lectura2       = this._tempRegistro.getAsInteger("lectura2");
             this.lectura3       = this._tempRegistro.getAsInteger("lectura3");
+            this.MostrarInputLectura(this.FcnLectura.getEstado().equals("P"));
             this._btnGuardar.setEnabled(this.FcnLectura.getEstado().equals("P"));
         }
 
@@ -274,7 +268,6 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         boolean _retorno3 = false;
         if((this.FcnLectura.getId_serial1() != -1)){
             if(this._txtLectura1.getText().toString().isEmpty()) {
-                this.lecturaEnviar1 = -1;
                 _retorno1 = false;
             }else {
                 validarCritica(1, _txtLectura1.getText().toString());
@@ -282,12 +275,12 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                 _retorno1 = true;
             }
         }else{
+            this.lecturaEnviar1 = -1;
             _retorno1 = true;
         }
 
         if((this.FcnLectura.getId_serial2() != -1)){
             if(this._txtLectura2.getText().toString().isEmpty()) {
-                this.lecturaEnviar2 = -1;
                 _retorno2 = false;
             }else {
                 validarCritica(2, _txtLectura2.getText().toString());
@@ -295,12 +288,12 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                 _retorno2 = true;
             }
         }else{
+            this.lecturaEnviar2 = -1;
             _retorno2 = true;
         }
 
         if((this.FcnLectura.getId_serial3() != -1)){
             if(this._txtLectura3.getText().toString().isEmpty()) {
-                this.lecturaEnviar3 = -1;
                 _retorno3 = false;
             }else {
                 validarCritica(3, _txtLectura3.getText().toString());
@@ -308,6 +301,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                 _retorno3 = true;
             }
         }else{
+            this.lecturaEnviar3 = -1;
             _retorno3 = true;
         }
 
@@ -317,7 +311,6 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
 
 
     private void validarCritica(int indice, String lectura){
-
         if(indice == 1){
             int consumo1 = Integer.parseInt(lectura)- this.FcnLectura.getLectura_anterior1();
             this.critica1 = (consumo1/(this.FcnLectura.getPromedio1()+ Double.parseDouble("0.000001")))*this.FcnLectura.getFactor_multiplicacion();
@@ -335,16 +328,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
             this.critica3 = (consumo3/(this.FcnLectura.getPromedio3()+ Double.parseDouble("0.000001")))*this.FcnLectura.getFactor_multiplicacion();
             this.b_critica3= this.FcnLectura.getCritica(this.critica3);
         }
-
     }
-
-
-    /*public void deleteCamposLecturasGUI(){
-        this._txtLectura1.setText("");
-        this._txtLectura2.setText("");
-        this._txtLectura3.setText("");
-
-    }*/
 
 
     @Override
@@ -370,14 +354,6 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                             this.lectura1 = Integer.parseInt(this._txtLectura1.getText().toString());
                             this.lectura2 = Integer.parseInt(this._txtLectura2.getText().toString());
                             this.lectura3 = Integer.parseInt(this._txtLectura3.getText().toString());
-                            /*if(!this._txtLectura2.getText().toString().equals("")){
-                                this.lectura2 = Integer.parseInt(this._txtLectura2.getText().toString()); // Se realizo ya que si era una sola lectura generaba error en el parseint
-                            }
-                            if(!this._txtLectura3.getText().toString().equals("")){
-                                this.lectura3 = Integer.parseInt(this._txtLectura3.getText().toString());
-                            }*/
-
-                            //deleteCamposLecturasGUI();
                             MostrarInputLectura(true);
                             Toast.makeText(this, "Ingresar Datos de Nuevo.", Toast.LENGTH_LONG).show();
 
