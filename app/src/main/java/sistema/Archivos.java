@@ -105,6 +105,22 @@ public class Archivos {
         return this.ListaArchivos.length;
     }
 
+    public int numArchivosInFolderBeginByName(String _ruta, String _name, boolean _relativeCurrentDirectory){
+        int _start_same_name = 0;
+        if(_relativeCurrentDirectory){
+            _ruta = this.Directory+File.separator+_ruta;
+        }
+        this.ListaArchivos = new File(_ruta).listFiles();
+        for(int i=0;i<this.ListaArchivos.length;i++){
+            if(!this.ListaArchivos[i].isDirectory()){
+                if(this.ListaArchivos[i].getName().toString().startsWith(_name)){
+                    _start_same_name++;
+                }
+            }
+        }
+        return _start_same_name;
+    }
+
 
 
     public File[] ListaDirectorios(String _ruta, boolean _relativeCurrentDirectory){

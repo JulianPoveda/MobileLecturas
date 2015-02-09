@@ -224,11 +224,14 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                 break;
 
             case R.id.LecturaMenuFoto:
-                if(!this.FcnArchivos.ExistFolderOrFile(this.FcnLectura.getSerie_medidor(),true)){
-                    this.FcnArchivos.MakeDirectory(this.FcnLectura.getSerie_medidor(),true);
+                if(!this.FcnArchivos.ExistFolderOrFile(FormInicioSession.sub_path_pictures,true)){
+                    this.FcnArchivos.MakeDirectory(FormInicioSession.sub_path_pictures,true);
                 }
-                File imagesFolder = new File(FormInicioSession.path_files_app, this.FcnLectura.getSerie_medidor());
-                File image = new File(imagesFolder, this.FcnLectura.getSerie_medidor() +"_"+this.FcnArchivos.numArchivosInFolder(this.FcnLectura.getSerie_medidor(), true)+".jpeg");
+                File imagesFolder   = new File(FormInicioSession.path_files_app, FormInicioSession.sub_path_pictures);
+                File image          = new File( imagesFolder,
+                                                this.FcnLectura.getCuenta()+"_"+this.FcnArchivos.numArchivosInFolderBeginByName(FormInicioSession.sub_path_pictures+"",
+                                                                                                                                this.FcnLectura.getCuenta()+"",
+                                                                                                                                true)+".jpeg");
                 Uri uriSavedImage = Uri.fromFile(image);
                 this.IniciarCamara.putExtra(MediaStore.EXTRA_OUTPUT, uriSavedImage);
                 startActivityForResult(IniciarCamara, INICIAR_CAMARA);

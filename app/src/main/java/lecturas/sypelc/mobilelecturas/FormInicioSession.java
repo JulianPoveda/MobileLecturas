@@ -23,8 +23,9 @@ import clases.ClassUsuario;
 
 
 public class FormInicioSession extends ActionBarActivity implements OnClickListener{
-    public static String name_database  = "TomaLecturasBD";
-    public static String path_files_app = Environment.getExternalStorageDirectory() + File.separator + "TomaLecturas";
+    public static String name_database      = "TomaLecturasBD";
+    public static String path_files_app     = Environment.getExternalStorageDirectory() + File.separator + "TomaLecturas";
+    public static String sub_path_pictures  = "Fotos";
 
     private Intent              new_form;
     private ClassUsuario        FcnUsuario;
