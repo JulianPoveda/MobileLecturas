@@ -1,6 +1,9 @@
 package lecturas.sypelc.mobilelecturas;
 
 import android.content.ContentValues;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,16 +22,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import clases.ClassAnomalia;
 import clases.ClassTomarLectura;
+import sistema.Archivos;
 
 
 public class FormTomarLectura extends ActionBarActivity implements OnTouchListener, OnClickListener, OnItemSelectedListener{
+    static int 				    INICIAR_CAMARA			= 1;
+
+    private Intent 			    IniciarCamara;
 
     private ClassTomarLectura   FcnLectura;
     private ClassAnomalia       FcnAnomalia;
+    private Archivos            FcnArchivos;
 
     private ViewFlipper _viewFlipper;
     private TextView    _lblCuenta, _lblNombre, _lblDireccion, _lblRuta, _lblMedidor, _lblTipoUso;
@@ -62,6 +71,9 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         setContentView(R.layout.activity_tomar_lectura);
         Bundle bundle       = getIntent().getExtras();
         this._ruta          = bundle.getString("Ruta");
+
+        this.IniciarCamara	= new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+
         this.FotosTomadas   = 1; //para probar y me deje pasar por la foto
         this.intentos       = 1;
         this.b_critica1     = false;
@@ -76,6 +88,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
 
         this.FcnLectura     = new ClassTomarLectura(this,this._ruta);
         this.FcnAnomalia    = new ClassAnomalia(this);
+        this.FcnArchivos    = new Archivos(this, FormInicioSession.path_files_app,10);
 
         this._lblCuenta     = (TextView) findViewById(R.id.LecturaTxtCuenta);
         this._lblNombre     = (TextView) findViewById(R.id.LecturaTxtNombre);
@@ -136,6 +149,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
             if(this.FcnLectura.getId_serial1() != -1){
                 this._lblLectura1.setVisibility(View.VISIBLE);
                 this._txtLectura1.setVisibility(View.VISIBLE);
+                this._txtLectura1.setText("");
                 if(this.FcnLectura.getTipo_energia1().equals("A")){
                     this._lblLectura1.setText("Activa");
                 }else if(this.FcnLectura.getTipo_energia1().equals("R")){
@@ -145,12 +159,14 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                 }
             }else{
                 this._lblLectura2.setVisibility(View.INVISIBLE);
-                this._txtLectura2.setVisibility(View.INVISIBLE);
+                this._txtLectura1.setVisibility(View.INVISIBLE);
+                this._txtLectura1.setText("-1");
             }
 
             if(this.FcnLectura.getId_serial2() != -1){
                 this._lblLectura2.setVisibility(View.VISIBLE);
                 this._txtLectura2.setVisibility(View.VISIBLE);
+                this._txtLectura2.setText("");
                 if(this.FcnLectura.getTipo_energia2().equals("A")){
                     this._lblLectura2.setText("Activa");
                 }else if(this.FcnLectura.getTipo_energia2().equals("R")){
@@ -161,11 +177,13 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
             }else{
                 this._lblLectura2.setVisibility(View.INVISIBLE);
                 this._txtLectura2.setVisibility(View.INVISIBLE);
+                this._txtLectura2.setText("-1");
             }
 
             if(this.FcnLectura.getId_serial3() != -1){
                 this._lblLectura3.setVisibility(View.VISIBLE);
                 this._txtLectura3.setVisibility(View.VISIBLE);
+                this._txtLectura3.setText("");
                 if(this.FcnLectura.getTipo_energia3().equals("A")){
                     this._lblLectura3.setText("Activa");
                 }else if(this.FcnLectura.getTipo_energia3().equals("R")){
@@ -176,6 +194,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
             }else{
                 this._lblLectura3.setVisibility(View.INVISIBLE);
                 this._txtLectura3.setVisibility(View.INVISIBLE);
+                this._txtLectura3.setText("-1");
             }
         }else{
             this._lblLectura1.setVisibility(View.INVISIBLE);
@@ -184,6 +203,9 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
             this._txtLectura2.setVisibility(View.INVISIBLE);
             this._lblLectura3.setVisibility(View.INVISIBLE);
             this._txtLectura3.setVisibility(View.INVISIBLE);
+            this._txtLectura1.setText("-1");
+            this._txtLectura2.setText("-1");
+            this._txtLectura3.setText("-1");
         }
     }
 
@@ -195,7 +217,6 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
@@ -203,6 +224,14 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                 break;
 
             case R.id.LecturaMenuFoto:
+                if(!this.FcnArchivos.ExistFolderOrFile(this.FcnLectura.getSerie_medidor(),true)){
+                    this.FcnArchivos.MakeDirectory(this.FcnLectura.getSerie_medidor(),true);
+                }
+                File imagesFolder = new File(FormInicioSession.path_files_app, this.FcnLectura.getSerie_medidor());
+                File image = new File(imagesFolder, this.FcnLectura.getSerie_medidor() +"_"+this.FcnArchivos.numArchivosInFolder(this.FcnLectura.getSerie_medidor(), true)+".jpeg");
+                Uri uriSavedImage = Uri.fromFile(image);
+                this.IniciarCamara.putExtra(MediaStore.EXTRA_OUTPUT, uriSavedImage);
+                startActivityForResult(IniciarCamara, INICIAR_CAMARA);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -233,6 +262,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         }
         return _retorno;
     }
+
 
     private boolean ValidacionDatosCompletos(){
         boolean _retorno1 = false;
@@ -278,6 +308,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         return _retorno1 & _retorno2 & _retorno3;
     }
 
+
     private void validarCritica(int indice, String lectura){
 
         if(indice == 1){
@@ -297,6 +328,14 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
             this.critica3 = (consumo3/this.FcnLectura.getPromedio3())*this.FcnLectura.getFactor_multiplicacion();
             this.b_critica3= this.FcnLectura.getCritica(this.critica3);
         }
+
+    }
+
+
+    public void deleteCamposLecturasGUI(){
+        this._txtLectura1.setText("");
+        this._txtLectura2.setText("");
+        this._txtLectura3.setText("");
 
     }
 
@@ -368,18 +407,13 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         }
     }
 
-    public void deleteCamposLecturasGUI(){
-        this._txtLectura1.setText("");
-        this._txtLectura2.setText("");
-        this._txtLectura3.setText("");
-
-    }
 
     public boolean compararDatosLocales(){
         return  this._txtLectura1.getText().toString().equals(this.lectura1+"") &
                 this._txtLectura2.getText().toString().equals(this.lectura1+"") &
                 this._txtLectura3.getText().toString().equals(this.lectura1+"");
     }
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -396,6 +430,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                 break;
         }
     }
+
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
@@ -416,6 +451,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                     if(this.FcnLectura.getNextDatosUsuario()) {
                         this.MostrarInformacionBasica();
                         this._cmbAnomalia.setSelection(0);
+                        this._btnGuardar.setEnabled(true);
                     }
                 }
 
@@ -423,6 +459,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                     if(this.FcnLectura.getBackDatosUsuario()) {
                         this.MostrarInformacionBasica();
                         this._cmbAnomalia.setSelection(0);
+                        this._btnGuardar.setEnabled(true);
                     }
                 }
 

@@ -163,8 +163,8 @@ public class SQLite {
         this.Directorio = CurrentDirectory;
         SQLite.N_BD = this.Directorio + File.separator + FormInicioSession.name_database;
         ArchSQL = new Archivos(this.nContexto, this.Directorio, 10);
-        if(!ArchSQL.ExistFolderOrFile(this.Directorio)){
-            ArchSQL.MakeDirectory();
+        if(!ArchSQL.ExistFolderOrFile(this.Directorio,false)){
+            ArchSQL.MakeDirectory(this.Directorio,false);
         }
     }
 
