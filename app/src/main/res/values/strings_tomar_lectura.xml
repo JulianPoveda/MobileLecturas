@@ -2,7 +2,7 @@
 <resources>
         <string name="TxtMensaje">Mensaje</string>
         <string name="TxtAnomalia">Anomalia</string>
-        <string name="TxtTipoUso">Uso</string>
+        <string name="TxtTipoUso">Tipo Uso</string>
         <string name="TxtLectura1">Lectura_1</string>
         <string name="TxtLectura2">Lectura_2</string>
         <string name="TxtLectura3">Lectura_3</string>

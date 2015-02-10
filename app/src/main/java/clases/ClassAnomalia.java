@@ -43,7 +43,7 @@ public class ClassAnomalia {
                                                         "aplica_no_residencial='t'");
         }
 
-        this.listadoAnomalias.add("...");
+       // this.listadoAnomalias.add("...");
         for(int i=0;i<this._tempTabla.size();i++){
             this._tempRegistro = this._tempTabla.get(i);
             listadoAnomalias.add(this._tempRegistro.getAsString("id_anomalia")+"-"+this._tempRegistro.getAsString("descripcion"));
