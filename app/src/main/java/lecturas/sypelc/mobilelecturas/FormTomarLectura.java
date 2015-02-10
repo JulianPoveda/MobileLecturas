@@ -118,6 +118,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         this.AdaptadorAnomalias = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,this.ArrayAnomalias);
         this._cmbAnomalia.setAdapter(this.AdaptadorAnomalias);
 
+
         /*this.ArrayUso       = this.FcnParametros.listaUsos();
         this.AdaptadorUso   = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,this.ArrayUso);
         this._cmbTipoUso.setAdapter(this.AdaptadorUso);*/
