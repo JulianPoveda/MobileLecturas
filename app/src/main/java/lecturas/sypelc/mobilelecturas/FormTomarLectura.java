@@ -33,6 +33,7 @@ import sistema.Archivos;
 public class FormTomarLectura extends ActionBarActivity implements OnTouchListener, OnClickListener, OnItemSelectedListener{
     static int 				    INICIAR_CAMARA			= 1;
     private Intent 			    IniciarCamara;
+    private Intent              new_form;
 
     private ClassTomarLectura   FcnLectura;
     private ClassAnomalia       FcnAnomalia;
@@ -75,9 +76,6 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         this.b_critica1     = false;
         this.b_critica2     = false;
         this.b_critica3     = false;
-        //this.lecturaEnviar1 = 0;
-        //this.lecturaEnviar2 = 0;
-        //this.lecturaEnviar3 = 0;
 
         this._lblCuenta     = (TextView) findViewById(R.id.LecturaTxtCuenta);
         this._lblNombre     = (TextView) findViewById(R.id.LecturaTxtNombre);
@@ -217,6 +215,8 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.LecturaMenuBuscar:
+                this.new_form = new Intent(this, FormBuscar.class);
+                startActivity(this.new_form);
                 break;
 
             case R.id.LecturaMenuFoto:

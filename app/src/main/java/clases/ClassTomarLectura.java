@@ -3,6 +3,8 @@ package clases;
 import android.content.ContentValues;
 import android.content.Context;
 
+import java.util.ArrayList;
+
 import lecturas.sypelc.mobilelecturas.FormInicioSession;
 import sistema.SQLite;
 
@@ -10,34 +12,37 @@ import sistema.SQLite;
  * Created by JULIANEDUARDO on 05/02/2015.
  */
 public class ClassTomarLectura {
-    private Context         context;
-    private ContentValues   _tempRegistro;
+    private Context                     context;
+    private ContentValues               _tempRegistro;
+    private ArrayList<ContentValues>    _tempTabla  = new ArrayList<ContentValues>();
+    private ArrayList<String>           _tempString = new ArrayList<String>();
+
 
     private SQLite          FcnSQL;
 
-    private String  ruta;
-    private int     id_consecutivo;
-    private int     lectura;
-    private int     cuenta;
-    private String  marca_medidor;
-    private String  serie_medidor;
-    private String  nombre;
-    private String  direccion;
-    private String  tipo_uso;
-    private int     factor_multiplicacion;
-    private int     id_serial1;
-    private int     id_serial2;
-    private int     id_serial3;
-    private int     lectura_anterior1;
-    private int     lectura_anterior2;
-    private int     lectura_anterior3;
-    private String  tipo_energia1;
-    private String  tipo_energia2;
-    private String  tipo_energia3;
-    private double     promedio1;
-    private double     promedio2;
-    private double     promedio3;
-    private String  estado;
+    private String      ruta;
+    private int         id_consecutivo;
+    private int         lectura;
+    private int         cuenta;
+    private String      marca_medidor;
+    private String      serie_medidor;
+    private String      nombre;
+    private String      direccion;
+    private String      tipo_uso;
+    private int         factor_multiplicacion;
+    private int         id_serial1;
+    private int         id_serial2;
+    private int         id_serial3;
+    private int         lectura_anterior1;
+    private int         lectura_anterior2;
+    private int         lectura_anterior3;
+    private String      tipo_energia1;
+    private String      tipo_energia2;
+    private String      tipo_energia3;
+    private double      promedio1;
+    private double      promedio2;
+    private double      promedio3;
+    private String      estado;
 
 
     public ClassTomarLectura(Context _ctx, String _ruta){
@@ -66,7 +71,6 @@ public class ClassTomarLectura {
         return _retorno;
     }
 
-
     public boolean getBackDatosUsuario(){
         boolean _retorno  = false;
         if(this.id_consecutivo == -1){
@@ -84,6 +88,19 @@ public class ClassTomarLectura {
             this.getDatosConsulta();
         }
         return _retorno;
+    }
+
+    public ArrayList<String> ListaClientes(String _ruta, boolean _filtro){
+        this._tempString.clear();
+        if(_filtro){
+            this._tempTabla = this.FcnSQL.SelectData("maestro_clientes","cuenta","ruta='"+_ruta+"'");
+        }else{
+            this._tempTabla = this.FcnSQL.SelectData("maestro_clientes","cuenta","id_serial IS NOT NULL");
+        }
+        for(int i=0;i<this._tempTabla.size();i++){
+            this._tempString.add(this._tempTabla.get(i).getAsString("cuenta"));
+        }
+        return this._tempString;
     }
 
     public boolean getCritica(double critica){
@@ -160,8 +177,6 @@ public class ClassTomarLectura {
         }
         return this._tempRegistro;
     }
-
-
 
     public String getRuta() {
         return ruta;
@@ -318,7 +333,6 @@ public class ClassTomarLectura {
     public double getPromedio3() {return promedio3;}
 
     public void setPromedio3(double promedio3) {this.promedio3 = promedio3;}
-
 
     public String getEstado() {
         return estado;
