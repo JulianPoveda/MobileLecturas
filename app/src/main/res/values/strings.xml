@@ -14,5 +14,9 @@
     <string name="Item2">Item2</string>
     <string name="Item3">Item3</string>
     <string name="Item4">Item4</string>
+    <string name="title_activity_dialogo_confirmacion">Confirmacion</string>
+    <string name="di_Lbl_Mensaje">Mensaje</string>
+    <string name="di_Btn_Aceptar">Aceptar</string>
+    <string name="title_activity_dialogo_informacion">DialogoInformacion</string>
 
 </resources>

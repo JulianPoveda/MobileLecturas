@@ -44,6 +44,10 @@
             android:name=".FormBuscar"
             android:label="@string/title_activity_form_buscar" >
         </activity>
+        <activity
+            android:name=".DialogoInformacion"
+            android:label="@string/title_activity_dialogo_informacion" >
+        </activity>
     </application>
 
 </manifest>

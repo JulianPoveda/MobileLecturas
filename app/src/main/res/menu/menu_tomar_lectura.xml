@@ -3,6 +3,11 @@
         xmlns:tools="http://schemas.android.com/tools"
         tools:context="lecturas.sypelc.mobilelecturas.FormTomarLectura">
 
+    <item   android:id="@+id/LecturaMenuReImprimir"
+        android:title="Reimprimir"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom|withText" />
+
     <item   android:id="@+id/LecturaMenuFoto"
         android:title="Foto"
         android:orderInCategory="100"

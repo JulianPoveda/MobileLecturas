@@ -32,6 +32,7 @@ import sistema.Archivos;
 
 public class FormTomarLectura extends ActionBarActivity implements OnTouchListener, OnClickListener, OnItemSelectedListener{
     static int 				    INICIAR_CAMARA			= 1;
+    static int                  DIALOGO_INFORMACION     = 2;
     private Intent 			    IniciarCamara;
     private Intent              new_form;
 
@@ -44,7 +45,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     private TextView    _lblAnomalia, _lblLectura1, _lblLectura2, _lblLectura3, _lblMensaje;
     private EditText    _txtLectura1, _txtLectura2, _txtLectura3, _txtMensaje;
     private Spinner     _cmbTipoUso, _cmbAnomalia;
-    private Button      _btnGuardar, _btnImprimir;
+    private Button      _btnGuardar;
 
     private String      _ruta;
     private float       init_x;
@@ -96,7 +97,6 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         this._cmbTipoUso    = (Spinner) findViewById(R.id.LecturaSpnTipoUso);
 
         this._btnGuardar    = (Button) findViewById(R.id.LecturasBtnGuardar);
-        this._btnImprimir   = (Button) findViewById(R.id.LecturasBtnImprimir);
 
         this._viewFlipper = (ViewFlipper) findViewById(R.id.InicioViewFlipper);
         this._viewFlipper.setOnTouchListener(this);
@@ -125,7 +125,6 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         this._cmbAnomalia.setOnItemSelectedListener(this);
 
         this._btnGuardar.setOnClickListener(this);
-        this._btnImprimir.setOnClickListener(this);
     }
 
 
@@ -242,6 +241,10 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         if(this.DetalleAnomalia.getAsString("foto").equals("t")){
             if(this.FcnArchivos.numArchivosInFolderBeginByName("Fotos",this.FcnLectura.getCuenta()+"", true)>0){
                 _retorno = true;
+            }else{
+                this.new_form = new Intent(this, DialogoInformacion.class);
+                this.new_form.putExtra("informacion","No se econtraron fotos registradas a esta cuenta.");
+                startActivityForResult(this.new_form,DIALOGO_INFORMACION);
             }
         }else{
             _retorno = true;
@@ -337,7 +340,8 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         switch(v.getId()){
             case R.id.LecturasBtnGuardar:
                 if(this.ValidacionDatosCompletos()){
-                    if (this.ValidacionFoto() && this.ValidacionMensaje()){
+
+                    if ( this.ValidacionFoto() && this.ValidacionMensaje()){
                         this.FcnLectura.guardarLectura(this.FcnLectura.getId_serial1(),
                                                        this.FcnLectura.getId_serial2(),
                                                        this.FcnLectura.getId_serial3(),
@@ -388,9 +392,6 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                 }else{
                     Toast.makeText(this, "Datos Incompletos.", Toast.LENGTH_LONG).show();
                 }
-                break;
-
-            case R.id.LecturasBtnImprimir:
                 break;
 
             default:
