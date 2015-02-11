@@ -20,13 +20,14 @@ public class ClassAnomalia {
     private SQLite FcnSQL;
 
     private String anomalia[];
-    private ArrayList<String> listadoAnomalias;
+    private ArrayList<String> listadoAnomalias, listadoTiposUso;
     private ArrayList<String> listarDatos;
 
     public ClassAnomalia(Context _ctx){
         this.context     = _ctx;
         this.FcnSQL      = new SQLite(this.context, FormInicioSession.path_files_app);
         this.listadoAnomalias = new ArrayList<String>();
+        this.listadoTiposUso  = new ArrayList<String>();
         this._tempTabla       = new ArrayList<ContentValues>();
         this._tempRegistro    = new ContentValues();
     }
@@ -43,13 +44,26 @@ public class ClassAnomalia {
                                                         "aplica_no_residencial='t'");
         }
 
-       // this.listadoAnomalias.add("...");
         for(int i=0;i<this._tempTabla.size();i++){
             this._tempRegistro = this._tempTabla.get(i);
             listadoAnomalias.add(this._tempRegistro.getAsString("id_anomalia")+"-"+this._tempRegistro.getAsString("descripcion"));
         }
 
         return listadoAnomalias;
+    }
+
+    public ArrayList<String> listarTiposUso(){
+        this._tempRegistro.clear();
+        this._tempTabla.clear();
+
+        this._tempTabla = this.FcnSQL.SelectData("param_tipos_uso","id_uso, descripcion","id_uso is not null");
+
+        for(int i=0;i<this._tempTabla.size();i++){
+            this._tempRegistro = this._tempTabla.get(i);
+            listadoTiposUso.add(this._tempRegistro.getAsString("id_uso")+"-"+this._tempRegistro.getAsString("descripcion"));
+        }
+
+        return listadoTiposUso;
     }
 
     public ContentValues validarDatosAnomalia(String _anomalia){

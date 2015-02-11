@@ -84,6 +84,9 @@ public class SQLite {
             db.execSQL("CREATE TABLE    param_municipios(id_municipio           INTEGER NOT NULL PRIMARY KEY," +
                                                         "municipio              VARCHAR(255) NOT NULL)");
 
+            db.execSQL("CREATE TABLE    param_tipos_uso(id_uso                  INTEGER NOT NULL PRIMARY KEY," +
+                                                        "descripcion             VARCHAR(255) NOT NULL)");
+
             db.execSQL("CREATE TABLE    maestro_rutas   (id_inspector           INTEGER NOT NULL," +
                                                         "ruta                   VARCHAR(255) NOT NULL," +
                                                         "fecha_cargue           TIMESTAMP NOT NULL DEFAULT current_timestamp," +
@@ -130,6 +133,7 @@ public class SQLite {
                                                         "critica1               NUMERIC(15,7) NOT NULL," +
                                                         "critica2               NUMERIC(15,7) NOT NULL," +
                                                         "critica3               NUMERIC(15,7) NOT NULL," +
+                                                        "tipo_uso               VARCHAR(255)," +
                                                         "fecha_toma             TIMESTAMP NOT NULL DEFAULT current_timestamp)");
 
             db.execSQL(	"CREATE TRIGGER tg_fecha_cargue AFTER INSERT ON maestro_rutas FOR EACH ROW BEGIN " +

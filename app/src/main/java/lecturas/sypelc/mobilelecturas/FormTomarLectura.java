@@ -117,9 +117,9 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         this._cmbAnomalia.setAdapter(this.AdaptadorAnomalias);
 
 
-        /*this.ArrayUso       = this.FcnParametros.listaUsos();
+        this.ArrayUso       = this.FcnAnomalia.listarTiposUso();
         this.AdaptadorUso   = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,this.ArrayUso);
-        this._cmbTipoUso.setAdapter(this.AdaptadorUso);*/
+        this._cmbTipoUso.setAdapter(this.AdaptadorUso);
 
         this._cmbTipoUso.setOnItemSelectedListener(this);
         this._cmbAnomalia.setOnItemSelectedListener(this);
@@ -352,7 +352,8 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                                                        this.lecturaEnviar3,
                                                        this.critica1,
                                                        this.critica2,
-                                                       this.critica3);
+                                                       this.critica3,
+                                                       this._cmbTipoUso.getSelectedItem().toString());
 
                         if(this.critica_general && this.intentos == 1){
                             this.intentos ++;
