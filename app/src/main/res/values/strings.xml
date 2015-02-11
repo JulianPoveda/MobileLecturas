@@ -10,5 +10,9 @@
     <string name="title_activity_lista_informacion_rutas">AdaptadorInformacionRutas</string>
     <string name="title_activity_configuracion">Configuracion</string>
     <string name="title_activity_form_buscar">Buscar</string>
+    <string name="Item1">Item1</string>
+    <string name="Item2">Item2</string>
+    <string name="Item3">Item3</string>
+    <string name="Item4">Item4</string>
 
 </resources>

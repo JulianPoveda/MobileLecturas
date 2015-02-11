@@ -14,7 +14,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import java.util.ArrayList;
 
-import Adapter.RutasAdpater;
+import Adapter.RutasAdapter;
 import Adapter.RutasData;
 import sistema.SQLite;
 
@@ -33,7 +33,7 @@ public class FormInformacionRutas extends Activity implements OnItemClickListene
     private ListView    listadoRutas;
     private SQLite      sqlConsulta;
 
-    private RutasAdpater listadoRutasAdapter;
+    private RutasAdapter listadoRutasAdapter;
     private ArrayList<RutasData> arrayListadoRutas = new ArrayList<>();
 
     private ArrayList<ContentValues> _tempTabla = new ArrayList<ContentValues>();
@@ -49,7 +49,7 @@ public class FormInformacionRutas extends Activity implements OnItemClickListene
         this.FolderAplicacion= bundle.getString("FolderAplicacion");
 
         sqlConsulta = new SQLite(this, this.FolderAplicacion);
-        listadoRutasAdapter = new RutasAdpater(FormInformacionRutas.this, arrayListadoRutas);
+        listadoRutasAdapter = new RutasAdapter(FormInformacionRutas.this, arrayListadoRutas);
 
         listadoRutas = (ListView)findViewById(R.id.InfoListRutas);
         listadoRutas.setAdapter(listadoRutasAdapter);

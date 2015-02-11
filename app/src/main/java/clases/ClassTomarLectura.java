@@ -15,8 +15,6 @@ public class ClassTomarLectura {
     private Context                     context;
     private ContentValues               _tempRegistro;
     private ArrayList<ContentValues>    _tempTabla  = new ArrayList<ContentValues>();
-    private ArrayList<String>           _tempString = new ArrayList<String>();
-
 
     private SQLite          FcnSQL;
 
@@ -90,17 +88,17 @@ public class ClassTomarLectura {
         return _retorno;
     }
 
-    public ArrayList<String> ListaClientes(String _ruta, boolean _filtro){
-        this._tempString.clear();
+    public ArrayList<ContentValues> ListaClientes(String _ruta, boolean _filtro){
         if(_filtro){
-            this._tempTabla = this.FcnSQL.SelectData("maestro_clientes","cuenta","ruta='"+_ruta+"'");
+            this._tempTabla = this.FcnSQL.SelectData(   "maestro_clientes",
+                                                        "cuenta,serie_medidor,nombre,direccion",
+                                                        "ruta='"+_ruta+"'");
         }else{
-            this._tempTabla = this.FcnSQL.SelectData("maestro_clientes","cuenta","id_serial IS NOT NULL");
+            this._tempTabla = this.FcnSQL.SelectData(   "maestro_clientes",
+                                                        "cuenta,serie_medidor,nombre,direccion",
+                                                        "id_serial IS NOT NULL");
         }
-        for(int i=0;i<this._tempTabla.size();i++){
-            this._tempString.add(this._tempTabla.get(i).getAsString("cuenta"));
-        }
-        return this._tempString;
+        return this._tempTabla;
     }
 
     public boolean getCritica(double critica){

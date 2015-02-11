@@ -12,12 +12,12 @@ import android.widget.TextView;
 /**
  * Created by SypelcDesarrollo on 04/02/2015.
  */
-public class RutasAdpater extends BaseAdapter {
+public class RutasAdapter extends BaseAdapter {
 
     protected ArrayList<RutasData> listadoRutas;
     protected Activity activity;
 
-    public RutasAdpater(Activity activity, ArrayList<RutasData> _listadoRutas){
+    public RutasAdapter(Activity activity, ArrayList<RutasData> _listadoRutas){
             this.activity = activity;
             this.listadoRutas = _listadoRutas;
     }
