@@ -1,5 +1,6 @@
 package Adapter;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,12 @@ public class AdaptadorFourItems extends BaseAdapter{
         return items.get(position).getId();
     }
 
+
+
+    public DetalleFourItems getDataOnFilter(int _position){
+        return this.items.get(_position);
+    }
+
     public void Filtrar(int _campo, String _txtFiltro){
         this.items.clear();
         if(_txtFiltro.length() == 0 ){
@@ -78,6 +85,7 @@ public class AdaptadorFourItems extends BaseAdapter{
                 }
             }
         }
+        //notifyDataSetChanged();
         notifyDataSetChanged();
     }
 

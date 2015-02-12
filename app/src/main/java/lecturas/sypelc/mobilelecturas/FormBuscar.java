@@ -94,11 +94,15 @@ public class FormBuscar extends ActionBarActivity implements TextWatcher, OnItem
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+
+        this._cuenta    = AdaptadorUsuarios.getDataOnFilter(info.position).getItem1();
+        this._medidor   = AdaptadorUsuarios.getDataOnFilter(info.position).getItem2();
+
         //this.clienteSeleccionado = ArrayUsuarios.get(info.position).getItem1();
-        this._cuenta    = ArrayUsuarios.get(info.position).getItem1();
+        /*this._cuenta    = ArrayUsuarios.get(info.position).getItem1();
         this._medidor   = ArrayUsuarios.get(info.position).getItem2();
         this._nombre    = ArrayUsuarios.get(info.position).getItem3();
-        this._direccion = ArrayUsuarios.get(info.position).getItem4();
+        this._direccion = ArrayUsuarios.get(info.position).getItem4();*/
 
         switch(v.getId()){
             case R.id.BuscarLstClientes:
