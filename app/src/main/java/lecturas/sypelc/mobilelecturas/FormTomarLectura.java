@@ -4,8 +4,8 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -27,14 +27,17 @@ import java.util.ArrayList;
 
 import clases.ClassAnomalia;
 import clases.ClassTomarLectura;
+import dialogos.DialogoInformativo;
 import sistema.Archivos;
 
 
 public class FormTomarLectura extends ActionBarActivity implements OnTouchListener, OnClickListener, OnItemSelectedListener{
     static int 				    INICIAR_CAMARA			= 1;
-    static int                  DIALOGO_INFORMACION     = 2;
     private Intent 			    IniciarCamara;
     private Intent              new_form;
+    private DialogoInformativo  dialogo;
+    private Bundle              argumentos;
+
 
     private ClassTomarLectura   FcnLectura;
     private ClassAnomalia       FcnAnomalia;
@@ -68,6 +71,9 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         setContentView(R.layout.activity_tomar_lectura);
         Bundle bundle       = getIntent().getExtras();
         this._ruta          = bundle.getString("Ruta");
+
+        this.argumentos     = new Bundle();
+        this.dialogo        = new DialogoInformativo();
 
         this.IniciarCamara	= new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         this.FcnLectura     = new ClassTomarLectura(this,this._ruta);
@@ -128,12 +134,36 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     }
 
 
-    private void MostrarInformacionBasica(){
-        this._lblCuenta.setText(this.FcnLectura.getCuenta()+"");
-        this._lblNombre.setText(this.FcnLectura.getNombre());
-        this._lblDireccion.setText(this.FcnLectura.getDireccion());
-        this._lblRuta.setText(this.FcnLectura.getRuta());
-        this._lblMedidor.setText(this.FcnLectura.getMarca_medidor()+" "+this.FcnLectura.getSerie_medidor());
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_tomar_lectura, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.LecturaMenuBuscar:
+                this.new_form = new Intent(this, FormBuscar.class);
+                startActivity(this.new_form);
+                break;
+
+            case R.id.LecturaMenuFoto:
+                if(!this.FcnArchivos.ExistFolderOrFile(FormInicioSession.sub_path_pictures,true)){
+                    this.FcnArchivos.MakeDirectory(FormInicioSession.sub_path_pictures,true);
+                }
+                File imagesFolder   = new File(FormInicioSession.path_files_app, FormInicioSession.sub_path_pictures);
+                File image          = new File( imagesFolder,
+                                                this.FcnLectura.getCuenta()+"_"+this.FcnArchivos.numArchivosInFolderBeginByName(FormInicioSession.sub_path_pictures+"",
+                                                                                                                                this.FcnLectura.getCuenta()+"",
+                                                                                                                                true)+".jpeg");
+                Uri uriSavedImage = Uri.fromFile(image);
+                this.IniciarCamara.putExtra(MediaStore.EXTRA_OUTPUT, uriSavedImage);
+                startActivityForResult(IniciarCamara, INICIAR_CAMARA);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -203,48 +233,17 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_tomar_lectura, menu);
-        return true;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
-            case R.id.LecturaMenuBuscar:
-                this.new_form = new Intent(this, FormBuscar.class);
-                startActivity(this.new_form);
-                break;
-
-            case R.id.LecturaMenuFoto:
-                if(!this.FcnArchivos.ExistFolderOrFile(FormInicioSession.sub_path_pictures,true)){
-                    this.FcnArchivos.MakeDirectory(FormInicioSession.sub_path_pictures,true);
-                }
-                File imagesFolder   = new File(FormInicioSession.path_files_app, FormInicioSession.sub_path_pictures);
-                File image          = new File( imagesFolder,
-                                                this.FcnLectura.getCuenta()+"_"+this.FcnArchivos.numArchivosInFolderBeginByName(FormInicioSession.sub_path_pictures+"",
-                                                                                                                                this.FcnLectura.getCuenta()+"",
-                                                                                                                                true)+".jpeg");
-                Uri uriSavedImage = Uri.fromFile(image);
-                this.IniciarCamara.putExtra(MediaStore.EXTRA_OUTPUT, uriSavedImage);
-                startActivityForResult(IniciarCamara, INICIAR_CAMARA);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
     private boolean ValidacionFoto(){
         boolean _retorno= false;
         if(this.DetalleAnomalia.getAsString("foto").equals("t")){
             if(this.FcnArchivos.numArchivosInFolderBeginByName("Fotos",this.FcnLectura.getCuenta()+"", true)>0){
                 _retorno = true;
             }else{
-                this.new_form = new Intent(this, DialogoInformacion.class);
-                this.new_form.putExtra("informacion","No se econtraron fotos registradas a esta cuenta.");
-                startActivityForResult(this.new_form,DIALOGO_INFORMACION);
+                argumentos.clear();
+                argumentos.putString("Titulo","ERROR.");
+                argumentos.putString("Mensaje","No se encontraron fotos asociadas a la cuenta.");
+                this.dialogo.setArguments(argumentos);
+                this.dialogo.show(getFragmentManager(), "SaveDialog");
             }
         }else{
             _retorno = true;
@@ -258,6 +257,12 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         if(this.DetalleAnomalia.getAsString("mensaje").equals("S")){
             if(!this._txtMensaje.getText().toString().isEmpty()){
                 _retorno = true;
+            }else{
+                argumentos.clear();
+                argumentos.putString("Titulo","ERROR.");
+                argumentos.putString("Mensaje","Es necesario que ingrese un mensaje.");
+                this.dialogo.setArguments(argumentos);
+                this.dialogo.show(getFragmentManager(), "SaveDialog");
             }
         }else{
             _retorno = true;
@@ -273,8 +278,13 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         if((this.FcnLectura.getId_serial1() != -1)){
             if(this._txtLectura1.getText().toString().isEmpty()) {
                 _retorno1 = false;
+                argumentos.clear();
+                argumentos.putString("Titulo","ERROR.");
+                argumentos.putString("Mensaje","Falta ingresar la lectura 1.");
+                this.dialogo.setArguments(argumentos);
+                this.dialogo.show(getFragmentManager(), "SaveDialog");
             }else {
-                validarCritica(1, _txtLectura1.getText().toString());
+                this.validarCritica(1, _txtLectura1.getText().toString());
                 this.lecturaEnviar1 = Integer.parseInt(this._txtLectura1.getText().toString());
                 _retorno1 = true;
             }
@@ -286,8 +296,13 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         if((this.FcnLectura.getId_serial2() != -1)){
             if(this._txtLectura2.getText().toString().isEmpty()) {
                 _retorno2 = false;
+                argumentos.clear();
+                argumentos.putString("Titulo","ERROR.");
+                argumentos.putString("Mensaje","Falta ingresar la lectura 2.");
+                this.dialogo.setArguments(argumentos);
+                this.dialogo.show(getFragmentManager(), "SaveDialog");
             }else {
-                validarCritica(2, _txtLectura2.getText().toString());
+                this.validarCritica(2, _txtLectura2.getText().toString());
                 this.lecturaEnviar2 = Integer.parseInt(this._txtLectura2.getText().toString());
                 _retorno2 = true;
             }
@@ -299,8 +314,13 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         if((this.FcnLectura.getId_serial3() != -1)){
             if(this._txtLectura3.getText().toString().isEmpty()) {
                 _retorno3 = false;
+                argumentos.clear();
+                argumentos.putString("Titulo","ERROR.");
+                argumentos.putString("Mensaje","Falta ingresar la lectura 3.");
+                this.dialogo.setArguments(argumentos);
+                this.dialogo.show(getFragmentManager(), "SaveDialog");
             }else {
-                validarCritica(3, _txtLectura3.getText().toString());
+                this.validarCritica(3, _txtLectura3.getText().toString());
                 this.lecturaEnviar3 = Integer.parseInt(this._txtLectura3.getText().toString());
                 _retorno3 = true;
             }
@@ -335,12 +355,41 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     }
 
 
+    private boolean compararDatosLocales(){
+        return  this._txtLectura1.getText().toString().equals(this.lectura1+"") &
+                this._txtLectura2.getText().toString().equals(this.lectura2+"") &
+                this._txtLectura3.getText().toString().equals(this.lectura3+"");
+    }
+
+
+    private void MostrarInformacionBasica(){
+        this._lblCuenta.setText(this.FcnLectura.getCuenta()+"");
+        this._lblNombre.setText(this.FcnLectura.getNombre());
+        this._lblDireccion.setText(this.FcnLectura.getDireccion());
+        this._lblRuta.setText(this.FcnLectura.getRuta());
+        this._lblMedidor.setText(this.FcnLectura.getMarca_medidor()+" "+this.FcnLectura.getSerie_medidor());
+    }
+
+
+    private void publishDatosUsuario(){
+        this.MostrarInformacionBasica();
+        this._cmbAnomalia.setSelection(0);
+        this.intentos   = this.FcnLectura.getIntentos();
+        this._txtMensaje.setText("");//El mensaje solo se borra en el ultimo intento.
+        this._btnGuardar.setEnabled(this.FcnLectura.getEstado().equals("P"));
+        this._tempRegistro  = this.FcnLectura.getLecturasIntento();
+        this.lectura1       = this._tempRegistro.getAsInteger("lectura1");
+        this.lectura2       = this._tempRegistro.getAsInteger("lectura2");
+        this.lectura3       = this._tempRegistro.getAsInteger("lectura3");
+    }
+
+
+
     @Override
     public void onClick(View v) {
         switch(v.getId()){
             case R.id.LecturasBtnGuardar:
                 if(this.ValidacionDatosCompletos()){
-
                     if ( this.ValidacionFoto() && this.ValidacionMensaje()){
                         this.FcnLectura.guardarLectura(this.FcnLectura.getId_serial1(),
                                                        this.FcnLectura.getId_serial2(),
@@ -361,50 +410,45 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                             this.lectura2 = Integer.parseInt(this._txtLectura2.getText().toString());
                             this.lectura3 = Integer.parseInt(this._txtLectura3.getText().toString());
                             MostrarInputLectura(true);
-                            Toast.makeText(this, "Ingresar Datos de Nuevo.", Toast.LENGTH_LONG).show();
-
+                            argumentos.clear();
+                            argumentos.putString("Titulo","ADVERTENCIA.");
+                            argumentos.putString("Mensaje","Se ha generado critica. Favor ingresar datos de nuevo.");
+                            this.dialogo.setArguments(argumentos);
+                            this.dialogo.show(getFragmentManager(), "SaveDialog");
                         }else if(this.critica_general && this.intentos == 2){
                             this.intentos++;
-                            if(compararDatosLocales()){
+                            if(this.compararDatosLocales()){
                                 this._btnGuardar.setEnabled(false);
-                                this.intentos = 0;
-                                //deleteCamposLecturasGUI();
                                 MostrarInputLectura(true);
-                                this._txtMensaje.setText("");
                                 Toast.makeText(this, "Lectura Registrada.", Toast.LENGTH_LONG).show();
                                 this.FcnLectura.cambiarEstadoLectura(this.FcnLectura.getId_consecutivo());
-                                //Si se deshabilita el boton es por que ya se termino con ese usuario, entonces se borran los datos, se borra el msj, se muestra un mensaje y se debe cambiar elestado a  T
+                                if(this.FcnLectura.getNextDatosUsuario()) {
+                                    this.publishDatosUsuario();
+                                }
                             }else{
                                 MostrarInputLectura(true);
-                                Toast.makeText(this, "Ingresar Datos de Nuevo.", Toast.LENGTH_LONG).show();
+                                argumentos.clear();
+                                argumentos.putString("Titulo","ADVERTENCIA.");
+                                argumentos.putString("Mensaje","Se ha generado critica. Favor ingresar datos de nuevo.");
+                                this.dialogo.setArguments(argumentos);
+                                this.dialogo.show(getFragmentManager(), "SaveDialog");
                             }
                         }else{
                             this._btnGuardar.setEnabled(false);
-                            this.intentos = 0;
                             MostrarInputLectura(true);
-                            this._txtMensaje.setText("");//El mensaje solo se borra en el ultimo intento.
                             Toast.makeText(this, "Lectura Registrada.", Toast.LENGTH_LONG).show();
                             this.FcnLectura.cambiarEstadoLectura(this.FcnLectura.getId_consecutivo());
-                            //Si se deshabilita el boton es por que ya se termino con ese usuario, entonces se borran los datos, se borra el msj, se muestra un mensaje y se debe cambiar elestado a  T
+                            if(this.FcnLectura.getNextDatosUsuario()) {
+                                this.publishDatosUsuario();
+                            }
                         }
-                    } else {
-                        Toast.makeText(this, "Datos Incompletos.", Toast.LENGTH_LONG).show();
                     }
-                }else{
-                    Toast.makeText(this, "Datos Incompletos.", Toast.LENGTH_LONG).show();
                 }
                 break;
 
             default:
                 break;
         }
-    }
-
-
-    public boolean compararDatosLocales(){
-        return  this._txtLectura1.getText().toString().equals(this.lectura1+"") &
-                this._txtLectura2.getText().toString().equals(this.lectura2+"") &
-                this._txtLectura3.getText().toString().equals(this.lectura3+"");
     }
 
 
@@ -442,27 +486,21 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
 
                 if(distance>0){
                     if(this.FcnLectura.getNextDatosUsuario()) {
-                        this.MostrarInformacionBasica();
-                        this._cmbAnomalia.setSelection(0);
-                        this.intentos   = this.FcnLectura.getIntentos();
-                        this._btnGuardar.setEnabled(this.FcnLectura.getEstado().equals("P"));
-                        this._tempRegistro  = this.FcnLectura.getLecturasIntento();
-                        this.lectura1       = this._tempRegistro.getAsInteger("lectura1");
-                        this.lectura2       = this._tempRegistro.getAsInteger("lectura2");
-                        this.lectura3       = this._tempRegistro.getAsInteger("lectura3");
+                        this.publishDatosUsuario();
                     }
                 }
 
                 if(distance<0){
                     if(this.FcnLectura.getBackDatosUsuario()) {
-                        this.MostrarInformacionBasica();
+                        this.publishDatosUsuario();
+                        /*this.MostrarInformacionBasica();
                         this._cmbAnomalia.setSelection(0);
                         this.intentos       = this.FcnLectura.getIntentos();
                         this._btnGuardar.setEnabled(this.FcnLectura.getEstado().equals("P"));
                         this._tempRegistro  = this.FcnLectura.getLecturasIntento();
                         this.lectura1       = this._tempRegistro.getAsInteger("lectura1");
                         this.lectura2       = this._tempRegistro.getAsInteger("lectura2");
-                        this.lectura3       = this._tempRegistro.getAsInteger("lectura3");
+                        this.lectura3       = this._tempRegistro.getAsInteger("lectura3");*/
                     }
                 }
 
