@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import Adapter.RutasAdapter;
 import Adapter.RutasData;
+import clases.ClassUsuario;
 import sistema.SQLite;
 
 /**
@@ -29,9 +30,10 @@ public class FormInformacionRutas extends Activity implements OnItemClickListene
     private String totalLeidas;
     private String totalRutas;
 
-    private Intent      new_form;
-    private ListView    listadoRutas;
-    private SQLite      sqlConsulta;
+    private Intent          new_form;
+    private ListView        listadoRutas;
+    private SQLite          sqlConsulta;
+    private ClassUsuario    FcnUsuario;
 
     private RutasAdapter listadoRutasAdapter;
     private ArrayList<RutasData> arrayListadoRutas = new ArrayList<>();
@@ -48,6 +50,8 @@ public class FormInformacionRutas extends Activity implements OnItemClickListene
         Bundle bundle = getIntent().getExtras();
         this.FolderAplicacion= bundle.getString("FolderAplicacion");
 
+        this.FcnUsuario = ClassUsuario.getInstance(this);
+
         sqlConsulta = new SQLite(this, this.FolderAplicacion);
         listadoRutasAdapter = new RutasAdapter(FormInformacionRutas.this, arrayListadoRutas);
 
@@ -56,7 +60,7 @@ public class FormInformacionRutas extends Activity implements OnItemClickListene
 
         arrayListadoRutas.clear();
 
-        this._tempTabla = sqlConsulta.SelectData("maestro_rutas","ruta","ruta is not null");
+        this._tempTabla = sqlConsulta.SelectData("maestro_rutas","ruta","id_inspector="+this.FcnUsuario.getCodigo());
         for(int i=0;i<this._tempTabla.size();i++){
             this._tempRegistro = this._tempTabla.get(i);
             Integer totalR = sqlConsulta.CountRegistrosWhere("maestro_clientes","ruta='"+this._tempRegistro.getAsString("ruta")+"'");
