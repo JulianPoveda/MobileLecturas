@@ -3,10 +3,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="12"
+    android:weightSum="13"
     tools:context="lecturas.sypelc.mobilelecturas.FormBuscar">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="25"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/TxtBuscarCuenta"
+            android:id="@+id/textView"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#ffff5e2c"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="25"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/TxtBuscarMedidor"
+            android:id="@+id/textView1"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#ffff5e2c"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="25"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/TxtBuscarNombre"
+            android:id="@+id/textView2"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#ffff5e2c"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="25"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/TxtBuscarDireccion"
+            android:id="@+id/textView3"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#ffff5e2c"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"

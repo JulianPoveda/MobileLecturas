@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="TxtBuscarCuenta">Cuenta</string>
+    <string name="TxtBuscarMedidor">Medidor</string>
+    <string name="TxtBuscarNombre">Nombre</string>
+    <string name="TxtBuscarDireccion">Direccion</string>
+</resources>

@@ -2,11 +2,14 @@ package lecturas.sypelc.mobilelecturas;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.AdapterView.OnItemClickListener;
 
 import java.util.ArrayList;
 
@@ -23,7 +27,7 @@ import Adapter.DetalleFourItems;
 import clases.ClassTomarLectura;
 
 
-public class FormBuscar extends ActionBarActivity implements TextWatcher, OnItemSelectedListener {
+public class FormBuscar extends ActionBarActivity implements TextWatcher, OnItemSelectedListener, OnItemClickListener {
     private EditText                    _txtBuscar;
     private Spinner                     _cmbFiltro;
     private ListView                    _lstClientes;
@@ -38,7 +42,11 @@ public class FormBuscar extends ActionBarActivity implements TextWatcher, OnItem
 
     private ClassTomarLectura           FcnLectura;
 
-
+    private String                      clienteSeleccionado;
+    private String                      _cuenta;
+    private String                      _medidor;
+    private String                      _nombre;
+    private String                      _direccion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,10 +83,54 @@ public class FormBuscar extends ActionBarActivity implements TextWatcher, OnItem
         }
         this.AdaptadorUsuarios  = new AdaptadorFourItems(this, ArrayUsuarios);
         this._lstClientes.setAdapter(this.AdaptadorUsuarios);
+        registerForContextMenu(this._lstClientes);
+        _lstClientes.setOnItemClickListener(this);
         this.AdaptadorUsuarios.notifyDataSetChanged();
         this._txtBuscar.addTextChangedListener(this);
 
         this._cmbFiltro.setOnItemSelectedListener(this);
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+        this.clienteSeleccionado = ArrayUsuarios.get(info.position).getItem1();
+        switch(v.getId()){
+            case R.id.BuscarLstClientes:
+                menu.setHeaderTitle("Cuenta" +" "+this.clienteSeleccionado);
+                super.onCreateContextMenu(menu, v, menuInfo);
+                MenuInflater inflater = getMenuInflater();
+                inflater.inflate(R.menu.menu_lista_buscar, menu);
+                break;
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.BuscarMenuIniciar:
+
+                return true;
+
+            case R.id.BuscarMenuSincronizar:
+
+                return true;
+
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position,	long id) {
+        switch(parent.getId()){
+            case R.id.BuscarLstClientes:
+                this._cuenta    = ArrayUsuarios.get(position).getItem1();
+                this._medidor   = ArrayUsuarios.get(position).getItem2();
+                this._nombre    = ArrayUsuarios.get(position).getItem3();
+                this._direccion = ArrayUsuarios.get(position).getItem4();
+                break;
+        }
     }
 
 
