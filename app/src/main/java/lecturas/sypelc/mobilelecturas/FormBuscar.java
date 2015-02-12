@@ -27,7 +27,7 @@ import Adapter.DetalleFourItems;
 import clases.ClassTomarLectura;
 
 
-public class FormBuscar extends ActionBarActivity implements TextWatcher, OnItemSelectedListener, OnItemClickListener {
+public class FormBuscar extends ActionBarActivity implements TextWatcher, OnItemSelectedListener {
     private EditText                    _txtBuscar;
     private Spinner                     _cmbFiltro;
     private ListView                    _lstClientes;
@@ -84,7 +84,7 @@ public class FormBuscar extends ActionBarActivity implements TextWatcher, OnItem
         this.AdaptadorUsuarios  = new AdaptadorFourItems(this, ArrayUsuarios);
         this._lstClientes.setAdapter(this.AdaptadorUsuarios);
         registerForContextMenu(this._lstClientes);
-        _lstClientes.setOnItemClickListener(this);
+        //_lstClientes.setOnItemClickListener(this);
         this.AdaptadorUsuarios.notifyDataSetChanged();
         this._txtBuscar.addTextChangedListener(this);
 
@@ -94,10 +94,15 @@ public class FormBuscar extends ActionBarActivity implements TextWatcher, OnItem
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-        this.clienteSeleccionado = ArrayUsuarios.get(info.position).getItem1();
+        //this.clienteSeleccionado = ArrayUsuarios.get(info.position).getItem1();
+        this._cuenta    = ArrayUsuarios.get(info.position).getItem1();
+        this._medidor   = ArrayUsuarios.get(info.position).getItem2();
+        this._nombre    = ArrayUsuarios.get(info.position).getItem3();
+        this._direccion = ArrayUsuarios.get(info.position).getItem4();
+
         switch(v.getId()){
             case R.id.BuscarLstClientes:
-                menu.setHeaderTitle("Cuenta" +" "+this.clienteSeleccionado);
+                menu.setHeaderTitle("Cuenta" +" "+this._cuenta);
                 super.onCreateContextMenu(menu, v, menuInfo);
                 MenuInflater inflater = getMenuInflater();
                 inflater.inflate(R.menu.menu_lista_buscar, menu);
@@ -109,7 +114,7 @@ public class FormBuscar extends ActionBarActivity implements TextWatcher, OnItem
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.BuscarMenuIniciar:
-
+                finish(true, this._cuenta, this._medidor);
                 return true;
 
             case R.id.BuscarMenuSincronizar:
@@ -121,7 +126,7 @@ public class FormBuscar extends ActionBarActivity implements TextWatcher, OnItem
         }
     }
 
-    @Override
+    /*@Override
     public void onItemClick(AdapterView<?> parent, View view, int position,	long id) {
         switch(parent.getId()){
             case R.id.BuscarLstClientes:
@@ -129,8 +134,18 @@ public class FormBuscar extends ActionBarActivity implements TextWatcher, OnItem
                 this._medidor   = ArrayUsuarios.get(position).getItem2();
                 this._nombre    = ArrayUsuarios.get(position).getItem3();
                 this._direccion = ArrayUsuarios.get(position).getItem4();
+
                 break;
         }
+    }*/
+
+    public void finish(boolean _caso, String cuenta, String medidor) {
+        Intent data = new Intent();
+        data.putExtra("response", _caso);
+        data.putExtra("cuenta", cuenta);
+        data.putExtra("medidor", medidor);
+        setResult(RESULT_OK, data);
+        super.finish();
     }
 
 

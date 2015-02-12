@@ -33,6 +33,7 @@ import sistema.Archivos;
 
 public class FormTomarLectura extends ActionBarActivity implements OnTouchListener, OnClickListener, OnItemSelectedListener{
     static int 				    INICIAR_CAMARA			= 1;
+    static int                  FROM_BUSCAR             = 2;
     private Intent 			    IniciarCamara;
     private Intent              new_form;
     private DialogoInformativo  dialogo;
@@ -146,7 +147,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         switch(item.getItemId()){
             case R.id.LecturaMenuBuscar:
                 this.new_form = new Intent(this, FormBuscar.class);
-                startActivity(this.new_form);
+                startActivityForResult(this.new_form, FROM_BUSCAR);
                 break;
 
             case R.id.LecturaMenuFoto:
@@ -472,6 +473,22 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         // TODO Auto-generated method stub
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try{
+            if(resultCode == RESULT_OK && requestCode == FROM_BUSCAR){
+                if(data.getExtras().getBoolean("response")){
+                    String meidor = data.getExtras().getString("medidor");
+                    String cuenta = data.getExtras().getString("cuenta");
+                    //Toast.makeText(this, data.getExtras().getString("medidor"),Toast.LENGTH_SHORT);
+                    //Toast.makeText(this, data.getExtras().getString("cuenta"),Toast.LENGTH_SHORT);
+                }
+            }
+        }catch(Exception e){
+
+        }
     }
 
 
