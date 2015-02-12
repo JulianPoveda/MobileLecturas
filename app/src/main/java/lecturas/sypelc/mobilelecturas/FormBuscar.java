@@ -84,7 +84,7 @@ public class FormBuscar extends ActionBarActivity implements TextWatcher, OnItem
         this.AdaptadorUsuarios  = new AdaptadorFourItems(this, ArrayUsuarios);
         this._lstClientes.setAdapter(this.AdaptadorUsuarios);
         registerForContextMenu(this._lstClientes);
-        //_lstClientes.setOnItemClickListener(this);
+      //  _lstClientes.setOnItemClickListener(this);
         this.AdaptadorUsuarios.notifyDataSetChanged();
         this._txtBuscar.addTextChangedListener(this);
 
@@ -129,8 +129,8 @@ public class FormBuscar extends ActionBarActivity implements TextWatcher, OnItem
                 return super.onContextItemSelected(item);
         }
     }
-
-    /*@Override
+/*
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,	long id) {
         switch(parent.getId()){
             case R.id.BuscarLstClientes:
