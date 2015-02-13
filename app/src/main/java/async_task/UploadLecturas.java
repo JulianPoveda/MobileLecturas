@@ -139,7 +139,7 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
                 }else if(response.toString().equals("1")){
                     this.Respuesta = "1";
                     _retorno=1;
-                    finalizarLectura();
+                   finalizarLectura();
                 }
             } catch (Exception e) {
                 this.Respuesta = e.toString();
@@ -153,6 +153,7 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
        // _pDialog.dismiss();
     }
 
+        //Se debe cambiar la funcion para enviarle el array recibido y utilizar el trigger de sqlite. no olvidar revisar al 3 envio se cae el webservice
     public void finalizarLectura(){
             for (int i=0;i<this.InformacionCarga.size();i++){
                 String _leidas  = this.InformacionCarga.get(i);

@@ -146,6 +146,11 @@ public class SQLite {
                         "   WHERE id = NEW.id;" +
                         "END;");
 
+            db.execSQL(	"CREATE TRIGGER tg_estado_lectura AFTER DELETE ON toma_lectura FOR EACH ROW BEGIN" +
+                        "   UPDATE maestro_clientes SET estado = 'E' " +
+                        "   WHERE id_serial_1 = OLD.id_serial1;" +
+                        "END;");
+
         }
 
         @Override
