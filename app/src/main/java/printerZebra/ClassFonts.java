@@ -4,6 +4,7 @@ package printerZebra;
  * Created by JULIANEDUARDO on 12/02/2015.
  */
 public class ClassFonts {
+    protected String    description_font;
     protected String    name_font;
     protected int       width_font;
     protected int       height_font;
@@ -11,6 +12,14 @@ public class ClassFonts {
     public ClassFonts(){
         //empty contructor;
     };
+
+    public String getDescription_font() {
+        return description_font;
+    }
+
+    public void setDescription_font(String description_font) {
+        this.description_font = description_font;
+    }
 
     public int getWidth_font() {
         return width_font;

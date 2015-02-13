@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import clases.ClassAnomalia;
 import clases.ClassTomarLectura;
 import dialogos.DialogoInformativo;
+import printerZebra.ClassPrinter;
 import sistema.Archivos;
 
 
@@ -40,6 +41,8 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     private DialogoInformativo  dialogo;
     private Bundle              argumentos;
 
+
+    private ClassPrinter        FcnPrinter;
 
     private ClassTomarLectura   FcnLectura;
     private ClassAnomalia       FcnAnomalia;
@@ -85,6 +88,20 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         this.FcnLectura     = new ClassTomarLectura(this,this._ruta);
         this.FcnAnomalia    = new ClassAnomalia(this);
         this.FcnArchivos    = new Archivos(this, FormInicioSession.path_files_app,10);
+
+        this.FcnPrinter     = new   ClassPrinter.ClassPrinterBuilder()
+                                        .setWidthPrinter(800)
+                                        .setWidthLabel(780)
+                                        .setCurrentLine(0)
+                                        .setMarginTop(30)
+                                        .setMarginLeft(10)
+                                        .setMarginBotton(10)
+                                        .setMarginBotton(30)
+                                        .setSpaceCharacter(2)
+                                        .addFonts("titulo", "INSTRUCT.CPF",14,22)
+                                        .addFonts("label",  "LIBERATI.CPF",11,20)
+                                        .addFonts("regular","JACKINPU.CPF",12,18).build();
+
 
         this.b_critica1     = false;
         this.b_critica2     = false;
