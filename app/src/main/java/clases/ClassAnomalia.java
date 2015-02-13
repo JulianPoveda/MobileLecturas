@@ -82,5 +82,12 @@ public class ClassAnomalia {
         return _tempRegistro;
     }
 
+    public void finalizarTomaLectura(String _id_serial){
+        this._tempRegistro.clear();
+        this._tempRegistro.put("estado","E");
+        this.FcnSQL.InsertOrUpdateRegistro("maestro_clientes",this._tempRegistro,"id_serial_1="+_id_serial+"");
+        this.FcnSQL.DeleteRegistro("toma_lectura","id_serial1="+_id_serial+"");
+    }
+
 
 }

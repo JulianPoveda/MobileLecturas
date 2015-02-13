@@ -14,11 +14,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContentValues;
 import android.os.AsyncTask;
-
+import android.widget.Toast;
 import java.io.IOException;
 import java.io.File;
 
+import clases.ClassAnomalia;
 import clases.ClassConfiguracion;
+import clases.ClassTomarLectura;
 import clases.ClassUsuario;
 import lecturas.sypelc.mobilelecturas.FormInicioSession;
 import sistema.Archivos;
@@ -33,6 +35,7 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
     private Archivos            FcnArch;
     private SQLite              FcnSQL;
     private ClassUsuario        Usuario;
+    private ClassAnomalia       FcnTL;
 
     private Context Context;
 
@@ -41,6 +44,7 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
     private String Respuesta   = "";
     private String carpeta      ="Descarga";
 
+    private String listado[];
     private ContentValues				_tempRegistro 	    = new ContentValues();
     private ContentValues				_tempRegistro1 	    = new ContentValues();
     private ContentValues			    InformacionArchivos = new ContentValues();
@@ -63,6 +67,7 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
         this.FcnSQL     = new SQLite(this.Context, FormInicioSession.path_files_app);
         this.FcnArch	= new Archivos(this.Context, FormInicioSession.path_files_app, 10);
         this.Usuario    = ClassUsuario.getInstance(this.Context);
+        this.FcnTL      = new ClassAnomalia(Context);
     }
 
     protected void onPreExecute() {
@@ -80,12 +85,12 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
         for(int i=0; i<this._tempTabla.size();i++){
             this._tempRegistro  = this._tempTabla.get(i);
             this._tempTabla1	= this.FcnSQL.SelectData("toma_lectura",
-                                                             "id_serial1, lectura1, critica1, id_serial2, lectura2, critica2, id_serial3, lectura3, critica3, anomalia,mensaje, tipo_uso,fecha_toma",
+                                                             "id,id_serial1, lectura1, critica1, id_serial2, lectura2, critica2, id_serial3, lectura3, critica3, anomalia,mensaje, tipo_uso,fecha_toma",
                                                              "id_serial1="+this._tempRegistro.getAsString("id_serial_1")+" AND id_serial2="+this._tempRegistro.getAsString("id_serial_2")+" and id_serial3="+this._tempRegistro.getAsString("id_serial_3")+"");
 
             for(int j=0; j<this._tempTabla1.size();j++){
                 this._tempRegistro1 = this._tempTabla1.get(j);
-                this.InformacionCarga.add(this._tempRegistro1.getAsString("id_serial1") + "," + this._tempRegistro1.getAsString("lectura1") + "," + this._tempRegistro1.getAsString("critica1") + "," +
+                this.InformacionCarga.add(this._tempRegistro1.getAsString("id")+","+this._tempRegistro1.getAsString("id_serial1") + "," + this._tempRegistro1.getAsString("lectura1") + "," + this._tempRegistro1.getAsString("critica1") + "," +
                         "" + this._tempRegistro1.getAsString("id_serial2") + "," + this._tempRegistro1.getAsString("lectura2") + "," + this._tempRegistro1.getAsString("critica2") + "," +
                         "" + this._tempRegistro1.getAsString("id_serial3") + "," + this._tempRegistro1.getAsString("lectura3") + "," + this._tempRegistro1.getAsString("critica3") + "," +
                         "" + this._tempRegistro1.getAsString("anomalia") + "," + this._tempRegistro1.getAsString("mensaje") + "," + this._tempRegistro1.getAsString("tipo_uso") + "," +
@@ -134,6 +139,7 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
                 }else if(response.toString().equals("1")){
                     this.Respuesta = "1";
                     _retorno=1;
+                    finalizarLectura();
                 }
             } catch (Exception e) {
                 this.Respuesta = e.toString();
@@ -144,7 +150,15 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
 
     @Override
     protected void onPostExecute(Integer rta) {
-                _pDialog.dismiss();
+       // _pDialog.dismiss();
+    }
+
+    public void finalizarLectura(){
+            for (int i=0;i<this.InformacionCarga.size();i++){
+                String _leidas  = this.InformacionCarga.get(i);
+                this.listado    = _leidas.split(",");
+                this.FcnTL.finalizarTomaLectura(this.listado[0]);
+            }
     }
 
 }

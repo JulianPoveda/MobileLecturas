@@ -25,6 +25,7 @@ import android.widget.ViewFlipper;
 import java.io.File;
 import java.util.ArrayList;
 
+import async_task.UploadLecturas;
 import clases.ClassAnomalia;
 import clases.ClassTomarLectura;
 import dialogos.DialogoInformativo;
@@ -47,6 +48,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     private ClassTomarLectura   FcnLectura;
     private ClassAnomalia       FcnAnomalia;
     private Archivos            FcnArchivos;
+    private UploadLecturas      Upload;
 
     private ViewFlipper _viewFlipper;
     private TextView    _lblCuenta, _lblNombre, _lblDireccion, _lblRuta, _lblMedidor, _lblTipoUso;
@@ -65,6 +67,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     boolean             b_critica1, b_critica2,b_critica3, critica_general;
     private int         intentos;
     private int         lectura1, lectura2,lectura3, lecturaEnviar1, lecturaEnviar2, lecturaEnviar3;
+    private String      tipo_uso;
 
     private ContentValues           DetalleAnomalia;
     private ContentValues           _tempRegistro;
@@ -88,6 +91,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         this.FcnLectura     = new ClassTomarLectura(this,this._ruta);
         this.FcnAnomalia    = new ClassAnomalia(this);
         this.FcnArchivos    = new Archivos(this, FormInicioSession.path_files_app,10);
+        this.Upload         = new UploadLecturas(this);
 
         this.FcnPrinter     = new   ClassPrinter.ClassPrinterBuilder()
                                         .setWidthPrinter(800)
@@ -352,6 +356,8 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
             _retorno3 = true;
         }
 
+        String _tipo_uso[]    = this._cmbTipoUso.getSelectedItem().toString().split("-");
+        this.tipo_uso         = _tipo_uso[0];
         this.critica_general= this.b_critica1 | this.b_critica2 | this.b_critica3;
         return _retorno1 & _retorno2 & _retorno3;
     }
@@ -425,7 +431,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                                                        this.critica1,
                                                        this.critica2,
                                                        this.critica3,
-                                                       this._cmbTipoUso.getSelectedItem().toString());
+                                                       this.tipo_uso);
 
                         if(this.critica_general && this.intentos == 1){
                             this.intentos ++;
@@ -445,6 +451,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                                 MostrarInputLectura(true);
                                 Toast.makeText(this, "Lectura Registrada.", Toast.LENGTH_LONG).show();
                                 this.FcnLectura.cambiarEstadoLectura(this.FcnLectura.getId_serial());
+                                this.Upload.execute();
 
                                 if(this.flag_search){
                                     this.flag_search = false;
@@ -472,6 +479,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                             MostrarInputLectura(true);
                             Toast.makeText(this, "Lectura Registrada.", Toast.LENGTH_LONG).show();
                             this.FcnLectura.cambiarEstadoLectura(this.FcnLectura.getId_serial());
+                            this.Upload.execute();
 
                             if(this.flag_search){
                                 this.flag_search = false;
