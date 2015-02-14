@@ -136,13 +136,20 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
                     this.Respuesta = "-1";
                 }else if(response.toString().isEmpty()){
                     this.Respuesta = "-2";
-                }else if(response.toString().equals("1")){
-                    this.Respuesta = "1";
-                    _retorno=1;
-                   finalizarLectura();
-                }
+                }else {
+                        try {
+                            //String informacion = new String(Base64.decode(response.toString()), "ISO-8859-1").toString();
+                            String informacion[] = new String(Base64.decode(response.toString()),"ISO-8859-1").toString().split("");
+
+                            _retorno = 1;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            _retorno = -3;
+                        }
+                      }
             } catch (Exception e) {
                 this.Respuesta = e.toString();
+                _retorno = -4;
             }
         }
         return _retorno;
