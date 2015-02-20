@@ -32,6 +32,7 @@ import clases.ClassTomarLectura;
 import clases.ClassSession;
 import dialogos.DialogoInformativo;
 import sistema.Archivos;
+import Object.TomaLectura;
 
 
 public class FormTomarLectura extends ActionBarActivity implements OnTouchListener, OnClickListener, OnItemSelectedListener{
@@ -44,7 +45,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     private Bundle              argumentos;
 
     private ClassFormatos       FcnFormatos;
-    private ClassTomarLectura   FcnLectura;
+    private TomaLectura         FcnTomaLectura;
     private ClassAnomalia       FcnAnomalia;
     private Archivos            FcnArchivos;
     private UploadLecturas      Upload;
@@ -87,11 +88,12 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         this.dialogo        = new DialogoInformativo();
 
         this.IniciarCamara	= new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        this.FcnLectura     = new ClassTomarLectura(this,this._ruta);
-        this.FcnAnomalia    = new ClassAnomalia(this);
-        this.FcnFormatos    = new ClassFormatos(this, false);
-        this.FcnArchivos    = new Archivos(this, FormInicioSession.path_files_app,10);
-        this.Upload         = new UploadLecturas(this);
+
+        this.FcnTomaLectura = new TomaLectura(this,this._ruta);
+        //this.FcnAnomalia    = new ClassAnomalia(this);
+        //this.FcnFormatos    = new ClassFormatos(this, false);
+        //this.FcnArchivos    = new Archivos(this, FormInicioSession.path_files_app,10);
+        //this.Upload         = new UploadLecturas(this);
 
         this.b_critica1     = false;
         this.b_critica2     = false;
@@ -120,9 +122,9 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         this._viewFlipper = (ViewFlipper) findViewById(R.id.InicioViewFlipper);
         this._viewFlipper.setOnTouchListener(this);
 
-        if(this.FcnLectura.getNextDatosUsuario()) {
+        if(this.FcnTomaLectura.getDatosUsuario(true)) {
             this.MostrarInformacionBasica();
-            this.intentos       = this.FcnLectura.getIntentos();
+            this.intentos       = this.FcnTomaLectura.getFcnUsuario().getIntentos();
             this._tempRegistro  = this.FcnLectura.getLecturasIntento();
             this.lectura1       = this._tempRegistro.getAsInteger("lectura1");
             this.lectura2       = this._tempRegistro.getAsInteger("lectura2");

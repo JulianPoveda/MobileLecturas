@@ -108,17 +108,15 @@ public class SQLite {
                                                         "lectura_anterior_1     INTEGER NOT NULL," +
                                                         "tipo_energia_1         VARCHAR(15) NOT NULL," +
                                                         "id_municipio           INTEGER NOT NULL," +
-                                                        "anomalia_anterior_1    VARCHAR(20),"+
+                                                        "anomalia_anterior      VARCHAR(20),"+
                                                         "promedio_1             VARCHAR(20),"+
                                                         "id_serial_2            VARCHAR(20)," +
                                                         "lectura_anterior_2     VARCHAR(20)," +
                                                         "tipo_energia_2         VARCHAR(15)," +
-                                                        "anomalia_anterior_2    VARCHAR(20),"+
                                                         "promedio_2             VARCHAR(20),"+
                                                         "id_serial_3            VARCHAR(20)," +
                                                         "lectura_anterior_3     VARCHAR(20)," +
                                                         "tipo_energia_3         VARCHAR(15)," +
-                                                        "anomalia_anterior_3    VARCHAR(20),"+
                                                         "promedio_3             VARCHAR(20)," +
                                                        "estado                 VARCHAR(15) NOT NULL)");
 

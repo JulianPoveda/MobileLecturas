@@ -37,6 +37,7 @@ public class ClassSession {
         return ourInstance;
     }
 
+
     private ClassSession(Context _ctx) {
         this.inicio_sesion  = false;
         this.context        = _ctx;
