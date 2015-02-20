@@ -12,13 +12,13 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 
 import clases.ClassConfiguracion;
-import clases.ClassUsuario;
+import clases.ClassSession;
 import sistema.Bluetooth;
 
 
 public class FormConfiguracion extends ActionBarActivity implements OnClickListener {
     private ClassConfiguracion  FcnCfg;
-    private ClassUsuario        FcnUsuario;
+    private ClassSession FcnUsuario;
     private Bluetooth           FcnBluetooth;
 
     private ArrayAdapter<String> AdapLstImpresoras;
@@ -35,7 +35,7 @@ public class FormConfiguracion extends ActionBarActivity implements OnClickListe
 
 
         this.FcnCfg         = ClassConfiguracion.getInstance(this);
-        this.FcnUsuario     = ClassUsuario.getInstance(this);
+        this.FcnUsuario     = ClassSession.getInstance(this);
         this.FcnBluetooth   = Bluetooth.getInstance();
 
         this._txtServidor   = (EditText) findViewById(R.id.ConfiguracionTxtServidor);

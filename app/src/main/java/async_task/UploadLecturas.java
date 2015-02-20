@@ -1,6 +1,5 @@
 package async_task;
 
-import org.kobjects.base64.Base64;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.MarshalBase64;
 import org.ksoap2.serialization.SoapObject;
@@ -14,14 +13,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContentValues;
 import android.os.AsyncTask;
-import android.widget.Toast;
-import java.io.IOException;
+
 import java.io.File;
 
 import clases.ClassAnomalia;
 import clases.ClassConfiguracion;
-import clases.ClassTomarLectura;
-import clases.ClassUsuario;
+import clases.ClassSession;
 import lecturas.sypelc.mobilelecturas.FormInicioSession;
 import sistema.Archivos;
 import sistema.SQLite;
@@ -34,7 +31,7 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
     private ClassConfiguracion  FcnCfg;
     private Archivos            FcnArch;
     private SQLite              FcnSQL;
-    private ClassUsuario        Usuario;
+    private ClassSession Usuario;
     private ClassAnomalia       FcnTL;
 
     private Context Context;
@@ -66,7 +63,7 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
         this.FcnCfg     = ClassConfiguracion.getInstance(this.Context);
         this.FcnSQL     = new SQLite(this.Context, FormInicioSession.path_files_app);
         this.FcnArch	= new Archivos(this.Context, FormInicioSession.path_files_app, 10);
-        this.Usuario    = ClassUsuario.getInstance(this.Context);
+        this.Usuario    = ClassSession.getInstance(this.Context);
         this.FcnTL      = new ClassAnomalia(Context);
     }
 

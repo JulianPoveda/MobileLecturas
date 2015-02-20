@@ -107,6 +107,7 @@ public class SQLite {
                                                         "id_serial_1            INTEGER NOT NULL," +
                                                         "lectura_anterior_1     INTEGER NOT NULL," +
                                                         "tipo_energia_1         VARCHAR(15) NOT NULL," +
+                                                        "id_municipio           INTEGER NOT NULL," +
                                                         "anomalia_anterior_1    VARCHAR(20),"+
                                                         "promedio_1             VARCHAR(20),"+
                                                         "id_serial_2            VARCHAR(20)," +
@@ -119,7 +120,7 @@ public class SQLite {
                                                         "tipo_energia_3         VARCHAR(15)," +
                                                         "anomalia_anterior_3    VARCHAR(20),"+
                                                         "promedio_3             VARCHAR(20)," +
-                                                        "estado                 VARCHAR(15) NOT NULL)");
+                                                       "estado                 VARCHAR(15) NOT NULL)");
 
             db.execSQL("CREATE TABLE    toma_lectura    (id                     INTEGER PRIMARY KEY AUTOINCREMENT," +
                                                         "id_serial1             INTEGER NOT NULL," +

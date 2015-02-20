@@ -71,8 +71,8 @@ public class ClassAnomalia {
         this.anomalia = _anomalia.split("-");
         if(this.anomalia.length > 1){
             this._tempRegistro =    this.FcnSQL.SelectDataRegistro( "param_anomalias",
-                                    "id_anomalia, lectura, mensaje, foto",
-                                    "id_anomalia='"+this.anomalia[0]+"'");
+                                                                    "id_anomalia, lectura, mensaje, foto",
+                                                                    "id_anomalia='"+this.anomalia[0]+"'");
         }else{
             this._tempRegistro.put("id_anomalia",-1);
             this._tempRegistro.put("lectura","f");

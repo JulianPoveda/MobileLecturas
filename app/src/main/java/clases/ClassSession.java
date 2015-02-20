@@ -10,13 +10,13 @@ import java.util.ArrayList;
 /**
  * Created by JULIANEDUARDO on 02/02/2015.
  */
-public class ClassUsuario {
+public class ClassSession {
     /**
      * Variables generales de la clase
      */
     private static Context              context;
     private SQLite                      FcnSQL;
-    private static ClassUsuario         ourInstance;
+    private static ClassSession ourInstance;
     private ArrayList<ContentValues>    _tempTabla;
     private ContentValues               _tempRegistro;
 
@@ -24,20 +24,20 @@ public class ClassUsuario {
      * Variables para los atributos del usuario
      */
     private static boolean  inicio_sesion;
-    private int             codigo;
-    private int             nivel;
-    private String          nombre;
+    private static int      codigo;
+    private static int      nivel;
+    private static String   nombre;
 
-    public static ClassUsuario getInstance(Context _ctx) {
+    public static ClassSession getInstance(Context _ctx) {
         if(ourInstance == null){
-            ourInstance = new ClassUsuario(_ctx);
+            ourInstance = new ClassSession(_ctx);
         }else{
            context = _ctx;
         }
         return ourInstance;
     }
 
-    private ClassUsuario(Context _ctx) {
+    private ClassSession(Context _ctx) {
         this.inicio_sesion  = false;
         this.context        = _ctx;
         this.codigo         = -1;
@@ -72,7 +72,7 @@ public class ClassUsuario {
     }
 
     private static void setInicio_sesion(boolean inicio_sesion) {
-        ClassUsuario.inicio_sesion = inicio_sesion;
+        ClassSession.inicio_sesion = inicio_sesion;
     }
 
     public String getNombre() {

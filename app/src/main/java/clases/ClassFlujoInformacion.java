@@ -115,6 +115,7 @@ public class ClassFlujoInformacion {
             this._tempRegistro.put("tipo_energia_3",this._campos[24]);
             this._tempRegistro.put("anomalia_anterior_3",this._campos[25]);
             this._tempRegistro.put("promedio_3",this._campos[26]);
+            this._tempRegistro.put("id_municipio",this._campos[27]);
             this._tempRegistro.put("estado","P");
             this.FcnSQL.InsertRegistro("maestro_clientes",this._tempRegistro);
         }

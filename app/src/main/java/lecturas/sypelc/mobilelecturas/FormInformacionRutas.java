@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import Adapter.RutasAdapter;
 import Adapter.RutasData;
-import clases.ClassUsuario;
+import clases.ClassSession;
 import sistema.SQLite;
 
 /**
@@ -33,7 +33,7 @@ public class FormInformacionRutas extends Activity implements OnItemClickListene
     private Intent          new_form;
     private ListView        listadoRutas;
     private SQLite          sqlConsulta;
-    private ClassUsuario    FcnUsuario;
+    private ClassSession FcnUsuario;
 
     private RutasAdapter listadoRutasAdapter;
     private ArrayList<RutasData> arrayListadoRutas = new ArrayList<>();
@@ -50,7 +50,7 @@ public class FormInformacionRutas extends Activity implements OnItemClickListene
         Bundle bundle = getIntent().getExtras();
         this.FolderAplicacion= bundle.getString("FolderAplicacion");
 
-        this.FcnUsuario = ClassUsuario.getInstance(this);
+        this.FcnUsuario = ClassSession.getInstance(this);
 
         sqlConsulta = new SQLite(this, this.FolderAplicacion);
         listadoRutasAdapter = new RutasAdapter(FormInformacionRutas.this, arrayListadoRutas);

@@ -19,7 +19,7 @@ import java.io.File;
 import async_task.DownLoadParametros;
 import async_task.DownLoadTrabajo;
 import clases.ClassConfiguracion;
-import clases.ClassUsuario;
+import clases.ClassSession;
 
 
 public class FormInicioSession extends ActionBarActivity implements OnClickListener{
@@ -28,7 +28,7 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
     public static String sub_path_pictures  = "Fotos";
 
     private Intent              new_form;
-    private ClassUsuario        FcnUsuario;
+    private ClassSession FcnUsuario;
     private ClassConfiguracion  FcnCfg;
 
     private Button      _btnLoggin;
@@ -41,7 +41,7 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_session);
 
-        this.FcnUsuario = ClassUsuario.getInstance(this);
+        this.FcnUsuario = ClassSession.getInstance(this);
         this.FcnCfg     = ClassConfiguracion.getInstance(this);
 
         this._btnLoggin     = (Button) findViewById(R.id.LoginBtnIngresar);

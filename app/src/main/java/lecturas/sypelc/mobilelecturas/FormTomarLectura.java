@@ -27,9 +27,10 @@ import java.util.ArrayList;
 
 import async_task.UploadLecturas;
 import clases.ClassAnomalia;
+import clases.ClassFormatos;
 import clases.ClassTomarLectura;
+import clases.ClassSession;
 import dialogos.DialogoInformativo;
-import printerZebra.ClassPrinter;
 import sistema.Archivos;
 
 
@@ -42,9 +43,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     private DialogoInformativo  dialogo;
     private Bundle              argumentos;
 
-
-    private ClassPrinter        FcnPrinter;
-
+    private ClassFormatos       FcnFormatos;
     private ClassTomarLectura   FcnLectura;
     private ClassAnomalia       FcnAnomalia;
     private Archivos            FcnArchivos;
@@ -90,22 +89,9 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         this.IniciarCamara	= new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         this.FcnLectura     = new ClassTomarLectura(this,this._ruta);
         this.FcnAnomalia    = new ClassAnomalia(this);
+        this.FcnFormatos    = new ClassFormatos(this, false);
         this.FcnArchivos    = new Archivos(this, FormInicioSession.path_files_app,10);
         this.Upload         = new UploadLecturas(this);
-
-        this.FcnPrinter     = new   ClassPrinter.ClassPrinterBuilder()
-                                        .setWidthPrinter(800)
-                                        .setWidthLabel(780)
-                                        .setCurrentLine(0)
-                                        .setMarginTop(30)
-                                        .setMarginLeft(10)
-                                        .setMarginBotton(10)
-                                        .setMarginBotton(30)
-                                        .setSpaceCharacter(2)
-                                        .addFonts("titulo", "INSTRUCT.CPF",14,22)
-                                        .addFonts("label",  "LIBERATI.CPF",11,20)
-                                        .addFonts("regular","JACKINPU.CPF",12,18).build();
-
 
         this.b_critica1     = false;
         this.b_critica2     = false;
@@ -188,6 +174,18 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                 Uri uriSavedImage = Uri.fromFile(image);
                 this.IniciarCamara.putExtra(MediaStore.EXTRA_OUTPUT, uriSavedImage);
                 startActivityForResult(IniciarCamara, INICIAR_CAMARA);
+                break;
+
+            case R.id.LecturaMenuReImprimir:
+                //this.FcnFormatos.FormatoPrueba();
+                //this.FcnFormatos.ActaLectura();
+                /*this.FcnFormatos.ActaLectura(   this.lectura1,
+                                                this.FcnLectura.getCuenta(),
+                                                "FALTA",
+                                                this.FcnLectura.getNombre(),
+                                                this.FcnLectura.getDireccion(),
+                                                this.FcnLectura.getSerie_medidor()+"-"+this.FcnLectura.getMarca_medidor(),
+                                                ClassUsuario.getInstance(this).getCodigo());*/
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -450,6 +448,16 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                                 this._btnGuardar.setEnabled(false);
                                 MostrarInputLectura(true);
                                 Toast.makeText(this, "Lectura Registrada.", Toast.LENGTH_LONG).show();
+                                this.FcnFormatos.ActaLectura(   this.FcnLectura.getTipo_energia1(),
+                                                                this.lectura1,
+                                                                this._cmbAnomalia.getSelectedItem().toString(),
+                                                                this.FcnLectura.getCuenta(),
+                                                                this.FcnLectura.getMunicipio(),
+                                                                this.FcnLectura.getNombre(),
+                                                                this.FcnLectura.getDireccion(),
+                                                                this.FcnLectura.getSerie_medidor()+"-"+this.FcnLectura.getMarca_medidor(),
+                                                                ClassSession.getInstance(this).getCodigo());
+
                                 this.FcnLectura.cambiarEstadoLectura(this.FcnLectura.getId_serial());
                                 this.Upload.execute();
 
@@ -463,9 +471,6 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                                         this.publishDatosUsuario();
                                     }
                                 }
-                                /*if(this.FcnLectura.getNextDatosUsuario()) {
-                                    this.publishDatosUsuario();
-                                }*/
                             }else{
                                 MostrarInputLectura(true);
                                 argumentos.clear();
@@ -478,6 +483,15 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                             this._btnGuardar.setEnabled(false);
                             MostrarInputLectura(true);
                             Toast.makeText(this, "Lectura Registrada.", Toast.LENGTH_LONG).show();
+                            this.FcnFormatos.ActaLectura(   this.FcnLectura.getTipo_energia1(),
+                                                            this.lectura1,
+                                                            this._cmbAnomalia.getSelectedItem().toString(),
+                                                            this.FcnLectura.getCuenta(),
+                                                            this.FcnLectura.getMunicipio(),
+                                                            this.FcnLectura.getNombre(),
+                                                            this.FcnLectura.getDireccion(),
+                                                            this.FcnLectura.getSerie_medidor()+"-"+this.FcnLectura.getMarca_medidor(),
+                                                            ClassSession.getInstance(this).getCodigo());
                             this.FcnLectura.cambiarEstadoLectura(this.FcnLectura.getId_serial());
                             this.Upload.execute();
 
@@ -491,6 +505,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                                     this.publishDatosUsuario();
                                 }
                             }
+                            this.FcnFormatos.FormatoPrueba();
                         }
                     }
                 }

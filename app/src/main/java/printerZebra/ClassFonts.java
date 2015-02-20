@@ -8,6 +8,7 @@ public class ClassFonts {
     protected String    name_font;
     protected int       width_font;
     protected int       height_font;
+    protected int       size_font;
 
     public ClassFonts(){
         //empty contructor;
@@ -43,5 +44,13 @@ public class ClassFonts {
 
     public void setName_font(String name_font) {
         this.name_font = name_font;
+    }
+
+    public int getSize_font() {
+        return size_font;
+    }
+
+    public void setSize_font(int size_font) {
+        this.size_font = size_font;
     }
 }
