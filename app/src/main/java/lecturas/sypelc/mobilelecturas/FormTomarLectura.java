@@ -92,7 +92,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         this.IniciarCamara	= new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 
         //this.FcnTomaLectura = new TomaLectura(this,this._ruta);
-        this.FcnLectura     = new ClassTomarLectura(this, FormInicioSession.path_files_app);
+        this.FcnLectura     = new ClassTomarLectura(this, this._ruta);
         this.FcnAnomalia    = new ClassAnomalia(this);
         this.FcnFormatos    = new ClassFormatos(this, false);
         this.FcnArchivos    = new Archivos(this, FormInicioSession.path_files_app,10);

@@ -65,7 +65,7 @@ public class ClassFormatos {
         }
 
         if(_direccion.length()>35){
-            _direccion = _nombre.substring(0,35);
+            _direccion = _direccion.substring(0,35);
         }
 
         this.FcnPrinter.resetEtiqueta();
