@@ -50,6 +50,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     private ClassAnomalia       FcnAnomalia;
     private Archivos            FcnArchivos;
     private UploadLecturas      Upload;
+    private ClassSession        FcnUsuario;
 
     private ViewFlipper _viewFlipper;
     private TextView    _lblCuenta, _lblNombre, _lblDireccion, _lblRuta, _lblMedidor, _lblTipoUso;
@@ -92,10 +93,11 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
 
         //this.FcnTomaLectura = new TomaLectura(this,this._ruta);
         this.FcnLectura     = new ClassTomarLectura(this, FormInicioSession.path_files_app);
-        //this.FcnAnomalia    = new ClassAnomalia(this);
-        //this.FcnFormatos    = new ClassFormatos(this, false);
-        //this.FcnArchivos    = new Archivos(this, FormInicioSession.path_files_app,10);
-        //this.Upload         = new UploadLecturas(this);
+        this.FcnAnomalia    = new ClassAnomalia(this);
+        this.FcnFormatos    = new ClassFormatos(this, false);
+        this.FcnArchivos    = new Archivos(this, FormInicioSession.path_files_app,10);
+        this.Upload         = new UploadLecturas(this);
+        this.FcnUsuario     = ClassSession.getInstance(this);
 
         this.b_critica1     = false;
         this.b_critica2     = false;
@@ -464,7 +466,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                                                                 ClassSession.getInstance(this).getCodigo());
 
                                 this.FcnLectura.cambiarEstadoLectura(this.FcnLectura.getId_serial());
-                                this.Upload.execute();
+                                this.Upload.execute(this.FcnUsuario.getCodigo()+"");
 
                                 if(this.flag_search){
                                     this.flag_search = false;
@@ -498,7 +500,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                                                             this.FcnLectura.getSerie_medidor()+"-"+this.FcnLectura.getMarca_medidor(),
                                                             ClassSession.getInstance(this).getCodigo());
                             this.FcnLectura.cambiarEstadoLectura(this.FcnLectura.getId_serial());
-                            this.Upload.execute();
+                            this.Upload.execute(this.FcnUsuario.getCodigo()+"");
 
                             if(this.flag_search){
                                 this.flag_search = false;

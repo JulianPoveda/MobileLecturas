@@ -110,7 +110,7 @@ public class ClassTomarLectura {
         boolean _retorno  = false;
         this._tempRegistro =    this.FcnSQL.SelectDataRegistro( "maestro_clientes",
                                                                 "id_serial, id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,tipo_uso,factor_multiplicacion,id_serial_1,lectura_anterior_1,tipo_energia_1,promedio_1,id_serial_2,lectura_anterior_2,tipo_energia_2,promedio_2,id_serial_3,lectura_anterior_3,tipo_energia_3,promedio_3,estado,id_municipio",
-                                                                "id_serial="+_id+" ORDER BY id_secuencia ASC");
+                                                                "id_serial>"+_id+" ORDER BY id_secuencia ASC");
 
         if(this._tempRegistro.size()>0){
             _retorno = true;
