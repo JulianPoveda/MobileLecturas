@@ -3,6 +3,8 @@ package clases;
 import android.content.ContentValues;
 import android.content.Context;
 
+import org.kobjects.util.Strings;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -82,12 +84,11 @@ public class ClassAnomalia {
         return _tempRegistro;
     }
 
-    public void finalizarTomaLectura(String _id_serial){
+    public void finalizarTomaLectura(String[] descargado){
         this._tempRegistro.clear();
-        this._tempRegistro.put("estado","E");
-        //this.FcnSQL.InsertOrUpdateRegistro("maestro_clientes",this._tempRegistro,"id_serial_1="+_id_serial+"");
-        this.FcnSQL.DeleteRegistro("toma_lectura","id_serial1="+_id_serial+"");
+        for(int i=0;i<descargado.length;i++){
+            this.FcnSQL.DeleteRegistro("toma_lectura","id="+descargado[i]+"");
+        }
     }
-
 
 }

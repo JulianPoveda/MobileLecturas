@@ -135,11 +135,10 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
                     this.Respuesta = "-2";
                 }else {
                         try {
-                            //String informacion = new String(Base64.decode(response.toString()), "ISO-8859-1").toString();
-                            String informacion[] = new String(Base64.decode(response.toString()),"ISO-8859-1").toString().split("");
-
+                            String informacion[] = new String(response.toString()).trim().split("\\|");
+                            this.FcnTL.finalizarTomaLectura(informacion);
                             _retorno = 1;
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                             _retorno = -3;
                         }
@@ -154,18 +153,8 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
 
     @Override
     protected void onPostExecute(Integer rta) {
-       // _pDialog.dismiss();
-    }
 
-        //Se debe cambiar la funcion para enviarle el array recibido y utilizar el trigger de sqlite. no olvidar revisar al 3 envio se cae el webservice
-    public void finalizarLectura(){
-            for (int i=0;i<this.InformacionCarga.size();i++){
-                String _leidas  = this.InformacionCarga.get(i);
-                this.listado    = _leidas.split(",");
-                this.FcnTL.finalizarTomaLectura(this.listado[0]);
-            }
     }
-
 }
 
 
