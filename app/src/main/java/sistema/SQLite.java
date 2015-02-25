@@ -92,7 +92,7 @@ public class SQLite {
                                                         "fecha_cargue           TIMESTAMP NOT NULL DEFAULT current_timestamp," +
                                                         "PRIMARY KEY(id_inspector,ruta))");
 
-            db.execSQL("CREATE TABLE     maestro_clientes(id_serial             INTEGER NOT NULL PRIMARY KEY," +
+            db.execSQL("CREATE TABLE     maestro_clientes(id_serial             INTEGER PRIMARY KEY AUTOINCREMENT," +
                                                         "id_secuencia           NUMERIC(15,0) NOT NULL," +
                                                         "id_ciclo               VARCHAR(255) NOT NULL,"+
                                                         "ruta                   VARCHAR(255) NOT NULL,"+
@@ -104,21 +104,23 @@ public class SQLite {
                                                         "direccion              INTEGER NOT NULL," +
                                                         "factor_multiplicacion  INTEGER NOT NULL,"  +
                                                         "tipo_uso               VARCHAR(20) NOT NULL," +
+                                                        "id_municipio           INTEGER NOT NULL," +
                                                         "id_serial_1            INTEGER NOT NULL," +
                                                         "lectura_anterior_1     INTEGER NOT NULL," +
-                                                        "tipo_energia_1         VARCHAR(15) NOT NULL," +
-                                                        "id_municipio           INTEGER NOT NULL," +
-                                                        "anomalia_anterior      VARCHAR(20),"+
+                                                        "anomalia_anterior_1    VARCHAR(20),"+
+                                                        "tipo_energia_1         VARCHAR(15)," +
                                                         "promedio_1             VARCHAR(20),"+
                                                         "id_serial_2            VARCHAR(20)," +
                                                         "lectura_anterior_2     VARCHAR(20)," +
+                                                        "anomalia_anterior_2    VARCHAR(20),"+
                                                         "tipo_energia_2         VARCHAR(15)," +
                                                         "promedio_2             VARCHAR(20),"+
                                                         "id_serial_3            VARCHAR(20)," +
                                                         "lectura_anterior_3     VARCHAR(20)," +
+                                                        "anomalia_anterior_3    VARCHAR(20),"+
                                                         "tipo_energia_3         VARCHAR(15)," +
                                                         "promedio_3             VARCHAR(20)," +
-                                                       "estado                 VARCHAR(15) NOT NULL)");
+                                                        "estado                 VARCHAR(15) NOT NULL)");
 
             db.execSQL("CREATE TABLE    toma_lectura    (id                     INTEGER PRIMARY KEY AUTOINCREMENT," +
                                                         "id_serial1             INTEGER NOT NULL," +

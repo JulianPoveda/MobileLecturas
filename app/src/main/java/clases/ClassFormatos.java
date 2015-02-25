@@ -2,7 +2,7 @@ package clases;
 
 import android.content.Context;
 
-import ZebraPrinter.Zebra_QL420plus;
+//import ZebraPrinter.Zebra_QL420plus;
 import lecturas.sypelc.mobilelecturas.FormInicioSession;
 import printerZebra.ClassPrinter;
 import sistema.DateTime;
