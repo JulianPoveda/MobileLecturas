@@ -88,6 +88,7 @@ public class SQLite {
                                                         "descripcion             VARCHAR(255) NOT NULL)");
 
             db.execSQL("CREATE TABLE    maestro_rutas   (id_inspector           INTEGER NOT NULL," +
+                                                        "id_ciclo               INTEGER NOT NULL," +
                                                         "ruta                   VARCHAR(255) NOT NULL," +
                                                         "fecha_cargue           TIMESTAMP NOT NULL DEFAULT current_timestamp," +
                                                         "PRIMARY KEY(id_inspector,ruta))");

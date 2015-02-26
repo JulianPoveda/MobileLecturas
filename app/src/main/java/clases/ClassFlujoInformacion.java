@@ -83,8 +83,10 @@ public class ClassFlujoInformacion {
         this._campos = _informacion.split(_delimitador);
         this._tempRegistro.clear();
         if(this._campos[0].equals("MaestroRutas")){
+            this.FcnSQL.DeleteRegistro("maestro_clientes","id_ciclo="+this._campos[2]+" AND ruta='"+this._campos[3]+"'");
             this._tempRegistro.put("id_inspector",this._campos[1]);
-            this._tempRegistro.put("ruta",this._campos[2]);
+            this._tempRegistro.put("id_ciclo",this._campos[2]);
+            this._tempRegistro.put("ruta",this._campos[3]);
             this._tempRegistro.put("fecha_cargue",currentDateandTime);
             this.FcnSQL.InsertRegistro("maestro_rutas",this._tempRegistro);
         }else if(this._campos[0].equals("MaestroClientes")){
@@ -116,7 +118,7 @@ public class ClassFlujoInformacion {
             this._tempRegistro.put("anomalia_anterior_3",this._campos[25]);
             this._tempRegistro.put("promedio_3",this._campos[26]);
             this._tempRegistro.put("id_municipio",this._campos[27]);
-            this._tempRegistro.put("estado","P");
+            this._tempRegistro.put("estado",this._campos[28]);
             this.FcnSQL.InsertRegistro("maestro_clientes",this._tempRegistro);
         }
     }
