@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import java.util.ArrayList;
 
@@ -22,18 +21,14 @@ import sistema.SQLite;
 /**
  * Created by SypelcDesarrollo on 04/02/2015.
  */
-public class FormInformacionRutas extends Activity implements OnItemClickListener{
+public class FormInformacionRutas extends Activity{
     private String FolderAplicacion;
     private String ruta_seleccionada;
-    private String ruta;
-    private String totalPendientes;
-    private String totalLeidas;
-    private String totalRutas;
 
     private Intent          new_form;
     private ListView        listadoRutas;
     private SQLite          sqlConsulta;
-    private ClassSession FcnUsuario;
+    private ClassSession    FcnSession;
 
     private RutasAdapter listadoRutasAdapter;
     private ArrayList<RutasData> arrayListadoRutas = new ArrayList<>();
@@ -50,7 +45,7 @@ public class FormInformacionRutas extends Activity implements OnItemClickListene
         Bundle bundle = getIntent().getExtras();
         this.FolderAplicacion= bundle.getString("FolderAplicacion");
 
-        this.FcnUsuario = ClassSession.getInstance(this);
+        this.FcnSession = ClassSession.getInstance(this);
 
         sqlConsulta = new SQLite(this, this.FolderAplicacion);
         listadoRutasAdapter = new RutasAdapter(FormInformacionRutas.this, arrayListadoRutas);
@@ -60,26 +55,20 @@ public class FormInformacionRutas extends Activity implements OnItemClickListene
 
         arrayListadoRutas.clear();
 
-        this._tempTabla = sqlConsulta.SelectData("maestro_rutas","ruta","id_inspector="+this.FcnUsuario.getCodigo());
+        this._tempTabla = sqlConsulta.SelectData("maestro_rutas","ruta","id_inspector="+this.FcnSession.getCodigo());
         for(int i=0;i<this._tempTabla.size();i++){
             this._tempRegistro = this._tempTabla.get(i);
             Integer totalR = sqlConsulta.CountRegistrosWhere("maestro_clientes","ruta='"+this._tempRegistro.getAsString("ruta")+"'");
             Integer totalP = sqlConsulta.CountRegistrosWhere("maestro_clientes","ruta='"+this._tempRegistro.getAsString("ruta")+"' AND estado='P'");
             Integer totalL = totalR - totalP;
-            arrayListadoRutas.add(new RutasData(this._tempRegistro.getAsString("ruta"),String.valueOf(totalP),String.valueOf(totalL),String.valueOf(totalR)));
+            arrayListadoRutas.add(new RutasData(this._tempRegistro.getAsString("ruta"),
+                                                String.valueOf(totalP),
+                                                String.valueOf(totalL),
+                                                String.valueOf(totalR)));
         }
         listadoRutasAdapter.notifyDataSetChanged();
         registerForContextMenu(this.listadoRutas);
-        listadoRutas.setOnItemClickListener(this);
     }
-
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_informacion_rutas, menu);
-        return true;
-    }*/
 
     /**Funciones para el control del menu contextual del listview que muestra las ordenes de trabajo**/
     @Override
@@ -111,33 +100,6 @@ public class FormInformacionRutas extends Activity implements OnItemClickListene
 
             default:
                 return super.onContextItemSelected(item);
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position,	long id) {
-        switch(parent.getId()){
-            case R.id.InfoListRutas:
-                this.ruta 	         = arrayListadoRutas.get(position).getCodigoRuta();
-                this.totalPendientes = arrayListadoRutas.get(position).getTotalPendientes();
-                this.totalLeidas     = arrayListadoRutas.get(position).getTotalLeidas();
-                this.totalRutas      = arrayListadoRutas.get(position).getTotalRutas();
-                break;
         }
     }
 }

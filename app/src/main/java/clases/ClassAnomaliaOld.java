@@ -14,7 +14,7 @@ import sistema.SQLite;
 /**
  * Created by SypelcDesarrollo on 06/02/2015.
  */
-public class ClassAnomalia {
+public class ClassAnomaliaOld {
     private Context context;
     private ContentValues _tempRegistro;
     private ArrayList<ContentValues> _tempTabla;
@@ -25,7 +25,7 @@ public class ClassAnomalia {
     private ArrayList<String> listadoAnomalias, listadoTiposUso;
     private ArrayList<String> listarDatos;
 
-    public ClassAnomalia(Context _ctx){
+    public ClassAnomaliaOld(Context _ctx){
         this.context     = _ctx;
         this.FcnSQL      = new SQLite(this.context, FormInicioSession.path_files_app);
         this.listadoAnomalias = new ArrayList<String>();

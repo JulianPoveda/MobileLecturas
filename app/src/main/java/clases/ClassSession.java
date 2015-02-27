@@ -43,7 +43,7 @@ public class ClassSession {
         this.context        = _ctx;
         this.codigo         = -1;
         this.nivel          = -1;
-        this.nombre         = null;
+        this.nombre         = "Sin Iniciar Session";
         this._tempRegistro  = new ContentValues();
         this._tempTabla     = new ArrayList<ContentValues>();
         this.FcnSQL         = new SQLite(this.context, FormInicioSession.path_files_app);
@@ -60,6 +60,11 @@ public class ClassSession {
             this.setNombre(this._tempRegistro.getAsString("nombre"));
             this.setNivel(this._tempRegistro.getAsInteger("perfil"));
             this.setInicio_sesion(true);
+        }else{
+            this.inicio_sesion  = false;
+            this.codigo         = -1;
+            this.nivel          = -1;
+            this.nombre         = "Sin Iniciar Session";
         }
         return this.inicio_sesion;
     }

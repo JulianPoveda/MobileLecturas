@@ -16,7 +16,7 @@ import android.os.AsyncTask;
 
 import java.io.File;
 
-import clases.ClassAnomalia;
+import clases.ClassAnomaliaOld;
 import clases.ClassConfiguracion;
 import clases.ClassSession;
 import lecturas.sypelc.mobilelecturas.FormInicioSession;
@@ -32,7 +32,7 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
     private Archivos            FcnArch;
     private SQLite              FcnSQL;
     private ClassSession Usuario;
-    private ClassAnomalia       FcnTL;
+    private ClassAnomaliaOld FcnTL;
 
     private Context Context;
 
@@ -64,7 +64,7 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
         this.FcnSQL     = new SQLite(this.Context, FormInicioSession.path_files_app);
         this.FcnArch	= new Archivos(this.Context, FormInicioSession.path_files_app, 10);
         this.Usuario    = ClassSession.getInstance(this.Context);
-        this.FcnTL      = new ClassAnomalia(Context);
+        this.FcnTL      = new ClassAnomaliaOld(Context);
     }
 
     protected void onPreExecute() {

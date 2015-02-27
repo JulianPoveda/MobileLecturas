@@ -1,9 +1,14 @@
 package Object;
 
+import clases.ClassAnomalias;
+
 /**
  * Created by JULIANEDUARDO on 20/02/2015.
  */
-public class UsuarioLeido extends Usuario {
+public class UsuarioLeido extends UsuarioEMSA {
+    private ClassAnomalias  FcnAnomalias;
+
+
     private int     lectura1;
     private int     lectura2;
     private int     lectura3;
@@ -12,17 +17,24 @@ public class UsuarioLeido extends Usuario {
     private double  critica2;
     private double  critica3;
 
+    private String  mensaje;
     private int     anomalia;
-    private int     mensaje;
-    private boolean leido;
-
     private int     intentos;
+    private int     countFotos;
+
+
+    private boolean needLectura;
+    private boolean needFoto;
+    private boolean needMensaje;
+    private boolean leido;
+    private boolean haveCritica;
+
 
 
     public UsuarioLeido(){
         super();
+        this.FcnAnomalias = ClassAnomalias.getInstance();
     }
-
 
     public int getLectura1() {
         return lectura1;
@@ -76,16 +88,11 @@ public class UsuarioLeido extends Usuario {
         return anomalia;
     }
 
-    public void setAnomalia(int anomalia) {
-        this.anomalia = anomalia;
-    }
-
-    public int getMensaje() {
-        return mensaje;
-    }
-
-    public void setMensaje(int mensaje) {
-        this.mensaje = mensaje;
+    public void setAnomalia(int _anomalia) {
+        this.anomalia   = _anomalia;
+        this.needLectura= this.FcnAnomalias.needLectura(_anomalia);
+        this.needFoto   = this.FcnAnomalias.needFoto(_anomalia);
+        this.needMensaje= this.FcnAnomalias.needMensaje(_anomalia);
     }
 
     public boolean isLeido() {
@@ -102,5 +109,41 @@ public class UsuarioLeido extends Usuario {
 
     public void setIntentos(int intentos) {
         this.intentos = intentos;
+    }
+
+    public boolean isNeedLectura() {
+        return needLectura;
+    }
+
+    public boolean isNeedFoto() {
+        return needFoto;
+    }
+
+    public boolean isNeedMensaje() {
+        return needMensaje;
+    }
+
+    public int getCountFotos() {
+        return countFotos;
+    }
+
+    public void setCountFotos(int countFotos) {
+        this.countFotos = countFotos;
+    }
+
+    public String getMensaje() {
+        return mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        this.mensaje = mensaje;
+    }
+
+    public boolean isHaveCritica() {
+        return haveCritica;
+    }
+
+    public void setHaveCritica(boolean haveCritica) {
+        this.haveCritica = haveCritica;
     }
 }

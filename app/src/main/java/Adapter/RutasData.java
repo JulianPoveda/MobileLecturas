@@ -10,7 +10,7 @@ public class RutasData {
     private String _totalLeidas;
     private String _totalPendientes;
 
-    public RutasData(String codigoRuta, String totalRuta, String totalLeidas, String totalPendientes){
+    public RutasData(String codigoRuta, String totalPendientes, String totalLeidas, String totalRuta){
             this._codigoRuta = codigoRuta;
             this._totalRutas = totalRuta;
             this._totalLeidas = totalLeidas;

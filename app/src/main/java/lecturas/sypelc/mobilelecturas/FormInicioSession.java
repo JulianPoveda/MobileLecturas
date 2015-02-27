@@ -28,7 +28,8 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
     public static String sub_path_pictures  = "Fotos";
 
     private Intent              new_form;
-    private ClassSession FcnUsuario;
+
+    private ClassSession        FcnSession;
     private ClassConfiguracion  FcnCfg;
 
     private Button      _btnLoggin;
@@ -41,8 +42,8 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_session);
 
-        this.FcnUsuario = ClassSession.getInstance(this);
-        this.FcnCfg     = ClassConfiguracion.getInstance(this);
+        this.FcnSession     = ClassSession.getInstance(this);
+        this.FcnCfg         = ClassConfiguracion.getInstance(this);
 
         this._btnLoggin     = (Button) findViewById(R.id.LoginBtnIngresar);
         this._txtCodigo     = (EditText) findViewById(R.id.LoginEditTextCodigo);
@@ -66,21 +67,15 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if(this.FcnUsuario.isInicio_sesion()) {
-            menu.findItem(R.id.InicioCargarParametros).setEnabled(true);
-            menu.findItem(R.id.InicioCargarRuta).setEnabled(true);
-            menu.findItem(R.id.InicioVerRutas).setEnabled(true);
-            menu.findItem(R.id.InicioCrearBackup).setEnabled(true);
+        menu.findItem(R.id.InicioCargarParametros).setEnabled(this.FcnSession.isInicio_sesion());
+        menu.findItem(R.id.InicioCargarRuta).setEnabled(this.FcnSession.isInicio_sesion());
+        menu.findItem(R.id.InicioVerRutas).setEnabled(this.FcnSession.isInicio_sesion());
+        menu.findItem(R.id.InicioCrearBackup).setEnabled(this.FcnSession.isInicio_sesion());
 
-            this._txtCodigo.setEnabled(false);
-            this._lblNombre.setText(this.FcnUsuario.getNombre());
-            this._btnLoggin.setEnabled(false);
-        }else{
-            menu.findItem(R.id.InicioCargarParametros).setEnabled(false);
-            menu.findItem(R.id.InicioCargarRuta).setEnabled(false);
-            menu.findItem(R.id.InicioVerRutas).setEnabled(false);
-            menu.findItem(R.id.InicioCrearBackup).setEnabled(false);
-        }
+        this._txtCodigo.setEnabled(!this.FcnSession.isInicio_sesion());
+        this._btnLoggin.setEnabled(!this.FcnSession.isInicio_sesion());
+        this._lblNombre.setText(this.FcnSession.getNombre());
+
         return true;
     }
 
@@ -88,11 +83,11 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.InicioCargarParametros:
-                new DownLoadParametros(this).execute(this.FcnUsuario.getCodigo()+"");
+                new DownLoadParametros(this).execute(this.FcnSession.getCodigo()+"");
                 break;
 
             case R.id.InicioCargarRuta:
-                new DownLoadTrabajo(this).execute(this.FcnUsuario.getCodigo()+"");
+                new DownLoadTrabajo(this).execute(this.FcnSession.getCodigo()+"");
                 break;
 
             case R.id.InicioVerRutas:
@@ -110,6 +105,8 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
                 break;
 
             case R.id.InicioMenuSalir:
+                this.FcnSession.IniciarSession(-1);
+                invalidateOptionsMenu();
                 finish();
             default:
                 break;
@@ -122,9 +119,8 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
         switch(v.getId()){
             case R.id.LoginBtnIngresar:
                 if(!this._txtCodigo.getText().toString().isEmpty()){
-                    this.FcnUsuario.IniciarSession(Integer.parseInt(this._txtCodigo.getText().toString()));
+                    this.FcnSession.IniciarSession(Integer.parseInt(this._txtCodigo.getText().toString()));
                 }
-
                 invalidateOptionsMenu();
                 break;
         }

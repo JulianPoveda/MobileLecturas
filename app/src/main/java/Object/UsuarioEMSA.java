@@ -3,7 +3,7 @@ package Object;
 /**
  * Created by JULIANEDUARDO on 20/02/2015.
  */
-public class Usuario {
+public class UsuarioEMSA {
 
     //Datos de referencia en la base de datos
     private int         id_serial;
@@ -30,6 +30,9 @@ public class Usuario {
     private int         lectura_anterior1;
     private int         lectura_anterior2;
     private int         lectura_anterior3;
+    private boolean     view_tipo_energia1;
+    private boolean     view_tipo_energia2;
+    private boolean     view_tipo_energia3;
     private String      tipo_energia1;
     private String      tipo_energia2;
     private String      tipo_energia3;
@@ -37,7 +40,7 @@ public class Usuario {
     private double      promedio2;
     private double      promedio3;
 
-    public Usuario(){
+    public UsuarioEMSA(){
         this.id_consecutivo = -1;
     }
 
@@ -207,7 +210,8 @@ public class Usuario {
     }
 
     public void setTipo_energia1(String tipo_energia1) {
-        this.tipo_energia1 = tipo_energia1;
+        this.tipo_energia1      = "Lect. "+tipo_energia1;
+        this.view_tipo_energia1 = !tipo_energia1.equals("N");
     }
 
     public String getTipo_energia2() {
@@ -215,7 +219,8 @@ public class Usuario {
     }
 
     public void setTipo_energia2(String tipo_energia2) {
-        this.tipo_energia2 = tipo_energia2;
+        this.tipo_energia2      = "Lect. "+tipo_energia2;
+        this.view_tipo_energia2 = !tipo_energia2.equals("N");
     }
 
     public String getTipo_energia3() {
@@ -223,7 +228,8 @@ public class Usuario {
     }
 
     public void setTipo_energia3(String tipo_energia3) {
-        this.tipo_energia3 = tipo_energia3;
+        this.tipo_energia3      = "Lect. "+tipo_energia3;
+        this.view_tipo_energia3 = !tipo_energia3.equals("N");
     }
 
     public double getPromedio1() {
@@ -248,5 +254,17 @@ public class Usuario {
 
     public void setPromedio3(double promedio3) {
         this.promedio3 = promedio3;
+    }
+
+    public boolean isView_tipo_energia1() {
+        return view_tipo_energia1;
+    }
+
+    public boolean isView_tipo_energia2() {
+        return view_tipo_energia2;
+    }
+
+    public boolean isView_tipo_energia3() {
+        return view_tipo_energia3;
     }
 }
