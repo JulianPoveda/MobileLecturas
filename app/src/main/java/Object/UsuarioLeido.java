@@ -19,6 +19,7 @@ public class UsuarioLeido extends UsuarioEMSA {
 
     private String  mensaje;
     private int     anomalia;
+    private String  strAnomalia;
     private int     intentos;
     private int     countFotos;
 
@@ -29,6 +30,11 @@ public class UsuarioLeido extends UsuarioEMSA {
     private boolean leido;
     private boolean haveCritica;
 
+
+    //Atributos usados para cuando se realiza una busqueda
+    private boolean flagSearch;
+    public String   backupRuta;
+    public int      backupConsecutivo;
 
 
     public UsuarioLeido(){
@@ -88,8 +94,13 @@ public class UsuarioLeido extends UsuarioEMSA {
         return anomalia;
     }
 
-    public void setAnomalia(int _anomalia) {
-        this.anomalia   = _anomalia;
+    public String getStrAnomalia() {
+        return strAnomalia;
+    }
+
+    public void setAnomalia(int _anomalia, String _strAnomalia) {
+        this.anomalia       = _anomalia;
+        this.strAnomalia    = _strAnomalia;
         this.needLectura= this.FcnAnomalias.needLectura(_anomalia);
         this.needFoto   = this.FcnAnomalias.needFoto(_anomalia);
         this.needMensaje= this.FcnAnomalias.needMensaje(_anomalia);
@@ -145,5 +156,29 @@ public class UsuarioLeido extends UsuarioEMSA {
 
     public void setHaveCritica(boolean haveCritica) {
         this.haveCritica = haveCritica;
+    }
+
+    public boolean isFlagSearch() {
+        return flagSearch;
+    }
+
+    public void setFlagSearch(boolean flagSearch) {
+        this.flagSearch = flagSearch;
+    }
+
+    public String getBackupRuta() {
+        return backupRuta;
+    }
+
+    public void setBackupRuta(String backupRuta) {
+        this.backupRuta = backupRuta;
+    }
+
+    public int getBackupConsecutivo() {
+        return backupConsecutivo;
+    }
+
+    public void setBackupConsecutivo(int backupConsecutivo) {
+        this.backupConsecutivo = backupConsecutivo;
     }
 }

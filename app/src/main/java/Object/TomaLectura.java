@@ -34,6 +34,10 @@ public class TomaLectura {
         if(!this.FcnArchivos.ExistFolderOrFile(FormInicioSession.sub_path_pictures,true)){
             this.FcnArchivos.MakeDirectory(FormInicioSession.sub_path_pictures,true);
         }
+
+        this.ObjUsuario.setFlagSearch(false);
+        this.ObjUsuario.setBackupRuta(null);
+        this.ObjUsuario.setBackupConsecutivo(-1);
     }
 
 
@@ -41,15 +45,22 @@ public class TomaLectura {
         boolean _retorno  = false;
         if(this.ObjUsuario.getId_consecutivo() == -1){
             this._tempRegistro = this.FcnSQL.SelectDataRegistro("maestro_clientes",
-                                                                "ruta, id_serial,id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,tipo_uso,factor_multiplicacion,id_serial_1,lectura_anterior_1,tipo_energia_1,promedio_1,id_serial_2,lectura_anterior_2,tipo_energia_2,promedio_2,id_serial_3,lectura_anterior_3,tipo_energia_3,promedio_3,estado,id_municipio",
+                                                                "ruta, id_serial,id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,tipo_uso,factor_multiplicacion,id_serial_1,lectura_anterior_1,tipo_energia_1,promedio_1,id_serial_2,lectura_anterior_2,tipo_energia_2,promedio_2,id_serial_3,lectura_anterior_3,tipo_energia_3,promedio_3,estado,id_municipio,anomalia_anterior_1",
                                                                 "ruta='"+this.ObjUsuario.getRuta()+"' AND estado='P' ORDER BY id_secuencia ASC");
+        }else if(this.ObjUsuario.isFlagSearch()){
+            this._tempRegistro = this.FcnSQL.SelectDataRegistro("maestro_clientes",
+                                                                "ruta, id_serial,id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,tipo_uso,factor_multiplicacion,id_serial_1,lectura_anterior_1,tipo_energia_1,promedio_1,id_serial_2,lectura_anterior_2,tipo_energia_2,promedio_2,id_serial_3,lectura_anterior_3,tipo_energia_3,promedio_3,estado,id_municipio,anomalia_anterior_1",
+                                                                "ruta='"+this.ObjUsuario.getBackupRuta()+"' AND id_secuencia="+this.ObjUsuario.getBackupConsecutivo()+" ORDER BY id_secuencia ASC");
+            this.ObjUsuario.setFlagSearch(false);
+            this.ObjUsuario.setBackupRuta(null);
+            this.ObjUsuario.setBackupConsecutivo(-1);
         }else if(_next){
             this._tempRegistro = this.FcnSQL.SelectDataRegistro("maestro_clientes",
-                                                                "ruta, id_serial,id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,tipo_uso,factor_multiplicacion,id_serial_1,lectura_anterior_1,tipo_energia_1,promedio_1,id_serial_2,lectura_anterior_2,tipo_energia_2,promedio_2,id_serial_3,lectura_anterior_3,tipo_energia_3,promedio_3,estado,id_municipio",
+                                                                "ruta, id_serial,id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,tipo_uso,factor_multiplicacion,id_serial_1,lectura_anterior_1,tipo_energia_1,promedio_1,id_serial_2,lectura_anterior_2,tipo_energia_2,promedio_2,id_serial_3,lectura_anterior_3,tipo_energia_3,promedio_3,estado,id_municipio,anomalia_anterior_1",
                                                                 "ruta='"+this.ObjUsuario.getRuta()+"' AND id_secuencia>"+this.ObjUsuario.getId_consecutivo()+" AND estado='P' ORDER BY id_secuencia ASC");
         }else{
             this._tempRegistro = this.FcnSQL.SelectDataRegistro("maestro_clientes",
-                                                                "ruta, id_serial, id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,tipo_uso,factor_multiplicacion,id_serial_1,lectura_anterior_1,tipo_energia_1,promedio_1,id_serial_2,lectura_anterior_2,tipo_energia_2,promedio_2,id_serial_3,lectura_anterior_3,tipo_energia_3,promedio_3,estado",
+                                                                "ruta, id_serial,id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,tipo_uso,factor_multiplicacion,id_serial_1,lectura_anterior_1,tipo_energia_1,promedio_1,id_serial_2,lectura_anterior_2,tipo_energia_2,promedio_2,id_serial_3,lectura_anterior_3,tipo_energia_3,promedio_3,estado,id_municipio,anomalia_anterior_1",
                                                                 "ruta='"+this.ObjUsuario.getRuta()+"' AND id_secuencia<"+this.ObjUsuario.getId_consecutivo()+" AND estado='P' ORDER BY id_secuencia DESC");
         }
 
@@ -64,7 +75,7 @@ public class TomaLectura {
     public boolean getSearchDatosUsuario(String _cuenta, String _medidor){
         boolean _retorno    = false;
         this._tempRegistro  = this.FcnSQL.SelectDataRegistro(   "maestro_clientes",
-                                                                "ruta, id_serial, id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,tipo_uso,factor_multiplicacion,id_serial_1,lectura_anterior_1,tipo_energia_1,promedio_1,id_serial_2,lectura_anterior_2,tipo_energia_2,promedio_2,id_serial_3,lectura_anterior_3,tipo_energia_3,promedio_3,estado,id_municipio",
+                                                                "ruta, id_serial, id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,tipo_uso,factor_multiplicacion,id_serial_1,lectura_anterior_1,tipo_energia_1,promedio_1,id_serial_2,lectura_anterior_2,tipo_energia_2,promedio_2,id_serial_3,lectura_anterior_3,tipo_energia_3,promedio_3,estado,id_municipio,anomalia_anterior_1",
                                                                 "cuenta="+_cuenta+" AND serie_medidor ='"+_medidor+"' ORDER BY id_secuencia ASC");
 
         if(this._tempRegistro.size()>0){
@@ -103,7 +114,9 @@ public class TomaLectura {
         this.ObjUsuario.setTipo_energia3(this._tempRegistro.getAsString("tipo_energia_3"));
         this.ObjUsuario.setPromedio3(this._tempRegistro.getAsInteger("promedio_3"));
 
-        this.ObjUsuario.setLeido(this._tempRegistro.getAsString("estado").equals('T'));
+        this.ObjUsuario.setLeido(this._tempRegistro.getAsString("estado").equals("T"));
+        this.ObjUsuario.setAnomalia_anterior(this._tempRegistro.getAsInteger("anomalia_anterior_1"));
+        //this.ObjUsuario.setAnomalia(this._tempRegistro.getAsInteger("anomalia_anterior_1"),null);
 
         this.getNumIntentos();
         this.getNumeroFotos();
@@ -238,19 +251,8 @@ public class TomaLectura {
         _retorno =  this.FcnSQL.InsertRegistro("toma_lectura",this._tempRegistro);
         this.getNumIntentos();
 
-        if(!this.ObjUsuario.isNeedLectura()){
-            this.ObjUsuario.setLeido(true);
-            this.setEstado("T");
-            this.ObjUsuario.setHaveCritica(false);
-        }else if(!this.ObjUsuario.isHaveCritica()){
-            this.ObjUsuario.setLeido(true);
-            this.setEstado("T");
-            this.ObjUsuario.setHaveCritica(false);
-        }else if(this.ObjUsuario.getIntentos() == 2 && _oldLectura1 == 0 && _oldLectura2 == 0 && _oldLectura3 == 0){
-            this.ObjUsuario.setLeido(true);
-            this.setEstado("T");
-            this.ObjUsuario.setHaveCritica(false);
-        }else if(this.ObjUsuario.getIntentos() == 3){
+        if(!this.ObjUsuario.isNeedLectura() || this.ObjUsuario.getIntentos() == 3 || !this.ObjUsuario.isHaveCritica() ||
+                (this.ObjUsuario.getIntentos() == 2 && _oldLectura1 == 0 && _oldLectura2 == 0 && _oldLectura3 == 0)){
             this.ObjUsuario.setLeido(true);
             this.setEstado("T");
             this.ObjUsuario.setHaveCritica(false);
