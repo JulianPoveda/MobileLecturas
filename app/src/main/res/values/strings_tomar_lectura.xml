@@ -8,4 +8,6 @@
         <string name="TxtLectura3">Lectura_3</string>
         <string name="LecturasBtnGuardar">Guardar</string>
         <string name="LecturasBtnImprimir">Imprimir</string>
+        <string name="LecturasBtnAnterior">&lt;</string>
+        <string name="LecturasBtnSiguiente">&gt;</string>
 </resources>

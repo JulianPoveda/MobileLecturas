@@ -34,14 +34,14 @@ import Object.TomaLectura;
 import Object.UsuarioLeido;
 
 
-public class FormTomarLectura extends ActionBarActivity implements OnTouchListener, OnClickListener, OnItemSelectedListener{
+public class FormTomarLectura extends ActionBarActivity implements OnClickListener, OnItemSelectedListener{
     static int 				    INICIAR_CAMARA			= 1;
     static int                  FROM_BUSCAR             = 2;
 
     private Intent 			    IniciarCamara;
     private Intent              new_form;
-    private DialogoInformativo  dialogo;
-    private Bundle              argumentos;
+
+
 
     private ClassSession        FcnSession;
     private TomaLectura         FcnLectura;
@@ -52,7 +52,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     private TextView    _lblCuenta, _lblNombre, _lblDireccion, _lblRuta, _lblMedidor, _lblLectura1, _lblLectura2, _lblLectura3;
     private EditText    _txtLectura1, _txtLectura2, _txtLectura3, _txtMensaje;
     private Spinner     _cmbTipoUso, _cmbAnomalia;
-    private Button      _btnGuardar;
+    private Button      _btnGuardar, _btnSiguiente, _btnAnterior;
 
 
     //private int         backupId;
@@ -71,9 +71,6 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         setContentView(R.layout.activity_tomar_lectura);
         Bundle bundle       = getIntent().getExtras();
         this._ruta          = bundle.getString("Ruta");
-
-        this.argumentos     = new Bundle();
-        this.dialogo        = new DialogoInformativo();
 
         this.IniciarCamara	= new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -101,9 +98,11 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
         this._cmbTipoUso    = (Spinner) findViewById(R.id.LecturaSpnTipoUso);
 
         this._btnGuardar    = (Button) findViewById(R.id.LecturasBtnGuardar);
+        this._btnSiguiente  = (Button) findViewById(R.id.LecturaBtnSiguiente);
+        this._btnAnterior   = (Button) findViewById(R.id.LecturaBtnAnterior);
 
-        this._viewFlipper = (ViewFlipper) findViewById(R.id.InicioViewFlipper);
-        this._viewFlipper.setOnTouchListener(this);
+        //this._viewFlipper = (ViewFlipper) findViewById(R.id.InicioViewFlipper);
+        //this._viewFlipper.setOnTouchListener(this);
 
         if(this.FcnLectura.getDatosUsuario(true)){
             this.MostrarInformacionBasica();
@@ -115,7 +114,10 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
 
         this._cmbTipoUso.setOnItemSelectedListener(this);
         this._cmbAnomalia.setOnItemSelectedListener(this);
+
         this._btnGuardar.setOnClickListener(this);
+        this._btnAnterior.setOnClickListener(this);
+        this._btnSiguiente.setOnClickListener(this);
     }
 
 
@@ -210,19 +212,33 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     @Override
     public void onClick(View v) {
         switch(v.getId()){
+            case R.id.LecturaBtnAnterior:
+                if(this.FcnLectura.getDatosUsuario(false)) {
+                    this._cmbAnomalia.setSelection(0);
+                    this._cmbTipoUso.setSelection(0);
+                    this.MostrarInformacionBasica();
+                }
+                break;
+
+            case R.id.LecturaBtnSiguiente:
+                if(this.FcnLectura.getDatosUsuario(true)){
+                    this._cmbAnomalia.setSelection(0);
+                    this._cmbTipoUso.setSelection(0);
+                    this.MostrarInformacionBasica();
+                }
+                break;
+
+
             case R.id.LecturasBtnGuardar:
-                if(this.FcnLectura.getInfUsuario().isNeedFoto() && this.FcnLectura.getInfUsuario().getCountFotos() == 0){
+                /*if(this.FcnLectura.getInfUsuario().isNeedFoto() && this.FcnLectura.getInfUsuario().getCountFotos() == 0){
                     this.argumentos.clear();
                     this.argumentos.putString("Titulo","ERROR.");
                     this.argumentos.putString("Mensaje","Falta asociar fotos con la cuenta.");
                     this.dialogo.setArguments(argumentos);
                     this.dialogo.show(getFragmentManager(), "SaveDialog");
-                }else if(this.FcnLectura.getInfUsuario().isNeedMensaje() && this._txtMensaje.getText().toString().isEmpty()){
-                    this.argumentos.clear();
-                    this.argumentos.putString("Titulo","ERROR.");
-                    this.argumentos.putString("Mensaje","Falta registrar mensaje.");
-                    this.dialogo.setArguments(argumentos);
-                    this.dialogo.show(getFragmentManager(), "SaveDialog");
+                }else */
+                if(this.FcnLectura.getInfUsuario().isNeedMensaje() && this._txtMensaje.getText().toString().isEmpty()){
+
                 }else{
                     if(this.FcnLectura.guardarLectura(this._txtLectura1.getText().toString(),
                             this._txtLectura2.getText().toString(),
@@ -233,14 +249,17 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                         this._txtLectura3.setText("");
 
                         if(this.FcnLectura.getInfUsuario().isHaveCritica()){
-                            this.argumentos.clear();
+                            /*this.argumentos.clear();
                             this.argumentos.putString("Titulo","ERROR.");
                             this.argumentos.putString("Mensaje","Se ha generado critica, ingrese la lectura nuevamente.");
                             this.dialogo.setArguments(argumentos);
-                            this.dialogo.show(getFragmentManager(), "SaveDialog");
+                            this.dialogo.show(getFragmentManager(), "SaveDialog");*/
                         }
 
-                        if(this.FcnLectura.getInfUsuario().isLeido()) {
+                        if(this.FcnLectura.getInfUsuario().isLeido()){
+                            //Si se genero critica tomar foto
+
+                            this._btnGuardar.setEnabled(false);
                             this.FcnFormatos.ActaLectura(   this.FcnLectura.getInfUsuario().getTipo_energia1(),
                                                             this.FcnLectura.getInfUsuario().getLectura1(),
                                                             this.FcnLectura.getInfUsuario().getStrAnomalia(),
@@ -282,7 +301,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                 if(this.FcnLectura.getInfUsuario().getAnomalia_anterior() != Integer.parseInt(_anomalia[0])){
                     this.argumentos.clear();
                     this.argumentos.putString("Titulo","ALERTA.");
-                    this.argumentos.putString("Mensaje","La anomalia seleccionada no coincide con la anomalia anterior..");
+                    this.argumentos.putString("Mensaje","La anomalia seleccionada no coincide con la anomalia anterior.");
                     this.dialogo.setArguments(argumentos);
                     this.dialogo.show(getFragmentManager(), "SaveDialog");
                 }
@@ -329,7 +348,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
     }
 
 
-    @Override
+    /*@Override
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: //Cuando el usuario toca la pantalla por primera vez
@@ -358,6 +377,6 @@ public class FormTomarLectura extends ActionBarActivity implements OnTouchListen
                 break;
         }
         return false;
-    }
+    }*/
 
 }
