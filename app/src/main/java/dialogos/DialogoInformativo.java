@@ -14,7 +14,6 @@ import android.os.Bundle;
  */
 public class DialogoInformativo extends DialogFragment{
 
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

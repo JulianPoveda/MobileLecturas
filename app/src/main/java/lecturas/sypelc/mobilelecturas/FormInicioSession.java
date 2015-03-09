@@ -92,7 +92,7 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
 
             case R.id.InicioVerRutas:
                 this.new_form = new Intent(this, FormInformacionRutas.class);
-                this.new_form.putExtra("FolderAplicacion",Environment.getExternalStorageDirectory() + File.separator + "TomaLecturas");
+                //this.new_form.putExtra("FolderAplicacion",Environment.getExternalStorageDirectory() + File.separator + "TomaLecturas");
                 startActivity(this.new_form);
                 break;
 

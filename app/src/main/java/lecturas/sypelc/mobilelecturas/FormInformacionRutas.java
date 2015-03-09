@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import Adapter.RutasAdapter;
 import Adapter.RutasData;
+import async_task.UploadLecturas;
 import clases.ClassSession;
 import sistema.SQLite;
 
@@ -43,11 +44,11 @@ public class FormInformacionRutas extends Activity{
         setContentView(R.layout.activity_informacion_rutas);
 
         Bundle bundle = getIntent().getExtras();
-        this.FolderAplicacion= bundle.getString("FolderAplicacion");
+        //this.FolderAplicacion= bundle.getString("FolderAplicacion");
 
         this.FcnSession = ClassSession.getInstance(this);
 
-        sqlConsulta = new SQLite(this, this.FolderAplicacion);
+        sqlConsulta = new SQLite(this, FormInicioSession.path_files_app);
         listadoRutasAdapter = new RutasAdapter(FormInformacionRutas.this, arrayListadoRutas);
 
         listadoRutas = (ListView)findViewById(R.id.InfoListRutas);
@@ -95,7 +96,7 @@ public class FormInformacionRutas extends Activity{
                 return true;
 
             case R.id.RutasMenuSincronizar:
-
+                new UploadLecturas(this).execute(this.ruta_seleccionada);
                 return true;
 
             default:

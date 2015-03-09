@@ -302,15 +302,20 @@ public class Archivos {
     }
 
 
-    public byte[] FileToArrayBytes(String NombreArchivo){
+    public byte[] FileToArrayBytes(String _carpeta, String _nombreArchivo, boolean _relativeDirectory){
         int len = 0;
         InputStream is 	= null;
         ByteArrayOutputStream os = new ByteArrayOutputStream(1024 * this.SizeBuffer);
         byte[] buffer = new byte[1024*this.SizeBuffer];
 
         try{
-            if (NombreArchivo != null) {
-                is = new FileInputStream(NombreArchivo);
+            if (_nombreArchivo != null) {
+                if(_relativeDirectory){
+                    is = new FileInputStream(this.Directory + File.separator+_carpeta + File.separator + _nombreArchivo);
+                }else{
+                    is = new FileInputStream(_carpeta + File.separator + _nombreArchivo);
+                }
+
                 try {
                     while ((len = is.read(buffer)) >= 0) {
                         os.write(buffer, 0, len);

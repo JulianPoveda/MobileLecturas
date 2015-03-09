@@ -8,27 +8,33 @@ import clases.ClassAnomalias;
 public class UsuarioLeido extends UsuarioEMSA {
     private ClassAnomalias  FcnAnomalias;
 
+    private int     newTipoUso;
 
     private int     lectura1;
     private int     lectura2;
     private int     lectura3;
 
+    private int     oldLectura1;
+    private int     oldLectura2;
+    private int     oldLectura3;
+
     private double  critica1;
     private double  critica2;
     private double  critica3;
 
-    private String  mensaje;
     private int     anomalia;
-    private String  strAnomalia;
     private int     intentos;
     private int     countFotos;
 
+    private String  mensaje;
+    private String  strAnomalia;
 
     private boolean needLectura;
     private boolean needFoto;
     private boolean needMensaje;
     private boolean leido;
     private boolean haveCritica;
+    private boolean confirmLectura;
 
 
     //Atributos usados para cuando se realiza una busqueda
@@ -180,5 +186,45 @@ public class UsuarioLeido extends UsuarioEMSA {
 
     public void setBackupConsecutivo(int backupConsecutivo) {
         this.backupConsecutivo = backupConsecutivo;
+    }
+
+    public int getOldLectura1() {
+        return oldLectura1;
+    }
+
+    public void setOldLectura1(int oldLectura1) {
+        this.oldLectura1 = oldLectura1;
+    }
+
+    public int getOldLectura2() {
+        return oldLectura2;
+    }
+
+    public void setOldLectura2(int oldLectura2) {
+        this.oldLectura2 = oldLectura2;
+    }
+
+    public int getOldLectura3() {
+        return oldLectura3;
+    }
+
+    public void setOldLectura3(int oldLectura3) {
+        this.oldLectura3 = oldLectura3;
+    }
+
+    public boolean isConfirmLectura() {
+        return confirmLectura;
+    }
+
+    public void setConfirmLectura(boolean confirmLectura) {
+        this.confirmLectura = confirmLectura;
+    }
+
+    public int getNewTipoUso() {
+        return newTipoUso;
+    }
+
+    public void setNewTipoUso(int newTipoUso) {
+        this.newTipoUso = newTipoUso;
     }
 }

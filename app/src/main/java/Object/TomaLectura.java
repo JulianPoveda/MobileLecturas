@@ -116,18 +116,10 @@ public class TomaLectura {
 
         this.ObjUsuario.setLeido(this._tempRegistro.getAsString("estado").equals("T"));
         this.ObjUsuario.setAnomalia_anterior(this._tempRegistro.getAsInteger("anomalia_anterior_1"));
-        //this.ObjUsuario.setAnomalia(this._tempRegistro.getAsInteger("anomalia_anterior_1"),null);
 
-        this.getNumIntentos();
         this.getNumeroFotos();
         this.getLastLectura();
-
-        //this.ObjUsuario.setIntentos(this.FcnSQL.CountRegistrosWhere("toma_lectura",
-        //                                                            "id_serial1="+this.ObjUsuario.getId_serial1()+" AND id_serial2="+this.ObjUsuario.getId_serial2()+" AND id_serial3="+this.ObjUsuario.getId_serial3()));
-
-        //this.ObjUsuario.setCountFotos(this.FcnArchivos.numArchivosInFolderBeginByName(  FormInicioSession.sub_path_pictures,
-        //                                                                                this.ObjUsuario.getCuenta()+"",
-        //                                                                                true));
+        this.getNumIntentos();
     }
 
 
@@ -164,6 +156,30 @@ public class TomaLectura {
     public void getNumIntentos(){
         this.ObjUsuario.setIntentos(this.FcnSQL.CountRegistrosWhere("toma_lectura",
                                     "id_serial1="+this.ObjUsuario.getId_serial1()+" AND id_serial2="+this.ObjUsuario.getId_serial2()+" AND id_serial3="+this.ObjUsuario.getId_serial3()));
+
+        if(this.ObjUsuario.getIntentos() == 0){
+            this.ObjUsuario.setOldLectura1(0);
+            this.ObjUsuario.setOldLectura2(0);
+            this.ObjUsuario.setOldLectura3(0);
+            this.ObjUsuario.setConfirmLectura(false);
+        }else if(this.ObjUsuario.getIntentos() == 1){
+            this.ObjUsuario.setOldLectura1(this.ObjUsuario.getLectura1());
+            this.ObjUsuario.setOldLectura2(this.ObjUsuario.getLectura2());
+            this.ObjUsuario.setOldLectura3(this.ObjUsuario.getLectura3());
+            this.ObjUsuario.setConfirmLectura(false);
+        }else if(this.ObjUsuario.getIntentos() == 2){
+            if(this.ObjUsuario.getOldLectura1() == this.ObjUsuario.getLectura1() &&
+                    this.ObjUsuario.getOldLectura2() == this.ObjUsuario.getLectura2() &&
+                    this.ObjUsuario.getOldLectura3() == this.ObjUsuario.getLectura3()){
+                this.ObjUsuario.setConfirmLectura(true);
+            }else{
+                this.ObjUsuario.setConfirmLectura(false);
+            }
+
+            this.ObjUsuario.setOldLectura1(this.ObjUsuario.getLectura1());
+            this.ObjUsuario.setOldLectura2(this.ObjUsuario.getLectura2());
+            this.ObjUsuario.setOldLectura3(this.ObjUsuario.getLectura3());
+        }
     }
 
 
@@ -176,11 +192,53 @@ public class TomaLectura {
     }
 
 
+    public void preCritica(String _lectura1, String _lectura2, String _lectura3){
+        if(_lectura1.isEmpty() && this.ObjUsuario.isView_tipo_energia1() && this.ObjUsuario.isNeedLectura()){
+            //falta la lectura 1
+        }else if(_lectura2.isEmpty() && this.ObjUsuario.isView_tipo_energia2() && this.ObjUsuario.isNeedLectura()){
+
+        }else if(_lectura3.isEmpty() && this.ObjUsuario.isView_tipo_energia3() && this.ObjUsuario.isNeedLectura()){
+
+        }else{
+            if(this.ObjUsuario.isView_tipo_energia1() && this.ObjUsuario.isNeedLectura()){
+                this.ObjUsuario.setCritica1(this.FcnCritica.calculateCritica(   Integer.parseInt(_lectura1),
+                                                                                this.ObjUsuario.getLectura_anterior1(),
+                                                                                this.ObjUsuario.getPromedio1(),
+                                                                                this.ObjUsuario.getFactor_multiplicacion()));
+            }else{
+                this.ObjUsuario.setLectura1(-1);
+                this.ObjUsuario.setCritica1(1);
+            }
+
+            if(this.ObjUsuario.isView_tipo_energia2() && this.ObjUsuario.isNeedLectura()){
+                this.ObjUsuario.setCritica2(this.FcnCritica.calculateCritica(   Integer.parseInt(_lectura2),
+                                                                                this.ObjUsuario.getLectura_anterior2(),
+                                                                                this.ObjUsuario.getPromedio1(),
+                                                                                this.ObjUsuario.getFactor_multiplicacion()));
+            }else{
+                this.ObjUsuario.setLectura2(-1);
+                this.ObjUsuario.setCritica2(1);
+            }
+
+            if(this.ObjUsuario.isView_tipo_energia3() && this.ObjUsuario.isNeedLectura()){
+                this.ObjUsuario.setCritica3(this.FcnCritica.calculateCritica(   Integer.parseInt(_lectura3),
+                                                                                this.ObjUsuario.getLectura_anterior3(),
+                                                                                this.ObjUsuario.getPromedio1(),
+                                                                                this.ObjUsuario.getFactor_multiplicacion()));
+            }else{
+                this.ObjUsuario.setLectura3(-1);
+                this.ObjUsuario.setCritica3(1);
+            }
+
+            this.ObjUsuario.setHaveCritica( this.FcnCritica.haveCritica(this.ObjUsuario.getCritica1()) ||
+                                            this.FcnCritica.haveCritica(this.ObjUsuario.getCritica2()) ||
+                                            this.FcnCritica.haveCritica(this.ObjUsuario.getCritica3()));
+        }
+    }
+
+
     public boolean guardarLectura(String _lectura1, String _lectura2, String _lectura3, String _mensaje){
         boolean _retorno = false;
-        int     _oldLectura1 = 0;
-        int     _oldLectura2 = 0;
-        int     _oldLectura3 = 0;
 
         if(_lectura1.isEmpty() && this.ObjUsuario.isView_tipo_energia1() && this.ObjUsuario.isNeedLectura()){
             //falta la lectura 1
@@ -192,47 +250,22 @@ public class TomaLectura {
             this.ObjUsuario.setMensaje(_mensaje);
 
             if(this.ObjUsuario.isView_tipo_energia1() && this.ObjUsuario.isNeedLectura()){
-                _oldLectura1 = Integer.parseInt(_lectura1) - this.ObjUsuario.getLectura1();
                 this.ObjUsuario.setLectura1(Integer.parseInt(_lectura1));
-                this.ObjUsuario.setCritica1(this.FcnCritica.calculateCritica(   this.ObjUsuario.getLectura1(),
-                                                                                this.ObjUsuario.getLectura_anterior1(),
-                                                                                this.ObjUsuario.getPromedio1(),
-                                                                                this.ObjUsuario.getFactor_multiplicacion()));
             }else{
-                _oldLectura1 = 0;
                 this.ObjUsuario.setLectura1(-1);
-                this.ObjUsuario.setCritica1(1);
             }
 
             if(this.ObjUsuario.isView_tipo_energia2() && this.ObjUsuario.isNeedLectura()){
-                _oldLectura2 = Integer.parseInt(_lectura2) - this.ObjUsuario.getLectura2();
                 this.ObjUsuario.setLectura2(Integer.parseInt(_lectura2));
-                this.ObjUsuario.setCritica2(this.FcnCritica.calculateCritica(   this.ObjUsuario.getLectura2(),
-                                                                                this.ObjUsuario.getLectura_anterior2(),
-                                                                                this.ObjUsuario.getPromedio2(),
-                                                                                this.ObjUsuario.getFactor_multiplicacion()));
             }else{
-                _oldLectura2 = 0;
                 this.ObjUsuario.setLectura2(-1);
-                this.ObjUsuario.setCritica2(1);
             }
 
             if(this.ObjUsuario.isView_tipo_energia3() && this.ObjUsuario.isNeedLectura()){
-                _oldLectura3 = Integer.parseInt(_lectura3) - this.ObjUsuario.getLectura3();
                 this.ObjUsuario.setLectura3(Integer.parseInt(_lectura3));
-                this.ObjUsuario.setCritica3(this.FcnCritica.calculateCritica(   this.ObjUsuario.getLectura3(),
-                                                                                this.ObjUsuario.getLectura_anterior3(),
-                                                                                this.ObjUsuario.getPromedio3(),
-                                                                                this.ObjUsuario.getFactor_multiplicacion()));
             }else{
-                _oldLectura3 = 0;
                 this.ObjUsuario.setLectura3(-1);
-                this.ObjUsuario.setCritica3(1);
             }
-
-            this.ObjUsuario.setHaveCritica( this.FcnCritica.haveCritica(this.ObjUsuario.getCritica1()) ||
-                                            this.FcnCritica.haveCritica(this.ObjUsuario.getCritica2()) ||
-                                            this.FcnCritica.haveCritica(this.ObjUsuario.getCritica3()));
         }
         this._tempRegistro.clear();
         this._tempRegistro.put("id_serial1",this.ObjUsuario.getId_serial1());
@@ -246,16 +279,15 @@ public class TomaLectura {
         this._tempRegistro.put("critica1",  this.ObjUsuario.getCritica1());
         this._tempRegistro.put("critica2",  this.ObjUsuario.getCritica2());
         this._tempRegistro.put("critica3",  this.ObjUsuario.getCritica3());
-        this._tempRegistro.put("tipo_uso",  this.ObjUsuario.getTipo_uso());
+        this._tempRegistro.put("tipo_uso",  this.ObjUsuario.getNewTipoUso());
 
         _retorno =  this.FcnSQL.InsertRegistro("toma_lectura",this._tempRegistro);
         this.getNumIntentos();
 
-        if(!this.ObjUsuario.isNeedLectura() || this.ObjUsuario.getIntentos() == 3 || !this.ObjUsuario.isHaveCritica() ||
-                (this.ObjUsuario.getIntentos() == 2 && _oldLectura1 == 0 && _oldLectura2 == 0 && _oldLectura3 == 0)){
+        if(!this.ObjUsuario.isNeedLectura() || this.ObjUsuario.getIntentos() == 3 || !this.ObjUsuario.isHaveCritica() || this.ObjUsuario.isConfirmLectura()){
             this.ObjUsuario.setLeido(true);
             this.setEstado("T");
-            this.ObjUsuario.setHaveCritica(false);
+            //this.ObjUsuario.setHaveCritica(false);
         }
         return _retorno;
     }
