@@ -33,8 +33,7 @@
         </activity>
         <activity
             android:name=".FormTomarLectura"
-            android:label="@string/title_activity_tomar_lectura"
-            android:screenOrientation="sensorPortrait" >
+            android:label="@string/title_activity_tomar_lectura">
         </activity>
         <activity
             android:name=".FormConfiguracion"
@@ -44,10 +43,8 @@
             android:name=".FormBuscar"
             android:label="@string/title_activity_form_buscar" >
         </activity>
-        <activity
-            android:name=".DialogoInformacion"
-            android:label="@string/title_activity_dialogo_informacion" >
-        </activity>
+
+
     </application>
 
 </manifest>

@@ -11,6 +11,7 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 
+import Adapter.SpinnerAdapter;
 import clases.ClassConfiguracion;
 import clases.ClassSession;
 import sistema.Bluetooth;
@@ -46,7 +47,7 @@ public class FormConfiguracion extends ActionBarActivity implements OnClickListe
         this._btnGuardar    = (Button) findViewById(R.id.ConfiguracionBtnGuardar);
 
         this._listaImpresoras   = this.FcnBluetooth.GetDeviceBluetoothByAddress();
-        this.AdapLstImpresoras 	= new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,this._listaImpresoras);
+        this.AdapLstImpresoras  = new SpinnerAdapter(this, R.layout.custom_spinner, this._listaImpresoras,"#FF5CBD79","#6B5656");
         this._cmbImpresora.setAdapter(this.AdapLstImpresoras);
         this._cmbImpresora.setSelection(this.AdapLstImpresoras.getPosition(this.FcnCfg.getPrinter()));
 

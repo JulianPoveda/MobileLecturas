@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mnu_lectura_rendimiento">Rendimiento</string>
+    <string name="mnu_lectura_imprimir">Imprimir</string>
+    <string name="mnu_lectura_buscar">Buscar</string>
+    <string name="mnu_lectura_foto">Foto</string>
+</resources>

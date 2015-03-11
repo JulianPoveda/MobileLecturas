@@ -114,7 +114,7 @@ public class TomaLectura {
         this.ObjUsuario.setTipo_energia3(this._tempRegistro.getAsString("tipo_energia_3"));
         this.ObjUsuario.setPromedio3(this._tempRegistro.getAsInteger("promedio_3"));
 
-        this.ObjUsuario.setLeido(this._tempRegistro.getAsString("estado").equals("T"));
+        this.ObjUsuario.setLeido(!this._tempRegistro.getAsString("estado").equals("P"));
         this.ObjUsuario.setAnomalia_anterior(this._tempRegistro.getAsInteger("anomalia_anterior_1"));
 
         this.getNumeroFotos();
@@ -167,7 +167,7 @@ public class TomaLectura {
             this.ObjUsuario.setOldLectura2(this.ObjUsuario.getLectura2());
             this.ObjUsuario.setOldLectura3(this.ObjUsuario.getLectura3());
             this.ObjUsuario.setConfirmLectura(false);
-        }else if(this.ObjUsuario.getIntentos() == 2){
+        }else if(this.ObjUsuario.getIntentos() == 2 || this.ObjUsuario.getIntentos() == 3){
             if(this.ObjUsuario.getOldLectura1() == this.ObjUsuario.getLectura1() &&
                     this.ObjUsuario.getOldLectura2() == this.ObjUsuario.getLectura2() &&
                     this.ObjUsuario.getOldLectura3() == this.ObjUsuario.getLectura3()){
@@ -233,6 +233,8 @@ public class TomaLectura {
             this.ObjUsuario.setHaveCritica( this.FcnCritica.haveCritica(this.ObjUsuario.getCritica1()) ||
                                             this.FcnCritica.haveCritica(this.ObjUsuario.getCritica2()) ||
                                             this.FcnCritica.haveCritica(this.ObjUsuario.getCritica3()));
+
+            this.ObjUsuario.setDescripcionCritica(this.FcnCritica.getDescripcionCritica(this.ObjUsuario.getCritica1()));
         }
     }
 

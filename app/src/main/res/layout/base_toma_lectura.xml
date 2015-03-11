@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="14">
+    android:weightSum="13"
+    android:background="#141010">
 
     <TextView
         android:layout_width="match_parent"
@@ -41,7 +42,8 @@
                     android:layout_height="match_parent"
                     android:text="@string/LecturasBtnAnterior"
                     android:textStyle="bold"
-                    android:textSize="40dp"/>
+                    android:textSize="40dp"
+                    android:textColor="#FF5CBD79"/>
             </LinearLayout>
 
             <LinearLayout
@@ -107,7 +109,8 @@
                     android:layout_height="match_parent"
                     android:text="@string/LecturasBtnSiguiente"
                     android:textStyle="bold"
-                    android:textSize="40dp"/>
+                    android:textSize="40dp"
+                    android:textColor="#FF5CBD79"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -116,7 +119,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.5"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
         <TextView
@@ -127,14 +130,14 @@
             android:text="@string/TxtAnomalia"
             android:gravity="center_vertical|right"
             android:textSize="20dp"
-            android:textColor="#FF5CBD79"/>
+            android:textColor="#ffff5e2c"/>
 
         <Spinner
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="6"
-            android:id="@+id/LecturaSpnAnomalia"/>
-
+            android:id="@+id/LecturaSpnAnomalia"
+            android:background="@drawable/selected_item"/>
     </LinearLayout>
 
     <LinearLayout
@@ -152,7 +155,7 @@
             android:id="@+id/LecturaTxtLectura1"
             android:gravity="center_vertical|right"
             android:textSize="20dp"
-            android:textColor="#FF5CBD79"/>
+            android:textColor="#ffff5e2c"/>
 
         <EditText
             android:layout_width="0dp"
@@ -169,6 +172,7 @@
             android:layout_height="match_parent"
             android:layout_weight="5"
             android:text="@string/LecturasBtnGuardar"
+            android:textColor="#ffff5e2c"
             android:id="@+id/LecturasBtnGuardar"
             android:gravity="center_horizontal|center_vertical" />
     </LinearLayout>
@@ -188,7 +192,7 @@
             android:id="@+id/LecturaTxtLectura2"
             android:gravity="center_vertical|right"
             android:textSize="20dp"
-            android:textColor="#FF5CBD79"/>
+            android:textColor="#ffff5e2c"/>
 
         <EditText
             android:layout_width="0dp"
@@ -197,7 +201,8 @@
             android:id="@+id/LecturaEditLectura2"
             android:layout_weight="3"
             android:gravity="bottom|center"
-            android:textSize="20dp"/>
+            android:textSize="20dp"
+            android:textColor="#FF5CBD79"/>
 
         <TextView
             android:layout_width="0dp"
@@ -207,7 +212,7 @@
             android:id="@+id/LecturaTxtLectura3"
             android:gravity="center_vertical|right"
             android:textSize="20dp"
-            android:textColor="#FF5CBD79"/>
+            android:textColor="#ffff5e2c"/>
 
         <EditText
             android:layout_width="0dp"
@@ -232,6 +237,16 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/TxtMensaje"
+            android:gravity="left|bottom"
+            android:textSize="20dp"
+            android:textColor="#ffff5e2c"/>
+
+        <TextView
+            android:id="@+id/LecturaTxtCritica"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/TxtCritica"
             android:gravity="center_horizontal|bottom"
             android:textSize="20dp"
             android:textColor="#FF5CBD79"/>
@@ -251,7 +266,8 @@
             android:layout_height="match_parent"
             android:inputType="textMultiLine"
             android:layout_weight="10"
-            android:gravity="top" />
+            android:gravity="top"
+            android:textColor="#FF5CBD79" />
     </LinearLayout>
 
     <LinearLayout
@@ -270,13 +286,14 @@
             android:text="@string/TxtTipoUso"
             android:gravity="right|center_vertical"
             android:textSize="20dp"
-            android:textColor="#FF5CBD79"/>
+            android:textColor="#ffff5e2c"/>
 
         <Spinner
             android:id="@+id/LecturaSpnTipoUso"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="6"
-            android:gravity="center_horizontal|center_vertical" />
+            android:gravity="center_horizontal|center_vertical"
+            android:background="@drawable/selected_item"/>
     </LinearLayout>
 </LinearLayout>

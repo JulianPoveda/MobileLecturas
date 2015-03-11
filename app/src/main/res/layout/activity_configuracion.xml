@@ -8,6 +8,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:weightSum="9"
+    android:background="#141010"
     tools:context="lecturas.sypelc.mobilelecturas.FormConfiguracion">
 
     <LinearLayout
@@ -23,7 +24,8 @@
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/ConfiguracionLblServidor"
-            android:gravity="center_vertical|right" />
+            android:gravity="center_vertical|right"
+            android:textColor="#ffff5e2c"/>
 
         <EditText
             android:id="@+id/ConfiguracionTxtServidor"
@@ -31,7 +33,8 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:inputType="text"
-            android:gravity="bottom|left" />
+            android:gravity="center_vertical|left"
+            android:textColor="#FF5CBD79"/>
     </LinearLayout>
 
     <LinearLayout
@@ -47,7 +50,8 @@
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/ConfiguracionLblPuerto"
-            android:gravity="center_vertical|right" />
+            android:gravity="center_vertical|right"
+            android:textColor="#ffff5e2c"/>
 
         <EditText
             android:id="@+id/ConfiguracionTxtPuerto"
@@ -55,7 +59,8 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:inputType="number"
-            android:gravity="bottom|left" />
+            android:gravity="center_vertical|left"
+            android:textColor="#FF5CBD79"/>
     </LinearLayout>
 
     <LinearLayout
@@ -71,7 +76,8 @@
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/ConfiguracionLblModulo"
-            android:gravity="center_vertical|right" />
+            android:gravity="center_vertical|right"
+            android:textColor="#ffff5e2c"/>
 
         <EditText
             android:id="@+id/ConfiguracionTxtModulo"
@@ -79,7 +85,8 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:inputType="text"
-            android:gravity="bottom|left" />
+            android:gravity="center_vertical|left"
+            android:textColor="#FF5CBD79"/>
     </LinearLayout>
 
     <LinearLayout
@@ -95,7 +102,8 @@
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/ConfiguracionLblWebService"
-            android:gravity="center_vertical|right" />
+            android:gravity="center_vertical|right"
+            android:textColor="#ffff5e2c"/>
 
         <EditText
             android:id="@+id/ConfiguracionTxtWebService"
@@ -103,7 +111,8 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:inputType="text"
-            android:gravity="bottom|left" />
+            android:gravity="center_vertical|left"
+            android:textColor="#FF5CBD79"/>
     </LinearLayout>
 
     <LinearLayout
@@ -119,13 +128,15 @@
             android:layout_weight="1"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/ConfiguracionLblImpresora"
-            android:gravity="center_vertical|right" />
+            android:gravity="center_vertical|right"
+            android:textColor="#ffff5e2c"/>
 
         <Spinner
             android:id="@+id/ConfiguracionCmbImpresora"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            android:background="@drawable/selected_item"/>
 
     </LinearLayout>
 
@@ -143,7 +154,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:text="@string/ConfiguracionBtnGuardar" />
+            android:text="@string/ConfiguracionBtnGuardar"
+            android:textColor="#FF5CBD79"/>
     </LinearLayout>
 
 </LinearLayout>

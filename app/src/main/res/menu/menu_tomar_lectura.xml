@@ -3,18 +3,27 @@
         xmlns:tools="http://schemas.android.com/tools"
         tools:context="lecturas.sypelc.mobilelecturas.FormTomarLectura">
 
-    <item   android:id="@+id/LecturaMenuReImprimir"
-        android:title="Reimprimir"
+    <item   android:id="@+id/LecturaMenuRendimiento"
+        android:title="@string/mnu_lectura_rendimiento"
         android:orderInCategory="100"
-        app:showAsAction="ifRoom|withText" />
+        android:icon="@drawable/ic_action_rendimiento"
+        app:showAsAction="always|withText" />
 
     <item   android:id="@+id/LecturaMenuFoto"
-        android:title="Foto"
+        android:title="@string/mnu_lectura_foto"
+        android:icon="@drawable/ic_action_camera"
         android:orderInCategory="100"
-        app:showAsAction="ifRoom|withText" />
+        app:showAsAction="always|withText" />
+
+    <item   android:id="@+id/LecturaMenuReImprimir"
+        android:title="@string/mnu_lectura_imprimir"
+        android:icon="@drawable/ic_action_print"
+        android:orderInCategory="100"
+        app:showAsAction="always|withText" />
 
     <item   android:id="@+id/LecturaMenuBuscar"
-        android:title="Buscar"
+        android:title="@string/mnu_lectura_buscar"
         android:orderInCategory="100"
-        app:showAsAction="ifRoom|withText" />
+        android:icon="@drawable/ic_action_search"
+        app:showAsAction="always|withText" />
 </menu>

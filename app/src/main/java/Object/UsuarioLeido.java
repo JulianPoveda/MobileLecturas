@@ -28,6 +28,7 @@ public class UsuarioLeido extends UsuarioEMSA {
 
     private String  mensaje;
     private String  strAnomalia;
+    private String  descripcionCritica;
 
     private boolean needLectura;
     private boolean needFoto;
@@ -226,5 +227,13 @@ public class UsuarioLeido extends UsuarioEMSA {
 
     public void setNewTipoUso(int newTipoUso) {
         this.newTipoUso = newTipoUso;
+    }
+
+    public String getDescripcionCritica() {
+        return descripcionCritica;
+    }
+
+    public void setDescripcionCritica(String descripcionCritica) {
+        this.descripcionCritica = descripcionCritica;
     }
 }

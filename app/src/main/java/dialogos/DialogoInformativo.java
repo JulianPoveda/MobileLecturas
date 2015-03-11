@@ -23,8 +23,6 @@ public class DialogoInformativo extends DialogFragment{
                     }
                 })
                 .setTitle(getArguments().getString("Titulo"));
-                //.setIcon(R.drawable.alert_image);
-                //.setIcon(android.R.drawable.ic_dialog_alert);
         return builder.create();
     }
 }

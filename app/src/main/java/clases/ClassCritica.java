@@ -46,4 +46,8 @@ public class ClassCritica {
         String descripcion = this.FcnSQL.StrSelectShieldWhere("param_critica","descripcion","minimo<="+_critica+" AND maximo >= "+_critica+"");
         return !descripcion.equals("Normal");
     }
+
+    public String getDescripcionCritica(double _critica){
+        return this.FcnSQL.StrSelectShieldWhere("param_critica","descripcion","minimo<="+_critica+" AND maximo >= "+_critica+"");
+    }
 }
