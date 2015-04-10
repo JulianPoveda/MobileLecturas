@@ -253,9 +253,9 @@ public class ClassPrinter {
 
     public String getDoLabel(){
         if(verticalPrinter){
-            this.strInformation = "! 0 200 200 " + (this.sizePageX) + " 1" + " \r\n" + "ENCODING UTF-8 \r\n LABEL " + " \r\n" + this.strInformation;
+            this.strInformation = "! 0 200 200 " + (this.sizePageX) + " 1" + " \r\n LABEL \r\n" + this.strInformation.replaceAll("\"","");
         }else{
-            this.strInformation = "! 0 200 200 " + (this.sizePageY) + " 1" + " \r\n" + "ENCODING UTF-8 \r\n LABEL " + " \r\n" + this.strInformation;
+            this.strInformation = "! 0 200 200 " + (this.sizePageY) + " 1" + " \r\n LABEL \r\n" + this.strInformation.replaceAll("\"","");
         }
         this.strInformation += "PRINT \r\n";
         return this.strInformation;

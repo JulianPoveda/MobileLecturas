@@ -50,6 +50,7 @@ public class ClassAnomalias {
      * @return  un arrayList<String> con los codigos de las anomalias segun sea residencial o no residencial
      */
     public ArrayList<String> getAnomalias(String _tipo_uso) {
+        this._lstAnomalias.clear();
         if(_tipo_uso.equals("RS")){
             this._tempTabla = this.FcnSQL.SelectData(   "param_anomalias",
                                                         "id_anomalia, descripcion",

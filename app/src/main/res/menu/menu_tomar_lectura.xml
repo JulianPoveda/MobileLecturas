@@ -26,4 +26,10 @@
         android:orderInCategory="100"
         android:icon="@drawable/ic_action_search"
         app:showAsAction="always|withText" />
+
+    <item   android:id="@+id/LecturaMenuUbicacion"
+        android:title="@string/mnu_lectura_ubicacion"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_action_ubicacion"
+        app:showAsAction="always|withText" />
 </menu>

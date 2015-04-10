@@ -33,7 +33,7 @@ public class ClassFormatos {
 
         this.FcnPrinter     = new   ClassPrinter(false);
         this.FcnPrinter.setVerticalPrinter(true);
-        this.FcnPrinter.SetSizePage(750,376);
+        this.FcnPrinter.SetSizePage(780,376);
         this.FcnPrinter.SetSizeMargin(10,1,1,30);
         this.FcnPrinter.setRegisterFont("0", "TITULO", 4, 22, 22);
         this.FcnPrinter.setRegisterFont("0", "TEXTO", 3, 18, 22);
@@ -68,12 +68,19 @@ public class ClassFormatos {
             _direccion = _direccion.substring(0,35);
         }
 
+        String strLectura="";
+        if(_lectura == -1){
+            strLectura = "";
+        }else{
+            strLectura = String.valueOf(_lectura);
+        }
+
         this.FcnPrinter.resetEtiqueta();
         this.FcnPrinter.WriteDefaultText("TITULO", 80,0,1,"EMSA S.A. E.S.P.");
         this.FcnPrinter.WriteDefaultText("TEXTO",   0,0,1,"Estimado usuario el dia de hoy "+ this.FcnTime.DateWithNameMonthShort());
         this.FcnPrinter.WriteDefaultText("TEXTO",   0,0,1,"a las "+this.FcnTime.GetHora()+" estuvimos realizando la ");
         this.FcnPrinter.WriteDefaultText("TEXTO",   0,0,1,"toma de lectura con reporte:");
-        this.FcnPrinter.WriteDefaultText("TITULO",  0,1,1,"LECTURA "+_tipo+" : "+_lectura);
+        this.FcnPrinter.WriteDefaultText("TITULO",  0,1,1,"LECTURA "+_tipo+" : "+strLectura);
         this.FcnPrinter.WriteDefaultText("TEXTO",   0,1,1,"OBS      : "+_anomalia);
         this.FcnPrinter.WriteDefaultText("TEXTO",   0,0,0,"CUENTA   : "+_cuenta);
         this.FcnPrinter.WriteDefaultText("TEXTO", 450,0,1,"MPIO: "+_municipio);

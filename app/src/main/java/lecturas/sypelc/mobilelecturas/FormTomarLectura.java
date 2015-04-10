@@ -37,6 +37,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
     static int 				    INICIAR_CAMARA			= 1;
     static int                  FROM_BUSCAR             = 2;
     static int                  FINAL_RUTA              = 3;
+    static int                  UBICACION_TERRENO       = 4;
 
     private Intent 			    IniciarCamara;
     private Intent              new_form;
@@ -151,12 +152,12 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
                 break;
 
             case R.id.LecturaMenuRendimiento:
-                /*this.argumentos.clear();
-                this.argumentos.putString("Titulo","ERROR.");
-                this.dialogoRendimiento.setArguments(argumentos);
-                this.dialogoRendimiento.show(getFragmentManager(), "SaveDialog");*/
-
                 new ShowDialog().showLoginDialog(this, this.FcnLectura.getInfUsuario().getRuta());
+                break;
+
+            case R.id.LecturaMenuUbicacion:
+                this.new_form = new Intent(this, MapsActivity.class);
+                startActivityForResult(this.new_form, UBICACION_TERRENO);
                 break;
 
             case R.id.LecturaMenuReImprimir:

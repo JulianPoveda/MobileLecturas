@@ -12,6 +12,10 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
 
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -33,7 +37,7 @@
         </activity>
         <activity
             android:name=".FormTomarLectura"
-            android:label="@string/title_activity_tomar_lectura">
+            android:label="@string/title_activity_tomar_lectura" >
         </activity>
         <activity
             android:name=".FormConfiguracion"
@@ -43,8 +47,6 @@
             android:name=".FormBuscar"
             android:label="@string/title_activity_form_buscar" >
         </activity>
-
-
     </application>
 
 </manifest>
