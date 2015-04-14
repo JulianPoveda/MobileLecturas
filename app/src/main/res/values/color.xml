@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="fondo_formulario">#F6F6F6</color>
+    <color name="label">#FFFF5E2C</color>
+    <color name="cajas_texto">#FF5CBD79</color>
+    <color name="botones">#FFFF5E2C</color>
+</resources>

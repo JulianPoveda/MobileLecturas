@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -25,6 +26,7 @@ import Adapter.SpinnerAdapter;
 import Object.TomaLectura;
 import async_task.UploadLecturas;
 import clases.ClassAnomalias;
+import clases.ClassConfiguracion;
 import clases.ClassFormatos;
 import clases.ClassSession;
 import clases.ClassTipoUso;
@@ -43,6 +45,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
     private Intent              new_form;
 
     private ClassSession        FcnSession;
+    private ClassConfiguracion  FcnCfg;
     private TomaLectura         FcnLectura;
     private ClassAnomalias      FcnAnomalias;
     private ClassTipoUso        FcnTipoUso;
@@ -52,7 +55,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
     private DialogoRendimiento  dialogoRendimiento;
     private Bundle              argumentos;
 
-    private TextView    _lblCuenta, _lblNombre, _lblDireccion, _lblRuta, _lblMedidor, _lblLectura1, _lblLectura2, _lblLectura3, _lblCritica;
+    private TextView    _lblCuenta, _lblNombre, _lblDireccion, _lblRuta, _lblMedidor, _lblLectura1, _lblLectura2, _lblLectura3;
     private EditText    _txtLectura1, _txtLectura2, _txtLectura3, _txtMensaje;
     private Spinner     _cmbTipoUso, _cmbAnomalia;
     private Button      _btnGuardar, _btnSiguiente, _btnAnterior;
@@ -77,6 +80,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
         this.IniciarCamara	= new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 
         this.FcnSession         = ClassSession.getInstance(this);
+        this.FcnCfg             = ClassConfiguracion.getInstance(this);
         this.FcnAnomalias       = ClassAnomalias.getInstance(this);
         this.FcnTipoUso         = ClassTipoUso.getInstance(this);
         this.FcnLectura         = new TomaLectura(this, this._ruta);
@@ -97,7 +101,6 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
         this._lblLectura1   = (TextView) findViewById(R.id.LecturaTxtLectura1);
         this._lblLectura2   = (TextView) findViewById(R.id.LecturaTxtLectura2);
         this._lblLectura3   = (TextView) findViewById(R.id.LecturaTxtLectura3);
-        this._lblCritica    = (TextView) findViewById(R.id.LecturaTxtCritica);
 
         this._txtLectura1   = (EditText) findViewById(R.id.LecturaEditLectura1);
         this._txtLectura2   = (EditText) findViewById(R.id.LecturaEditLectura2);
@@ -254,9 +257,10 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
                     this.dialogo.show(getFragmentManager(), "SaveDialog");
                 }else{
                     this.FcnLectura.preCritica(this._txtLectura1.getText().toString(),this._txtLectura2.getText().toString(),this._txtLectura3.getText().toString());
-                    //this._lblRuta.setText(this.FcnLectura.getInfUsuario().getRuta()+"    "+this.FcnLectura.getInfUsuario().getCritica1()+"    "+this.FcnLectura.getInfUsuario().getCritica2()+"    "+this.FcnLectura.getInfUsuario().getCritica3());
 
-                    this._lblCritica.setText(this.FcnLectura.getInfUsuario().getDescripcionCritica());
+                    if(this.FcnCfg.isDebug()){
+                        Toast.makeText(this,"CRITICA: "+this.FcnLectura.getInfUsuario().getDescripcionCritica(), Toast.LENGTH_LONG).show();
+                    }
 
                     if((this.FcnLectura.getInfUsuario().isHaveCritica() || this.FcnLectura.getInfUsuario().isNeedFoto()) &&
                             this.FcnLectura.getInfUsuario().getCountFotos() == 0 &&
@@ -276,7 +280,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
                                 this._btnGuardar.setEnabled(false);
                                 this.FcnFormatos.ActaLectura(this.FcnLectura.getInfUsuario().getTipo_energia1(),
                                         this.FcnLectura.getInfUsuario().getLectura1(),
-                                        this.FcnLectura.getInfUsuario().getStrAnomalia(),
+                                        this.FcnLectura.getInfUsuario().getAnomalia()+"-"+this.FcnLectura.getInfUsuario().getStrAnomalia(),
                                         this.FcnLectura.getInfUsuario().getCuenta(),
                                         this.FcnLectura.getInfUsuario().getMunicipio(),
                                         this.FcnLectura.getInfUsuario().getNombre(),

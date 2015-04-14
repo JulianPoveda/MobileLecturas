@@ -39,11 +39,10 @@ public class ClassCritica {
 
     public double calculateCritica(int _newLectura, int _oldLectura, double _promedio, int _factorMultiplicacion){
         return ((_newLectura - _oldLectura)/(_promedio+ Double.parseDouble("0.000001"))) * _factorMultiplicacion;
-
     }
 
     public boolean haveCritica(double _critica){
-        String descripcion = this.FcnSQL.StrSelectShieldWhere("param_critica","descripcion","minimo<="+_critica+" AND maximo >= "+_critica+"");
+        String descripcion = this.FcnSQL.StrSelectShieldWhere("param_critica","descripcion","minimo<="+_critica+" AND maximo > "+_critica);
         return !descripcion.equals("Normal");
     }
 

@@ -240,17 +240,6 @@
             android:gravity="left|bottom"
             android:textSize="20dp"
             android:textColor="#ffff5e2c"/>
-
-        <TextView
-            android:id="@+id/LecturaTxtCritica"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/TxtCritica"
-            android:gravity="center_horizontal|bottom"
-            android:textSize="20dp"
-            android:textColor="#FF5CBD79"/>
-
     </LinearLayout>
 
     <LinearLayout

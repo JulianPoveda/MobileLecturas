@@ -98,6 +98,9 @@ public class ClassPrinter {
     }
 
 
+
+
+
     public void WriteDefaultText(String _typeText, int _posX, double _preIncremento, double _posIncremento, String _text){
         this.font = this.getDataFont(_typeText);
         if(this.verticalPrinter){
@@ -110,6 +113,49 @@ public class ClassPrinter {
             this.currentPointY += _posIncremento*this.font.getHeight_font();
         }
     }
+
+
+    public void WriteText(String _typeText, int _posX, double _preIncremento, double _posIncremento, String _text, String _justificacion){
+
+    }
+
+
+    public void DrawMargin(){
+        if(this.verticalPrinter){
+            this.WrRectangle(this.marginTop, this.marginLeft,this.sizePageY-this.marginTop,this.sizePageX-this.marginRight,0);
+        }else{
+            //this.WrRectangle();
+        }
+
+    }
+
+
+    public void DrawImage(String NameFile, double _posX, double _posY){
+        if(this.verticalPrinter) {
+            this.strInformation += "PCX " + (this.currentPointX - _posY) + " " + (this.currentPointY + _posX) + " !<" + NameFile + "\r\n";
+        }else{
+            this.strInformation += "PCX " + (this.currentPointX + _posX) + " " + (this.currentPointY + _posY) + " !<" + NameFile + "\r\n";
+        }
+    }
+
+
+    public void WrRectangle(double _posX1, double _posY1, double _posX2, double _posY2, int Shadow){
+        double IncLine = 0;
+        //int i;
+        this.strInformation += "BOX " + _posX1 + " " + _posY1 + " " + _posX2 + " " + _posY2 + " 2 \r\n";
+
+        if (Shadow != 0){
+            IncLine = (_posX2 - _posX1) / Shadow;
+            for (int i = 0; i<Shadow;i++){
+                this.strInformation += "BOX " + (_posX1 + (IncLine * i)) + " " + _posY1 + " " + (_posX1 + (IncLine * i)) + " " + _posY2 + " 0 \r\n";
+            }
+            for(int i = 0;i<Shadow;i++){
+                this.strInformation += "BOX " + _posX1 + " " + (_posY1 + (IncLine * i)) + " " + _posX2 + " " + (_posY1 + (IncLine * i)) + " 0 \r\n";
+            }
+        }
+    }
+
+
 
     /*public void WriteScaleText(String _typeText, int _posX, int _posY, int _preIncremento, int _posIncremento, String _text){
         this.font = this.getDataFont(_typeText);
@@ -133,14 +179,6 @@ public class ClassPrinter {
         return localFont;
     }
 
-
-
-    /*public void DrawImage(String NameFile, double PosX, double PosY){
-        this.strInformation 	+= "PCX "+(this.marginLeft+PosX)+" "+(this.currentLine+PosY)+" !<"+NameFile+"\r\n";
-        if(this.copyInformation){
-            this.strFile+= "5;"+(this.marginLeft+PosX)+";"+(this.currentLine+PosY)+";"+NameFile+";\r\n";
-        }
-    }*/
 
 
     /*public void WrTitulo(String TextoTitulo, double SaltoLineaPre, double SaltoLineaPos){
@@ -230,26 +268,6 @@ public class ClassPrinter {
         this.currentLine += this.font1.getHeight_font() * SaltoLineaPos;
     }*/
 
-
-    /*public void WrRectangle(double PosX1, double PosY1, double PosX2, double PosY2, double Incremento, int Shadow){
-        double IncLine = 0;
-        int i;
-        this.strInformation += "BOX " + PosX1 + " " + PosY1 + " " + PosX2 + " " + PosY2 + " 2 \r\n";
-
-        if (Shadow != 0){
-            IncLine = (PosX2 - PosX1) / Shadow;
-            for (i = 0; i<Shadow;i++){
-                this.strInformation += "BOX " + (PosX1 + (IncLine * i)) + " " + PosY1 + " " + (PosX1 + (IncLine * i)) + " " + PosY2 + " 0 \r\n";
-            }
-            for(i = 0;i<Shadow;i++){
-                this.strInformation += "BOX " + PosX1 + " " + (PosY1 + (IncLine * i)) + " " + PosX2 + " " + (PosY1 + (IncLine * i)) + " 0 \r\n";
-            }
-        }
-
-        if (Incremento != 0) {
-            this.currentLine += PosY2 - PosY1;
-        }
-    }*/
 
     public String getDoLabel(){
         if(verticalPrinter){

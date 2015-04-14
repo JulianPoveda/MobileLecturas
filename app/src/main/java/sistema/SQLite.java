@@ -66,6 +66,9 @@ public class SQLite {
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Impresora','Sin Asignar',1)");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Version_Software','1.0',0)");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Version_BD','1.0',0)");
+            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('FotosOnLine','true',0)");
+            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('FacturasOnLine','false',0)");
+            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Debug','true',0)");
 
             //Tabla con los datos de configuracion
             db.execSQL("CREATE TABLE    param_anomalias (id_anomalia            INTEGER NOT NULL PRIMARY KEY, " +

@@ -32,6 +32,9 @@ public class ClassConfiguracion {
     private String  printer;
     private String  version_software;
     private String  version_bd;
+    private boolean fotos_en_linea;
+    private boolean facturas_en_sitio;
+    private boolean debug;
 
     public static ClassConfiguracion getInstance(Context _ctx) {
         if(ourInstance == null){
@@ -55,6 +58,9 @@ public class ClassConfiguracion {
         this.printer            = this.FcnSQL.StrSelectShieldWhere("param_configuracion","valor","item='Impresora'");
         this.version_software   = this.FcnSQL.StrSelectShieldWhere("param_configuracion","valor","item='Version_Software'");
         this.version_bd         = this.FcnSQL.StrSelectShieldWhere("param_configuracion","valor","item='Version_BD'");
+        this.fotos_en_linea     = this.FcnSQL.ExistRegistros("param_configuracion","item='FotosOnLine' AND valor='true'");
+        this.facturas_en_sitio  = this.FcnSQL.ExistRegistros("param_configuracion","item='FacturasOnLine' AND valor='true'");
+        this.debug              = this.FcnSQL.ExistRegistros("param_configuracion","item='Debug' AND valor='true'");
     }
 
     public String getIp_server() {
@@ -138,6 +144,54 @@ public class ClassConfiguracion {
         this._tempRegistro.put("valor",version_bd);
         if(this.FcnSQL.UpdateRegistro("param_configuracion",this._tempRegistro,"item='Version_BD'")){
             this.version_bd = version_bd;
+        }
+    }
+
+    public boolean isDebug() {
+        return debug;
+    }
+
+    public void setDebug(boolean debug) {
+        this._tempRegistro.clear();
+        if (debug){
+            this._tempRegistro.put("valor","true");
+        }else{
+            this._tempRegistro.put("valor","false");
+        }
+        if(this.FcnSQL.UpdateRegistro("param_configuracion", this._tempRegistro,"item='Debug'")){
+            this.debug = debug;
+        }
+    }
+
+    public boolean isFotos_en_linea() {
+        return fotos_en_linea;
+    }
+
+    public void setFotos_en_linea(boolean fotos_en_linea) {
+        this._tempRegistro.clear();
+        if (fotos_en_linea){
+            this._tempRegistro.put("valor","true");
+        }else{
+            this._tempRegistro.put("valor","false");
+        }
+        if(this.FcnSQL.UpdateRegistro("param_configuracion", this._tempRegistro,"item='FotosOnLine'")){
+            this.fotos_en_linea = fotos_en_linea;
+        }
+    }
+
+    public boolean isFacturas_en_sitio() {
+        return facturas_en_sitio;
+    }
+
+    public void setFacturas_en_sitio(boolean facturas_en_sitio) {
+        this._tempRegistro.clear();
+        if (facturas_en_sitio){
+            this._tempRegistro.put("valor","true");
+        }else{
+            this._tempRegistro.put("valor","false");
+        }
+        if(this.FcnSQL.UpdateRegistro("param_configuracion", this._tempRegistro,"item='FacturasOnLine'")){
+            this.facturas_en_sitio = facturas_en_sitio;
         }
     }
 }
