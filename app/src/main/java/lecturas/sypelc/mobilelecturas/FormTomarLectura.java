@@ -24,6 +24,7 @@ import java.io.File;
 
 import Adapter.SpinnerAdapter;
 import Object.TomaLectura;
+import async_task.UpLoadFoto;
 import async_task.UploadLecturas;
 import clases.ClassAnomalias;
 import clases.ClassConfiguracion;
@@ -61,6 +62,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
     private Button      _btnGuardar, _btnSiguiente, _btnAnterior;
 
     private String                  _ruta;
+    private String 		            fotoParcial;
     private float                   init_x;
 
     private ArrayAdapter<String>    AdaptadorAnomalias;
@@ -385,6 +387,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
                 }
             }else if(resultCode == RESULT_OK && requestCode == INICIAR_CAMARA){
                 this.FcnLectura.getNumeroFotos();
+                new UpLoadFoto(this).execute(this.FcnLectura.getInfUsuario().getCuenta()+"",this.FcnLectura.getInfUsuario().getId_serial1()+"",this.fotoParcial);
             }else if(resultCode == RESULT_OK && requestCode == FINAL_RUTA){
                 this.finish();
             }
@@ -398,6 +401,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
         File image          = new File( imagesFolder,
                                         this.FcnLectura.getInfUsuario().getCuenta()+"_"+this.FcnLectura.getInfUsuario().getCountFotos()+".jpeg");
 
+        this.fotoParcial = image.toString();
         Uri uriSavedImage = Uri.fromFile(image);
         this.IniciarCamara.putExtra(MediaStore.EXTRA_OUTPUT, uriSavedImage);
         startActivityForResult(IniciarCamara, INICIAR_CAMARA);

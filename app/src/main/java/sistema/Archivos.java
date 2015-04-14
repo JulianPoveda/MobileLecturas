@@ -335,6 +335,34 @@ public class Archivos {
         return os.toByteArray();
     }
 
+    public byte[] FileToArrayBytesOne(String NombreArchivo){
+        int len = 0;
+        InputStream is 	= null;
+        ByteArrayOutputStream os = new ByteArrayOutputStream(1024 * this.SizeBuffer);
+        byte[] buffer = new byte[1024*this.SizeBuffer];
+
+        try{
+            if (NombreArchivo != null) {
+                is = new FileInputStream(NombreArchivo);
+                try {
+                    while ((len = is.read(buffer)) >= 0) {
+                        os.write(buffer, 0, len);
+                    }
+                } finally {
+                    is.close();
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            try {
+                throw new IOException("Unable to open R.raw.");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+        return os.toByteArray();
+    }
+
 
 
     public void ByteArrayToFile(byte[] data, String NombreArchivo) throws IOException{
