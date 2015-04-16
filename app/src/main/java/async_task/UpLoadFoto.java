@@ -42,11 +42,6 @@ public class UpLoadFoto extends AsyncTask<String, Void, Integer> {
     private String Respuesta   = "";
 
     private ContentValues				_tempRegistro 	    = new ContentValues();
-    private ContentValues				_tempRegistro1 	    = new ContentValues();
-    private ArrayList<ContentValues>	_tempTabla	    	= new ArrayList<ContentValues>();
-    private ArrayList<ContentValues>	_tempTabla1		    = new ArrayList<ContentValues>();
-    private String                      InformacionCarga;
-
     private static final String METHOD_NAME	= "FotoTomada";
     private static final String SOAP_ACTION	= "FotoTomada";
 
@@ -75,6 +70,7 @@ public class UpLoadFoto extends AsyncTask<String, Void, Integer> {
             SoapObject so=new SoapObject(NAMESPACE, this.METHOD_NAME);
             so.addProperty("cuenta", params[0]);
             so.addProperty("id_memsa", params[1]);
+            so.addProperty("usuario", this.Usuario.getCodigo());
             so.addProperty("informacion",this.FcnArch.FileToArrayBytesOne(params[2]));
 
             SoapSerializationEnvelope sse=new SoapSerializationEnvelope(SoapEnvelope.VER11);
