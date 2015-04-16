@@ -77,7 +77,7 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
         for(int i=0; i<this._tempTabla.size();i++){
             this._tempRegistro  = this._tempTabla.get(i);
             this._tempTabla1	= this.FcnSQL.SelectData(   "toma_lectura",
-                                                            "id, id_serial1, lectura1, critica1, id_serial2, lectura2, critica2, id_serial3, lectura3, critica3, anomalia, mensaje, tipo_uso,fecha_toma",
+                                                            "id, id_serial1, lectura1, critica1, id_serial2, lectura2, critica2, id_serial3, lectura3, critica3, anomalia, mensaje, tipo_uso,fecha_toma,longitud,latitud",
                                                             "id_serial1="+this._tempRegistro.getAsString("id_serial_1")+" AND id_serial2="+this._tempRegistro.getAsString("id_serial_2")+" and id_serial3="+this._tempRegistro.getAsString("id_serial_3")+"");
 
             for(int j=0; j<this._tempTabla1.size();j++){
@@ -86,7 +86,7 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
                         "" + this._tempRegistro1.getAsString("id_serial2") + "," + this._tempRegistro1.getAsString("lectura2") + "," + this._tempRegistro1.getAsString("critica2") + "," +
                         "" + this._tempRegistro1.getAsString("id_serial3") + "," + this._tempRegistro1.getAsString("lectura3") + "," + this._tempRegistro1.getAsString("critica3") + "," +
                         "" + this._tempRegistro1.getAsString("anomalia") + "," + this._tempRegistro1.getAsString("mensaje") + "," + this._tempRegistro1.getAsString("tipo_uso") + "," +
-                        "" + this._tempRegistro1.getAsString("fecha_toma") + "\r\n";
+                        "" + this._tempRegistro1.getAsString("fecha_toma") + "," +this._tempRegistro1.getAsString("longitud")+","+this._tempRegistro1.getAsString("latitud")+ "\r\n";
             }
         }
 

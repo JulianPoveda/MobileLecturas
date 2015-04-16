@@ -138,7 +138,7 @@ public class ClassTomarLectura {
         return !descripcion.equals("Normal");
     }
 
-    public void guardarLectura(int id_serial1, int id_serial2, int id_serial3,int anomalia, String mensaje ,int lectura1, int lectura2, int lectura3, double critica1, double critica2, double critica3, String _tipo_uso){
+    public void guardarLectura(int id_serial1, int id_serial2, int id_serial3,int anomalia, String mensaje ,int lectura1, int lectura2, int lectura3, double critica1, double critica2, double critica3, String _tipo_uso, String _longitud, String _latitud){
                 this._tempRegistro.clear();
                 this._tempRegistro.put("id_serial1",id_serial1);
                 this._tempRegistro.put("id_serial2",id_serial2);
@@ -152,6 +152,8 @@ public class ClassTomarLectura {
                 this._tempRegistro.put("critica2",critica2);
                 this._tempRegistro.put("critica3",critica3);
                 this._tempRegistro.put("tipo_uso",_tipo_uso);
+                this._tempRegistro.put("longitud",_longitud);
+                this._tempRegistro.put("latitud",_latitud);
                 this.FcnSQL.InsertRegistro("toma_lectura",this._tempRegistro);
     }
 

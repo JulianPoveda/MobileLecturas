@@ -51,6 +51,15 @@
             android:label="@string/title_activity_form_buscar"
             android:screenOrientation="sensorPortrait">
         </activity>
-    </application>
 
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity android:name="lecturas.sypelc.mobilelecturas.MapsActivity"
+            android:label="@string/title_activity_maps">
+
+        </activity>
+    </application>
 </manifest>

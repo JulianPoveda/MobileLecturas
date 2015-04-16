@@ -1,6 +1,8 @@
 package lecturas.sypelc.mobilelecturas;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -13,14 +15,17 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import Adapter.SpinnerAdapter;
 import Object.TomaLectura;
@@ -34,9 +39,10 @@ import clases.ClassTipoUso;
 import dialogos.DialogoInformativo;
 import dialogos.DialogoRendimiento;
 import dialogos.ShowDialog;
+import sistema.GPS;
 
 
-public class FormTomarLectura extends ActionBarActivity implements OnClickListener, OnItemSelectedListener{
+public class FormTomarLectura extends ActionBarActivity implements OnClickListener, OnItemClickListener, OnItemSelectedListener{
     static int 				    INICIAR_CAMARA			= 1;
     static int                  FROM_BUSCAR             = 2;
     static int                  FINAL_RUTA              = 3;
@@ -44,6 +50,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
 
     private Intent 			    IniciarCamara;
     private Intent              new_form;
+    private LocationManager     managerLocation;
 
     private ClassSession        FcnSession;
     private ClassConfiguracion  FcnCfg;
@@ -51,13 +58,15 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
     private ClassAnomalias      FcnAnomalias;
     private ClassTipoUso        FcnTipoUso;
     private ClassFormatos       FcnFormatos;
+    private GPS                 FcnGPS;
 
     private DialogoInformativo  dialogo;
     private DialogoRendimiento  dialogoRendimiento;
     private Bundle              argumentos;
 
-    private TextView    _lblCuenta, _lblNombre, _lblDireccion, _lblRuta, _lblMedidor, _lblLectura1, _lblLectura2, _lblLectura3;
+    private TextView    _lblCuenta, _lblNombre, _lblDireccion, _lblRuta, _lblMedidor, _lblLectura1, _lblLectura2, _lblLectura3, _lblMsjCodificado;
     private EditText    _txtLectura1, _txtLectura2, _txtLectura3, _txtMensaje;
+    private ListView    _lstMsjCodificados;
     private Spinner     _cmbTipoUso, _cmbAnomalia;
     private Button      _btnGuardar, _btnSiguiente, _btnAnterior;
 
@@ -68,12 +77,12 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
     private ArrayAdapter<String>    AdaptadorAnomalias;
     private ArrayAdapter<String>    AdaptadorUso;
 
+    private ArrayAdapter<String> listadoMsjCodificados;
+    private ArrayList<String> arrayMensajes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_tomar_lectura);
 
         Bundle bundle       = getIntent().getExtras();
@@ -85,11 +94,15 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
         this.FcnCfg             = ClassConfiguracion.getInstance(this);
         this.FcnAnomalias       = ClassAnomalias.getInstance(this);
         this.FcnTipoUso         = ClassTipoUso.getInstance(this);
+        this.FcnGPS             = GPS.getInstance();
         this.FcnLectura         = new TomaLectura(this, this._ruta);
         this.FcnFormatos        = new ClassFormatos(this, false);
         this.dialogo            = new DialogoInformativo();
         this.dialogoRendimiento = new DialogoRendimiento();
         this.argumentos         = new Bundle();
+
+        this.managerLocation = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        this.managerLocation.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this.FcnGPS);
 
         this._cmbAnomalia   = (Spinner) findViewById(R.id.LecturaSpnAnomalia);
         this._cmbTipoUso    = (Spinner) findViewById(R.id.LecturaSpnTipoUso);
@@ -109,6 +122,8 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
         this._txtLectura3   = (EditText) findViewById(R.id.LecturaEditLectura3);
         this._txtMensaje    = (EditText) findViewById(R.id.LecturaEditMensaje);
 
+        this._lstMsjCodificados = (ListView) findViewById(R.id.LecturasListMsjCodificados);
+
         this._btnGuardar    = (Button) findViewById(R.id.LecturasBtnGuardar);
         this._btnSiguiente  = (Button) findViewById(R.id.LecturaBtnSiguiente);
         this._btnAnterior   = (Button) findViewById(R.id.LecturaBtnAnterior);
@@ -118,12 +133,24 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
             this._btnGuardar.setEnabled(!this.FcnLectura.getInfUsuario().isLeido());
         }
 
-        //this.AdaptadorAnomalias = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,this.FcnAnomalias.getAnomalias(this.FcnLectura.getInfUsuario().getTipo_uso()));
-        //this.AdaptadorAnomalias = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,this.FcnAnomalias.getAnomalias(this.FcnLectura.getInfUsuario().getTipo_uso()));
         this.AdaptadorAnomalias = new SpinnerAdapter(this, R.layout.custom_spinner,this.FcnAnomalias.getAnomalias(this.FcnLectura.getInfUsuario().getTipo_uso()),"#FF5CBD79","#6B5656");
         this._cmbAnomalia.setAdapter(this.AdaptadorAnomalias);
 
-        //this.AdaptadorUso = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,this.FcnTipoUso.getTipoUso());
+        this.arrayMensajes.clear();
+        this.arrayMensajes.add("M1");
+        this.arrayMensajes.add("M2");
+        this.arrayMensajes.add("M3");
+        this.arrayMensajes.add("M4");
+        this.arrayMensajes.add("M5");
+        this.arrayMensajes.add("M6");
+        this.arrayMensajes.add("M7");
+        this.arrayMensajes.add("M8");
+        this.arrayMensajes.add("M9");
+        this.arrayMensajes.add("M10");
+
+        this.listadoMsjCodificados  = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayMensajes);
+        this._lstMsjCodificados.setAdapter(listadoMsjCodificados);
+
         this.AdaptadorUso  = new SpinnerAdapter(this, R.layout.custom_spinner, this.FcnTipoUso.getTipoUso(),"#FF5CBD79","#6B5656");
 
         this._cmbTipoUso.setAdapter(this.AdaptadorUso);
@@ -134,6 +161,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
         this._btnGuardar.setOnClickListener(this);
         this._btnAnterior.setOnClickListener(this);
         this._btnSiguiente.setOnClickListener(this);
+        this._lstMsjCodificados.setOnItemClickListener(this);
     }
 
 
@@ -162,6 +190,11 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
 
             case R.id.LecturaMenuUbicacion:
                 this.new_form = new Intent(this, MapsActivity.class);
+                this.new_form.putExtra("Cuenta",this.FcnLectura.getInfUsuario().getCuenta());
+                this.new_form.putExtra("Marca", this.FcnLectura.getInfUsuario().getMarca_medidor());
+                this.new_form.putExtra("Serie", this.FcnLectura.getInfUsuario().getSerie_medidor());
+                this.new_form.putExtra("Longitud", this.FcnLectura.getInfUsuario().getLongitudCuenta());
+                this.new_form.putExtra("Latitud", this.FcnLectura.getInfUsuario().getLatitudCuenta());
                 startActivityForResult(this.new_form, UBICACION_TERRENO);
                 break;
 
@@ -249,7 +282,6 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
                 }
                 break;
 
-
             case R.id.LecturasBtnGuardar:
                 if(this.FcnLectura.getInfUsuario().isNeedMensaje() && this._txtMensaje.getText().toString().isEmpty()){
                     this.argumentos.clear();
@@ -262,6 +294,8 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
 
                     if(this.FcnCfg.isDebug()){
                         Toast.makeText(this,"CRITICA: "+this.FcnLectura.getInfUsuario().getDescripcionCritica(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(this,"Longitud: " +this.FcnGPS.getLongitudGPS(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(this,"Latitud: " +this.FcnGPS.getLatitudGPS(), Toast.LENGTH_LONG).show();
                     }
 
                     if((this.FcnLectura.getInfUsuario().isHaveCritica() || this.FcnLectura.getInfUsuario().isNeedFoto()) &&
@@ -273,7 +307,9 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
                         if(this.FcnLectura.guardarLectura(this._txtLectura1.getText().toString(),
                                 this._txtLectura2.getText().toString(),
                                 this._txtLectura3.getText().toString(),
-                                this._txtMensaje.getText().toString())) {
+                                this._txtMensaje.getText().toString(),
+                                this.FcnGPS.getLongitudGPS(),
+                                this.FcnGPS.getLatitudGPS())) {
                             this._txtLectura1.setText("");
                             this._txtLectura2.setText("");
                             this._txtLectura3.setText("");
@@ -334,8 +370,17 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
 
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int position,	long id) {
+        switch(parent.getId()){
+            case R.id.LecturasListMsjCodificados:
+                this._txtMensaje.append(this.arrayMensajes.get(position).toString()+" ");
+                break;
+        }
+    }
 
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch(parent.getId()){
             case R.id.LecturaSpnAnomalia:
                 String _anomalia[] = this._cmbAnomalia.getSelectedItem().toString().split("-");

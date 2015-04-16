@@ -24,6 +24,8 @@ public class UsuarioEMSA {
     private int         id_municipio;
     private String      municipio;
     private String      observacion;
+    private String      latitudCuenta;
+    private String      longitudCuenta;
 
     //Datos de ultima lectura tomada al usuario
     private int         anomalia_anterior;
@@ -266,5 +268,21 @@ public class UsuarioEMSA {
 
     public boolean isView_tipo_energia3() {
         return view_tipo_energia3;
+    }
+
+    public String getLongitudCuenta() {
+        return longitudCuenta;
+    }
+
+    public void setLongitudCuenta(String longitudCuenta) {
+        this.longitudCuenta = longitudCuenta;
+    }
+
+    public String getLatitudCuenta() {
+        return latitudCuenta;
+    }
+
+    public void setLatitudCuenta(String latitudCuenta) {
+        this.latitudCuenta = latitudCuenta;
     }
 }

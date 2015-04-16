@@ -124,7 +124,9 @@ public class SQLite {
                                                         "anomalia_anterior_3    VARCHAR(20),"+
                                                         "tipo_energia_3         VARCHAR(15)," +
                                                         "promedio_3             VARCHAR(20)," +
-                                                        "estado                 VARCHAR(15) NOT NULL)");
+                                                        "estado                 VARCHAR(15) NOT NULL," +
+                                                        "longitud               VARCHAR(100)," +
+                                                        "latitud                VARCHAR(100))");
 
             db.execSQL("CREATE TABLE    toma_lectura    (id                     INTEGER PRIMARY KEY AUTOINCREMENT," +
                                                         "id_serial1             INTEGER NOT NULL," +
@@ -139,7 +141,9 @@ public class SQLite {
                                                         "critica2               NUMERIC(15,7) NOT NULL," +
                                                         "critica3               NUMERIC(15,7) NOT NULL," +
                                                         "tipo_uso               VARCHAR(255)," +
-                                                        "fecha_toma             TIMESTAMP NOT NULL DEFAULT current_timestamp)");
+                                                        "fecha_toma             TIMESTAMP NOT NULL DEFAULT current_timestamp," +
+                                                        "longitud               VARCHAR(100)," +
+                                                        "latitud                VARCHAR(100))");
 
             db.execSQL(	"CREATE TRIGGER tg_fecha_cargue AFTER INSERT ON maestro_rutas FOR EACH ROW BEGIN " +
                         "	UPDATE maestro_rutas SET fecha_cargue = datetime('now','localtime') " +

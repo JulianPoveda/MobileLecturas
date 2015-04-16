@@ -29,6 +29,8 @@ public class UsuarioLeido extends UsuarioEMSA {
     private String  mensaje;
     private String  strAnomalia;
     private String  descripcionCritica;
+    private String  longitudGPS;
+    private String  latitudGPS;
 
     private boolean needLectura;
     private boolean needFoto;
@@ -235,5 +237,21 @@ public class UsuarioLeido extends UsuarioEMSA {
 
     public void setDescripcionCritica(String descripcionCritica) {
         this.descripcionCritica = descripcionCritica;
+    }
+
+    public String getLongitudGPS() {
+        return longitudGPS;
+    }
+
+    public void setLongitudGPS(String longitudGPS) {
+        this.longitudGPS = longitudGPS;
+    }
+
+    public String getLatitudGPS() {
+        return latitudGPS;
+    }
+
+    public void setLatitudGPS(String latitudGPS) {
+        this.latitudGPS = latitudGPS;
     }
 }

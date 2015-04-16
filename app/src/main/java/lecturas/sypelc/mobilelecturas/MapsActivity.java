@@ -3,9 +3,11 @@ package lecturas.sypelc.mobilelecturas;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -13,16 +15,27 @@ import clases.ClassSession;
 
 public class MapsActivity extends FragmentActivity {
 
-    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    private ClassSession FcnSession;
+    private GoogleMap       mMap; // Might be null if Google Play services APK is not available.
+    private CameraUpdate    mCamera;
+    private String          cuenta,marcaMedidor,serieMedidor;
+    private double          longitud, latitud;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        Bundle bundle       = getIntent().getExtras();
+        this.cuenta         = String.valueOf(bundle.getInt("Cuenta"));
+        this.marcaMedidor   = bundle.getString("Marca");
+        this.serieMedidor   = bundle.getString("Serie");
+        try{
+            this.longitud       = Double.parseDouble(bundle.getString("Longitud"));
+            this.latitud        = Double.parseDouble(bundle.getString("Latitud"));
+        }catch(Exception e){
+            this.longitud       = 0;
+            this.latitud        = 0;
+        }
         setUpMapIfNeeded();
-
-        this.FcnSession = ClassSession.getInstance(getApplicationContext());
     }
 
     @Override
@@ -52,10 +65,11 @@ public class MapsActivity extends FragmentActivity {
             // Try to obtain the map from the SupportMapFragment.
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
-            mMap.setMyLocationEnabled(true);
-            mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+            mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             mMap.getUiSettings().setZoomControlsEnabled(true);
             mMap.getUiSettings().setCompassEnabled(false);
+            mMap.setMyLocationEnabled(true);
+
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
@@ -70,6 +84,14 @@ public class MapsActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-         mMap.addMarker(new MarkerOptions().position(new LatLng(4.07278888888889,-73.6694944444445)).title("Clientes"));
+         mMap.addMarker(new MarkerOptions()
+                //.position(new LatLng(4.07278888888889, -73.6694944444445))
+                .position(new LatLng(this.latitud, this.longitud))
+                .title("Cuenta " + this.cuenta)
+                .snippet("Medidor " + this.marcaMedidor + " " + this.serieMedidor)
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_punto_gps)));
+
+        this.mCamera = CameraUpdateFactory.newLatLngZoom(new LatLng(this.latitud, this.longitud),14);
+        this.mMap.animateCamera(this.mCamera);
     }
 }
