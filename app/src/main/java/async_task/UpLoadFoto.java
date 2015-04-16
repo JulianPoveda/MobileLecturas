@@ -86,7 +86,8 @@ public class UpLoadFoto extends AsyncTask<String, Void, Integer> {
             }else if(response.toString().isEmpty()){
                 this.Respuesta = "-2";
             }else {
-                try {
+                this.FcnArch.DeleteFile(params[2]);
+                /*try {
                     String informacion[] = new String(response.toString()).trim().split("\\|");
                     if(informacion.length>0){
                         this._tempRegistro.clear();
@@ -98,7 +99,7 @@ public class UpLoadFoto extends AsyncTask<String, Void, Integer> {
                 } catch (Exception e) {
                     e.printStackTrace();
                     _retorno = -3;
-                }
+                }*/
             }
         } catch (Exception e) {
             this.Respuesta = e.toString();
