@@ -40,6 +40,7 @@ public class ClassFlujoInformacion {
         this.FcnSQL.DeleteRegistro("param_municipios","id_municipio IS NOT NULL");
         this.FcnSQL.DeleteRegistro("param_anomalias","id_anomalia IS NOT NULL");
         this.FcnSQL.DeleteRegistro("param_critica","descripcion IS NOT NULL");
+        this.FcnSQL.DeleteRegistro("param_codigos_mensajes","codigo IS NOT NULL");
     }
 
 
@@ -75,6 +76,10 @@ public class ClassFlujoInformacion {
             this._tempRegistro.put("id_uso",this._campos[1]);
             this._tempRegistro.put("descripcion",this._campos[2]);
             this.FcnSQL.InsertRegistro("param_tipos_uso",this._tempRegistro);
+        }else if(this._campos[0].equals("Msj")){
+            this._tempRegistro.put("codigo",this._campos[1]);
+            this._tempRegistro.put("descripcion",this._campos[2]);
+            this.FcnSQL.InsertRegistro("param_codigos_mensajes",this._tempRegistro);
         }
     }
 

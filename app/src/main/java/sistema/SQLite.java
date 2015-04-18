@@ -90,6 +90,9 @@ public class SQLite {
             db.execSQL("CREATE TABLE    param_tipos_uso(id_uso                  INTEGER NOT NULL PRIMARY KEY," +
                                                         "descripcion             VARCHAR(255) NOT NULL)");
 
+            db.execSQL("CREATE TABLE    param_codigos_mensajes(  codigo                  VARCHAR(10) NOT NULL PRIMARY KEY," +
+                                                                "descripcion             VARCHAR(255) NOT NULL)");
+
             db.execSQL("CREATE TABLE    maestro_rutas   (id_inspector           INTEGER NOT NULL," +
                                                         "id_ciclo               INTEGER NOT NULL," +
                                                         "ruta                   VARCHAR(255) NOT NULL," +

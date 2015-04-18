@@ -41,6 +41,7 @@ public class UsuarioEMSA {
     private double      promedio1;
     private double      promedio2;
     private double      promedio3;
+    private int         digitosMedidor;
 
     public UsuarioEMSA(){
         this.id_consecutivo = -1;
@@ -284,5 +285,13 @@ public class UsuarioEMSA {
 
     public void setLatitudCuenta(String latitudCuenta) {
         this.latitudCuenta = latitudCuenta;
+    }
+
+    public int getDigitosMedidor() {
+        return digitosMedidor;
+    }
+
+    public void setDigitosMedidor(int digitosMedidor) {
+        this.digitosMedidor = digitosMedidor;
     }
 }

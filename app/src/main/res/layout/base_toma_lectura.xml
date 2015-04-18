@@ -6,16 +6,22 @@
     android:weightSum="13"
     android:background="@color/fondo_formulario">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="New Text"
-        android:id="@+id/LecturaTxtRuta"
-        android:gravity="center_horizontal|center_vertical"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:textColor="#ff0666ff"/>
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="New Text"
+            android:id="@+id/LecturaTxtRuta"
+            android:gravity="center_horizontal|center_vertical"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="#ff0666ff"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

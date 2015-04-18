@@ -60,4 +60,20 @@ public class ClassTipoUso {
         String newTipoUso[] = _tipoUso.split("\\-");
         return Integer.parseInt(newTipoUso[0]);
     }
+
+    public ArrayList<String> getMensajesCodificados(){
+        ArrayList<String> _lstMensajes = new ArrayList<>();
+        this._tempTabla = this.FcnSQL.SelectData(   "param_codigos_mensajes","codigo","codigo IS NOT NULL");
+
+        for(int i=0;i<this._tempTabla.size();i++){
+            this._tempRegistro = this._tempTabla.get(i);
+            _lstMensajes.add(this._tempRegistro.getAsString("codigo"));
+        }
+        return _lstMensajes;
+    }
+
+
+    public String getDescripcionMensaje(String _codigo){
+        return this.FcnSQL.StrSelectShieldWhere("param_codigos_mensajes","descripcion","codigo='"+_codigo+"'");
+    }
 }

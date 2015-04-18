@@ -24,6 +24,9 @@ public class Bluetooth {
     }
 
 
+
+
+
     /*
     Funcion para detectar si el equipo tiene bluetooth
      */

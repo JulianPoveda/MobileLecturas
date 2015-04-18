@@ -23,6 +23,7 @@ import clases.ClassSession;
 import lecturas.sypelc.mobilelecturas.FormInformacionRutas;
 import lecturas.sypelc.mobilelecturas.FormInicioSession;
 import sistema.Archivos;
+import sistema.Bluetooth;
 import sistema.SQLite;
 
 /**
@@ -34,6 +35,7 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
     private Archivos            FcnArch;
     private SQLite              FcnSQL;
     private ClassSession        Usuario;
+    private Bluetooth           FcnBluetooth = Bluetooth.getInstance();
 
     private Context Context;
 
@@ -96,6 +98,7 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
             SoapObject so=new SoapObject(NAMESPACE, this.METHOD_NAME);
             so.addProperty("usuario", this.Usuario.getCodigo());
             so.addProperty("informacion",this.FcnArch.FileToArrayBytes("Descarga", this.Usuario.getCodigo()+"_"+params[0]+".txt",true));
+            so.addProperty("bluetooth", this.FcnBluetooth.GetOurDeviceByAddress());
 
             SoapSerializationEnvelope sse=new SoapSerializationEnvelope(SoapEnvelope.VER11);
             new MarshalBase64().register(sse);

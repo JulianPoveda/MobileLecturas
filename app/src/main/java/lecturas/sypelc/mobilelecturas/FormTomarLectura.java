@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.text.InputFilter;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -136,18 +137,8 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
         this.AdaptadorAnomalias = new SpinnerAdapter(this, R.layout.custom_spinner,this.FcnAnomalias.getAnomalias(this.FcnLectura.getInfUsuario().getTipo_uso()),"#FF5CBD79","#6B5656");
         this._cmbAnomalia.setAdapter(this.AdaptadorAnomalias);
 
-        this.arrayMensajes.clear();
-        this.arrayMensajes.add("M1");
-        this.arrayMensajes.add("M2");
-        this.arrayMensajes.add("M3");
-        this.arrayMensajes.add("M4");
-        this.arrayMensajes.add("M5");
-        this.arrayMensajes.add("M6");
-        this.arrayMensajes.add("M7");
-        this.arrayMensajes.add("M8");
-        this.arrayMensajes.add("M9");
-        this.arrayMensajes.add("M10");
 
+        this.arrayMensajes = this.FcnTipoUso.getMensajesCodificados();
         this.listadoMsjCodificados  = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayMensajes);
         this._lstMsjCodificados.setAdapter(listadoMsjCodificados);
 
@@ -260,6 +251,9 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
         this._txtLectura3.setEnabled(!this.FcnLectura.getInfUsuario().isLeido());
         this._txtMensaje.setEnabled(!this.FcnLectura.getInfUsuario().isLeido());
         this._cmbTipoUso.setEnabled(!this.FcnLectura.getInfUsuario().isLeido());
+
+        //Restriccion de cantidad de digitos a ingresar
+        this._txtLectura1.setFilters(new InputFilter[] { new InputFilter.LengthFilter(this.FcnLectura.getInfUsuario().getDigitosMedidor())});
     }
 
 
@@ -298,8 +292,18 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
                         Toast.makeText(this,"Latitud: " +this.FcnGPS.getLatitudGPS(), Toast.LENGTH_LONG).show();
                     }
 
-                    if((this.FcnLectura.getInfUsuario().isHaveCritica() || this.FcnLectura.getInfUsuario().isNeedFoto()) &&
+                    //El siguiente if se divide en dos partes que es cuando se necesita foto por anomalia o cuando se necesita para
+                    //confirmar critica
+
+                    /*if((this.FcnLectura.getInfUsuario().isHaveCritica() || this.FcnLectura.getInfUsuario().isNeedFoto()) &&
                             this.FcnLectura.getInfUsuario().getCountFotos() == 0 &&
+                            (this.FcnLectura.getInfUsuario().getIntentos() == 1 || this.FcnLectura.getInfUsuario().getIntentos() == 2)){
+                        this.getFoto();
+                    }*/
+
+                    if( this.FcnLectura.getInfUsuario().isNeedFoto() && this.FcnLectura.getInfUsuario().getCountFotos() == 0){
+                        this.getFoto();
+                    }else if(this.FcnLectura.getInfUsuario().isHaveCritica() && this.FcnLectura.getInfUsuario().getCountFotos() == 0 &&
                             (this.FcnLectura.getInfUsuario().getIntentos() == 1 || this.FcnLectura.getInfUsuario().getIntentos() == 2)){
                         this.getFoto();
                     }else if((this.FcnLectura.getInfUsuario().isNeedLectura() && !this._txtLectura1.getText().toString().isEmpty()) ||
@@ -373,7 +377,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
     public void onItemClick(AdapterView<?> parent, View view, int position,	long id) {
         switch(parent.getId()){
             case R.id.LecturasListMsjCodificados:
-                this._txtMensaje.append(this.arrayMensajes.get(position).toString()+" ");
+                this._txtMensaje.append("("+this.FcnTipoUso.getDescripcionMensaje(this.arrayMensajes.get(position).toString())+")");
                 break;
         }
     }
@@ -384,6 +388,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
         switch(parent.getId()){
             case R.id.LecturaSpnAnomalia:
                 String _anomalia[] = this._cmbAnomalia.getSelectedItem().toString().split("-");
+                this.FcnLectura.getInfUsuario().setAnomalia(Integer.parseInt(_anomalia[0]),_anomalia[1]);
 
                 if((this.FcnLectura.getInfUsuario().getAnomalia_anterior() != Integer.parseInt(_anomalia[0]))  ){
                     if(this.FcnLectura.getInfUsuario().isNeedFoto() && this.FcnLectura.getInfUsuario().getCountFotos() == 0){
@@ -397,7 +402,6 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
                     this.dialogo.show(getFragmentManager(), "SaveDialog");
                 }
 
-                this.FcnLectura.getInfUsuario().setAnomalia(Integer.parseInt(_anomalia[0]),_anomalia[1]);
                 this.MostrarInformacionBasica();
                 break;
 
