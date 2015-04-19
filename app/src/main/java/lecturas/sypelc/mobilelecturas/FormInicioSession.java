@@ -20,6 +20,7 @@ import async_task.DownLoadParametros;
 import async_task.DownLoadTrabajo;
 import clases.ClassConfiguracion;
 import clases.ClassSession;
+import sistema.Beacon;
 
 
 public class FormInicioSession extends ActionBarActivity implements OnClickListener{
@@ -28,6 +29,7 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
     public static String sub_path_pictures  = "Fotos";
 
     private Intent              new_form;
+    Beacon envioActas;
 
     private ClassSession        FcnSession;
     private ClassConfiguracion  FcnCfg;
@@ -53,6 +55,9 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
 
         this._lblVersionBD.setText("Version BD "+this.FcnCfg.getVersion_bd());
         this._lblVersionSoft.setText("Version Software "+this.FcnCfg.getVersion_bd());
+
+        envioActas 	= new Beacon(this,path_files_app , 86400000, 60000);
+        envioActas.start();
 
         invalidateOptionsMenu();
         this._btnLoggin.setOnClickListener(this);
