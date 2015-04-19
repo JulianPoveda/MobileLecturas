@@ -7,6 +7,7 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.app.ProgressDialog;
@@ -16,6 +17,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 
 import java.io.File;
+import java.util.Date;
 
 import clases.ClassAnomaliaOld;
 import clases.ClassConfiguracion;
