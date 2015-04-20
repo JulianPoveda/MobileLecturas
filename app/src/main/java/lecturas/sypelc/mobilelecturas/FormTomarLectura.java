@@ -180,12 +180,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
                 break;
 
             case R.id.LecturaMenuUbicacion:
-                this.new_form = new Intent(this, MapsActivity.class);
-                this.new_form.putExtra("Cuenta",this.FcnLectura.getInfUsuario().getCuenta());
-                this.new_form.putExtra("Marca", this.FcnLectura.getInfUsuario().getMarca_medidor());
-                this.new_form.putExtra("Serie", this.FcnLectura.getInfUsuario().getSerie_medidor());
-                this.new_form.putExtra("Longitud", this.FcnLectura.getInfUsuario().getLongitudCuenta());
-                this.new_form.putExtra("Latitud", this.FcnLectura.getInfUsuario().getLatitudCuenta());
+                this.new_form =new Intent(Intent.ACTION_VIEW, Uri.parse("geo:<4.08295833333333>,<-73.6700166666667>?q=<4.08295833333333>,<-73.6700166666667>(Cuenta "+this.FcnLectura.getInfUsuario().getCuenta()+")"));
                 startActivityForResult(this.new_form, UBICACION_TERRENO);
                 break;
 
