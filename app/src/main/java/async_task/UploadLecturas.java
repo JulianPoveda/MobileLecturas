@@ -15,12 +15,9 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
 
-import java.io.File;
-
-import clases.ClassAnomaliaOld;
+//import clases.ClassAnomaliaOld;
 import clases.ClassConfiguracion;
 import clases.ClassSession;
-import lecturas.sypelc.mobilelecturas.FormInformacionRutas;
 import lecturas.sypelc.mobilelecturas.FormInicioSession;
 import sistema.Archivos;
 import sistema.Bluetooth;
@@ -72,10 +69,16 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
     @Override
     protected Integer doInBackground(String... params) {
         int _retorno    = 0;
-        //this.InformacionCarga.clear();
-
         this.InformacionCarga = "";
-        this._tempTabla	= this.FcnSQL.SelectData("maestro_clientes", "id_serial_1, id_serial_2, id_serial_3","estado='T' AND ruta='"+params[0]+"'");
+
+        //Se evalua el parametro recibido, si esta vacio es poque el llamado se realizo desde la clase beacon
+        //la cual realiza la sincronizacion cada X tiempo, en caso de no estar vacia es porque fue llamado desde
+        //el formulario toma lectura.
+        if(params[0].isEmpty()){
+            this._tempTabla = this.FcnSQL.SelectData("maestro_clientes", "id_serial_1, id_serial_2, id_serial_3", "estado='T'");
+        }else {
+            this._tempTabla = this.FcnSQL.SelectData("maestro_clientes", "id_serial_1, id_serial_2, id_serial_3", "estado='T' AND ruta='" + params[0] + "'");
+        }
         for(int i=0; i<this._tempTabla.size();i++){
             this._tempRegistro  = this._tempTabla.get(i);
             this._tempTabla1	= this.FcnSQL.SelectData(   "toma_lectura",
@@ -117,8 +120,12 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
                     String informacion[] = new String(response.toString()).trim().split("\\|");
                     if(informacion.length>0){
                         this._tempRegistro.clear();
+                        this._tempRegistro.put("estado","E");
+
                         for(int i=0;i<informacion.length;i++){
-                            this.FcnSQL.DeleteRegistro("toma_lectura","id="+informacion[i]+"");
+                            //this.FcnSQL.DeleteRegistro("toma_lectura","id="+informacion[i]+"");
+                            //Se hace el cambio de estado de (T)erminado a (E)nviado
+                            this.FcnSQL.UpdateRegistro("toma_lectura",this._tempRegistro,"id="+informacion[i]);
                         }
                     }
                     _retorno = 1;

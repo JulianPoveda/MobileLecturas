@@ -24,9 +24,6 @@ public class Bluetooth {
     }
 
 
-
-
-
     /*
     Funcion para detectar si el equipo tiene bluetooth
      */
@@ -43,10 +40,11 @@ public class Bluetooth {
     /*
         Funcion para habilitar el bluetooth, si esta inhabiltado lo habilita
      */
-    public void EnabledBluetoth(){
+    public boolean EnabledBluetoth(){
         if(!bluetooth.isEnabled()){
             bluetooth.enable();
         }
+        return bluetooth.isEnabled();
     }
 
     /*

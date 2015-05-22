@@ -7,22 +7,14 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
 
-import java.io.File;
-import java.util.Date;
-
-import clases.ClassAnomaliaOld;
 import clases.ClassConfiguracion;
 import clases.ClassSession;
-import lecturas.sypelc.mobilelecturas.FormInformacionRutas;
 import lecturas.sypelc.mobilelecturas.FormInicioSession;
 import sistema.Archivos;
 import sistema.SQLite;

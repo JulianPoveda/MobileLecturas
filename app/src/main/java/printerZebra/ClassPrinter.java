@@ -1,5 +1,7 @@
 package printerZebra;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import com.zebra.sdk.comm.BluetoothConnection;
 import com.zebra.sdk.comm.Connection;
@@ -8,12 +10,14 @@ import com.zebra.sdk.printer.ZebraPrinter;
 import com.zebra.sdk.printer.ZebraPrinterFactory;
 import com.zebra.sdk.printer.ZebraPrinterLanguageUnknownException;
 
+import dialogos.showDialogBox;
+
 /**
  * Created by JULIANEDUARDO on 12/02/2015.
  */
 public class ClassPrinter {
-    private Connection printerConnection;
-    private ZebraPrinter printer;
+    private Connection      printerConnection;
+    private ZebraPrinter    printer;
 
     private ArrayList<ClassFonts>   lstFonts    = new ArrayList<ClassFonts>();
     private ClassFonts  font;
@@ -35,20 +39,13 @@ public class ClassPrinter {
     private int         currentPointX;
     private int         currentPointY;
 
-    /*private int         widthPrinter;
-    private int         widthLabel;
-
-
-    private int         spaceCharacter;
-
-    private int         finalLine;*/
-
-
     private String      strInformation;
     private String      strFile;
+    private Context     ctx;
 
 
-    public ClassPrinter(boolean _copiaImpresion){
+    public ClassPrinter(Context _ctx, boolean _copiaImpresion){
+        this.ctx                = _ctx;
         this.copyInformation    = _copiaImpresion;
         this.strInformation     = "";
         this.strFile            = "";
@@ -97,10 +94,6 @@ public class ClassPrinter {
         this.lstFonts.add(this.font);
     }
 
-
-
-
-
     public void WriteDefaultText(String _typeText, int _posX, double _preIncremento, double _posIncremento, String _text){
         this.font = this.getDataFont(_typeText);
         if(this.verticalPrinter){
@@ -114,11 +107,9 @@ public class ClassPrinter {
         }
     }
 
-
     public void WriteText(String _typeText, int _posX, double _preIncremento, double _posIncremento, String _text, String _justificacion){
 
     }
-
 
     public void DrawMargin(){
         if(this.verticalPrinter){
@@ -129,7 +120,6 @@ public class ClassPrinter {
 
     }
 
-
     public void DrawImage(String NameFile, double _posX, double _posY){
         if(this.verticalPrinter) {
             this.strInformation += "PCX " + (this.currentPointX - _posY) + " " + (this.currentPointY + _posX) + " !<" + NameFile + "\r\n";
@@ -137,7 +127,6 @@ public class ClassPrinter {
             this.strInformation += "PCX " + (this.currentPointX + _posX) + " " + (this.currentPointY + _posY) + " !<" + NameFile + "\r\n";
         }
     }
-
 
     public void WrRectangle(double _posX1, double _posY1, double _posX2, double _posY2, int Shadow){
         double IncLine = 0;
@@ -154,21 +143,7 @@ public class ClassPrinter {
             }
         }
     }
-
-
-
-    /*public void WriteScaleText(String _typeText, int _posX, int _posY, int _preIncremento, int _posIncremento, String _text){
-        this.font = this.getDataFont(_typeText);
-        this.currentLine    += _preIncremento*this.font.getHeight_font();
-        if(this.verticalPrinter){
-            this.strInformation += "VSCALE-TEXT "+this.font.getName_font()+" "+this.font.getWidth_font()+" "+this.font.getHeight_font()+ " "+_posX+" "+(this.currentLine+_posY)+" "+_text+"\r\n";
-        }else{
-            this.strInformation += "SCALE-TEXT "+this.font.getName_font()+" "+this.font.getWidth_font()+" "+this.font.getHeight_font()+ " "+_posX+" "+(this.currentLine+_posY)+" "+_text+"\r\n";
-        }
-        this.currentLine    += _posIncremento*this.font.getHeight_font();
-    }*/
-
-
+    
     public ClassFonts getDataFont(String _descripcionFont){
         ClassFonts localFont = new ClassFonts();
         for(int i=0;i<this.lstFonts.size();i++){
@@ -279,26 +254,48 @@ public class ClassPrinter {
         return this.strInformation;
     }
 
+
+    /**
+     *
+     * @param _bluetooth MAC del bluetooth con el cual queremos realizar la impresion.
+     */
     public void printLabel(String _bluetooth) {
-        printer = this.Zebra_Connect(_bluetooth);
-        if (printer != null) {
-            try {
-                byte[] configLabel = this.convertExtendedAscii(this.getDoLabel());
-                //this.getDoLabel().getBytes();
-                printerConnection.write(configLabel);
-                //setStatus("Sending Data", Color.BLUE);
-                DemoSleeper.sleep(150);
-                if (printerConnection instanceof BluetoothConnection) {
-                    //String friendlyName = ((BluetoothConnection) printerConnection).getFriendlyName();
-                    //setStatus(friendlyName, Color.MAGENTA);
-                    //DemoSleeper.sleep(500);
+        this.printer = this.Zebra_Connect(_bluetooth);
+        if (this.printer != null && this.printer.getConnection().isConnected()) {
+            try{
+                if(this.printer.getCurrentStatus().isReadyToPrint){
+                    byte[] configLabel = this.convertExtendedAscii(this.getDoLabel());
+                    printerConnection.write(configLabel);
+                    DemoSleeper.sleep(150);
+                }else if(this.printer.getCurrentStatus().isHeadOpen){
+                    //Mensaje de tapa abierta
+                    new showDialogBox().showLoginDialog(this.ctx, 2, "ERROR EN IMPRESION", "La tapa de la impresora esta abierta.");
+                }else if(this.printer.getCurrentStatus().isHeadCold){
+                    //Cabezal frio para imprimir
+                    new showDialogBox().showLoginDialog(this.ctx, 2, "ERROR EN IMPRESION", "El cabezal de impresion aun no esta listo.");
+                }else if(this.printer.getCurrentStatus().isHeadTooHot){
+                    //Cabezal de impresora sobrecalentado
+                    new showDialogBox().showLoginDialog(this.ctx, 2, "ERROR EN IMPRESION", "El cabezal de impresion esta sobrecalentado.");
+                }else if(this.printer.getCurrentStatus().isPaperOut){
+                    //Impresora sin papel
+                    new showDialogBox().showLoginDialog(this.ctx, 2, "ERROR EN IMPRESION", "Impresora sin papel.");
+                }else if(this.printer.getCurrentStatus().isPaused){
+                    //Impresora en estado pause
+                    new showDialogBox().showLoginDialog(this.ctx, 2, "ERROR EN IMPRESION", "Impresora pausada.");
+                }else if(this.printer.getCurrentStatus().isReceiveBufferFull){
+                    //Impresora con el buffer lleno
+                    new showDialogBox().showLoginDialog(this.ctx, 2, "ERROR EN IMPRESION", "Buffer lleno.");
                 }
-            } catch (ConnectionException e) {
+            }catch (ConnectionException e) {
+                //Error en la comunicacion con la impresora
                 //setStatus(e.getMessage(), Color.RED);
-            } finally {
+            }catch(Exception ex){
+                //Excepcion general
+            }finally {
                 this.Zebra_Disconnect();
             }
         } else {
+            //Mensaje indicando que no fue posible la conexion con la impresora
             this.Zebra_Disconnect();
         }
     }

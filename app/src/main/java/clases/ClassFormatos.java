@@ -31,7 +31,7 @@ public class ClassFormatos {
         this.FcnSQL             = new SQLite(this.context, FormInicioSession.path_files_app);
         //this.FcnZebra           = new Zebra_QL420plus(200, 40, 5, 5, 50, _copiaSistema);
 
-        this.FcnPrinter     = new   ClassPrinter(false);
+        this.FcnPrinter     = new   ClassPrinter(this.context, false);
         this.FcnPrinter.setVerticalPrinter(true);
         this.FcnPrinter.SetSizePage(780,376);
         this.FcnPrinter.SetSizeMargin(10,1,1,30);

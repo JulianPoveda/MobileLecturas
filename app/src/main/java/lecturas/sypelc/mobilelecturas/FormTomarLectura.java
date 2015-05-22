@@ -12,8 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.AdapterView.OnItemClickListener;
@@ -38,8 +36,8 @@ import clases.ClassFormatos;
 import clases.ClassSession;
 import clases.ClassTipoUso;
 import dialogos.DialogoInformativo;
-import dialogos.DialogoRendimiento;
 import dialogos.ShowDialog;
+import dialogos.showDialogBox;
 import sistema.GPS;
 
 
@@ -62,7 +60,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
     private GPS                 FcnGPS;
 
     private DialogoInformativo  dialogo;
-    private DialogoRendimiento  dialogoRendimiento;
+    //private DialogoRendimiento  dialogoRendimiento;
     private Bundle              argumentos;
 
     private TextView    _lblCuenta, _lblNombre, _lblDireccion, _lblRuta, _lblMedidor, _lblLectura1, _lblLectura2, _lblLectura3, _lblMsjCodificado;
@@ -71,9 +69,9 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
     private Spinner     _cmbTipoUso, _cmbAnomalia;
     private Button      _btnGuardar, _btnSiguiente, _btnAnterior;
 
-    private String                  _ruta;
-    private String 		            fotoParcial;
-    private float                   init_x;
+    private String      _ruta;
+    private String 		fotoParcial;
+    private float       init_x;
 
     private ArrayAdapter<String>    AdaptadorAnomalias;
     private ArrayAdapter<String>    AdaptadorUso;
@@ -99,7 +97,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
         this.FcnLectura         = new TomaLectura(this, this._ruta);
         this.FcnFormatos        = new ClassFormatos(this, false);
         this.dialogo            = new DialogoInformativo();
-        this.dialogoRendimiento = new DialogoRendimiento();
+        //this.dialogoRendimiento = new DialogoRendimiento();
         this.argumentos         = new Bundle();
 
         this.managerLocation = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
@@ -185,15 +183,15 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
                 break;
 
             case R.id.LecturaMenuReImprimir:
-                //this.FcnFormatos.FormatoPrueba();
-                //this.FcnFormatos.ActaLectura();
-                /*this.FcnFormatos.ActaLectura(   this.lectura1,
-                                                this.FcnLectura.getCuenta(),
-                                                "FALTA",
-                                                this.FcnLectura.getNombre(),
-                                                this.FcnLectura.getDireccion(),
-                                                this.FcnLectura.getSerie_medidor()+"-"+this.FcnLectura.getMarca_medidor(),
-                                                ClassUsuario.getInstance(this).getCodigo());*/
+                this.FcnFormatos.ActaLectura(this.FcnLectura.getInfUsuario().getTipo_energia1(),
+                        this.FcnLectura.getInfUsuario().getLectura1(),
+                        this.FcnLectura.getInfUsuario().getAnomalia() + "-" + this.FcnLectura.getInfUsuario().getStrAnomalia(),
+                        this.FcnLectura.getInfUsuario().getCuenta(),
+                        this.FcnLectura.getInfUsuario().getMunicipio(),
+                        this.FcnLectura.getInfUsuario().getNombre(),
+                        this.FcnLectura.getInfUsuario().getDireccion(),
+                        this.FcnLectura.getInfUsuario().getSerie_medidor() + "-" + this.FcnLectura.getInfUsuario().getMarca_medidor(),
+                        this.FcnSession.getCodigo());
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -290,12 +288,6 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
                     //El siguiente if se divide en dos partes que es cuando se necesita foto por anomalia o cuando se necesita para
                     //confirmar critica
 
-                    /*if((this.FcnLectura.getInfUsuario().isHaveCritica() || this.FcnLectura.getInfUsuario().isNeedFoto()) &&
-                            this.FcnLectura.getInfUsuario().getCountFotos() == 0 &&
-                            (this.FcnLectura.getInfUsuario().getIntentos() == 1 || this.FcnLectura.getInfUsuario().getIntentos() == 2)){
-                        this.getFoto();
-                    }*/
-
                     if( this.FcnLectura.getInfUsuario().isNeedFoto() && this.FcnLectura.getInfUsuario().getCountFotos() == 0){
                         this.getFoto();
                     }else if(this.FcnLectura.getInfUsuario().isHaveCritica() && this.FcnLectura.getInfUsuario().getCountFotos() == 0 &&
@@ -315,17 +307,17 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
 
                             if (this.FcnLectura.getInfUsuario().isLeido()) {
                                 this._btnGuardar.setEnabled(false);
+                                //new UploadLecturas(this).execute(this.FcnLectura.getInfUsuario().getRuta());
+
                                 this.FcnFormatos.ActaLectura(this.FcnLectura.getInfUsuario().getTipo_energia1(),
                                         this.FcnLectura.getInfUsuario().getLectura1(),
-                                        this.FcnLectura.getInfUsuario().getAnomalia()+"-"+this.FcnLectura.getInfUsuario().getStrAnomalia(),
+                                        this.FcnLectura.getInfUsuario().getAnomalia() + "-" + this.FcnLectura.getInfUsuario().getStrAnomalia(),
                                         this.FcnLectura.getInfUsuario().getCuenta(),
                                         this.FcnLectura.getInfUsuario().getMunicipio(),
                                         this.FcnLectura.getInfUsuario().getNombre(),
                                         this.FcnLectura.getInfUsuario().getDireccion(),
                                         this.FcnLectura.getInfUsuario().getSerie_medidor() + "-" + this.FcnLectura.getInfUsuario().getMarca_medidor(),
-                                        ClassSession.getInstance(this).getCodigo());
-
-                                new UploadLecturas(this).execute(this.FcnLectura.getInfUsuario().getRuta());
+                                        this.FcnSession.getCodigo());
 
                                 if (this.FcnLectura.getDatosUsuario(true)) {
                                     this._cmbAnomalia.setSelection(0);
@@ -431,7 +423,11 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
                 }
             }else if(resultCode == RESULT_OK && requestCode == INICIAR_CAMARA){
                 this.FcnLectura.getNumeroFotos();
-                new UpLoadFoto(this).execute(this.FcnLectura.getInfUsuario().getCuenta()+"",this.FcnLectura.getInfUsuario().getId_serial1()+"",this.fotoParcial);
+
+                //Llamado al proceo de envio de fotos, solo si esta activo en la configuracion de la aplicacion
+                if(this.FcnCfg.isFotos_en_linea()) {
+                    new UpLoadFoto(this).execute(this.FcnLectura.getInfUsuario().getCuenta() + "", this.FcnLectura.getInfUsuario().getId_serial1() + "", this.fotoParcial);
+                }
             }else if(resultCode == RESULT_OK && requestCode == FINAL_RUTA){
                 this.finish();
             }

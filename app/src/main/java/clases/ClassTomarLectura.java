@@ -17,7 +17,7 @@ public class ClassTomarLectura {
     private ContentValues               _tempRegistro;
     private ArrayList<ContentValues>    _tempTabla  = new ArrayList<ContentValues>();
 
-    private SQLite          FcnSQL;
+    private SQLite      FcnSQL;
 
     private int         id_serial;
     private String      ruta;
