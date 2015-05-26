@@ -63,32 +63,39 @@ public class ClassFormatos {
         this.FcnPrinter.printLabel(this.FcnConfiguracion.getPrinter());
     }
 
-    public void ActaLectura(String _tipo, int _lectura, String _anomalia, int _cuenta, String _municipio, String _nombre, String _direccion, String _medidor, int _inspector){
+    public void ActaLectura(String _tipo1, int _lectura1, String _tipo2, int _lectura2, String _tipo3, int _lectura3, String _anomalia,
+                            int _cuenta, String _municipio, String _nombre, String _direccion, String _medidor, int _inspector){
+
         String strLectura="";
-        String strTipoLectura;
+        //String strTipoLectura;
 
         if(_nombre.length()>35){
             _nombre = _nombre.substring(0,35);
         }
 
         if(_direccion.length()>35){
-            _direccion = _direccion.substring(0,35);
+            _direccion = _direccion.substring(0, 35);
         }
 
-        if(_lectura == -1){
-            strLectura = "";
+        /*if(_tipo1.equals("Lect. A")){
+            strLectura = "A:";
+        }else if(_tipo1.equals("Lect. R")){
+            strLectura = "R:";
         }else{
-            strLectura = String.valueOf(_lectura);
+            strLectura = "A:";
+        }*/
+
+        if(_lectura1 != -1){
+            strLectura += _tipo1.substring(_tipo1.length()-1)+":"+String.valueOf(_lectura1)+" ";
         }
 
-        if(_tipo.equals("Lect. A")){
-            strTipoLectura = "Lectura ACTIVA";
-        }else if(_tipo.equals("Lect. R")){
-            strTipoLectura = "Lectura REACTIVA";
-        }else{
-            strTipoLectura = "Lectura";
+        if(_lectura2 != -1){
+            strLectura += _tipo2.substring(_tipo2.length()-1)+":"+String.valueOf(_lectura2)+" ";
         }
 
+        if(_lectura3 != -1){
+            strLectura += _tipo3.substring(_tipo3.length()-1)+":"+String.valueOf(_lectura3)+" ";
+        }
 
         this.FcnPrinter.resetEtiqueta();
         this.FcnPrinter.DrawMargin();
@@ -97,7 +104,7 @@ public class ClassFormatos {
         this.FcnPrinter.WriteDefaultText("TEXTO",   120,0,1,"Estimado usuario el dia de hoy "+ this.FcnTime.DateWithNameMonthShort()+" a las ");
         this.FcnPrinter.WriteDefaultText("TEXTO",   120,0,1,this.FcnTime.GetHora()+" estuvimos realizando la toma de ");
         this.FcnPrinter.WriteDefaultText("TEXTO",   120,0,2,"lectura con reporte:");
-        this.FcnPrinter.WriteDefaultText("TITULO",  120,0,1,strTipoLectura+" : "+strLectura);
+        this.FcnPrinter.WriteDefaultText("TITULO",  120,0,1,"LECT. "+strLectura);
         this.FcnPrinter.WriteDefaultText("TEXTO",   10,1,1,"OBS      : "+_anomalia);
         this.FcnPrinter.WriteDefaultText("TEXTO",   10,0,0,"CUENTA   : "+_cuenta);
         this.FcnPrinter.WriteDefaultText("TEXTO", 450,0,1, "MPIO: "+_municipio);

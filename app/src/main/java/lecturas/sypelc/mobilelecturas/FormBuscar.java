@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -188,6 +189,16 @@ public class FormBuscar extends ActionBarActivity implements TextWatcher, OnItem
         switch(parent.getId()){
             case R.id.BuscarCmbFiltro:
                 this.AdaptadorUsuarios.Filtrar(this._cmbFiltro.getSelectedItemPosition(), this._txtBuscar.getText().toString());
+                if(this._cmbFiltro.getSelectedItemPosition() == 0){
+                    this._txtBuscar.setInputType(InputType.TYPE_CLASS_NUMBER);
+                }else if(this._cmbFiltro.getSelectedItemPosition() == 1){
+                    this._txtBuscar.setInputType(InputType.TYPE_CLASS_NUMBER);
+                }else if(this._cmbFiltro.getSelectedItemPosition() == 2){
+                    this._txtBuscar.setInputType(InputType.TYPE_CLASS_TEXT);
+                }else if(this._cmbFiltro.getSelectedItemPosition() == 3){
+                    this._txtBuscar.setInputType(InputType.TYPE_CLASS_TEXT);
+                }
+
                 break;
 
             case R.id.LecturaSpnTipoUso:

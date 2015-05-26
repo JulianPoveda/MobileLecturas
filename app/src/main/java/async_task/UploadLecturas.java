@@ -7,6 +7,7 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.ProgressDialog;
@@ -39,6 +40,7 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
     private String URL;
     private String NAMESPACE;
     private String Respuesta   = "";
+    private String infRuta[];
 
     private ContentValues				_tempRegistro 	    = new ContentValues();
     private ContentValues				_tempRegistro1 	    = new ContentValues();
@@ -48,6 +50,10 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
 
     private static final String METHOD_NAME	= "UploadTrabajo";
     private static final String SOAP_ACTION	= "UploadTrabajo";
+
+    private SoapObject so;
+    private SoapSerializationEnvelope sse;
+    private HttpTransportSE htse;
 
     SoapPrimitive response = null;
     ProgressDialog _pDialog;
@@ -71,13 +77,15 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
         int _retorno    = 0;
         this.InformacionCarga = "";
 
+
         //Se evalua el parametro recibido, si esta vacio es poque el llamado se realizo desde la clase beacon
         //la cual realiza la sincronizacion cada X tiempo, en caso de no estar vacia es porque fue llamado desde
         //el formulario toma lectura.
         if(params[0].isEmpty()){
             this._tempTabla = this.FcnSQL.SelectData("maestro_clientes", "id_serial_1, id_serial_2, id_serial_3", "estado='T'");
         }else {
-            this._tempTabla = this.FcnSQL.SelectData("maestro_clientes", "id_serial_1, id_serial_2, id_serial_3", "estado='T' AND ruta='" + params[0] + "'");
+            this.infRuta = params[0].split("\\-");
+            this._tempTabla = this.FcnSQL.SelectData("maestro_clientes", "id_serial_1, id_serial_2, id_serial_3", "estado='T' AND ruta='" + infRuta[1] + "' AND id_municipio = "+infRuta[0]);
         }
         for(int i=0; i<this._tempTabla.size();i++){
             this._tempRegistro  = this._tempTabla.get(i);
@@ -98,45 +106,53 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
         this.FcnArch.DoFile("Descarga",this.Usuario.getCodigo()+"_"+params[0]+".txt",this.InformacionCarga);
 
         try{
-            SoapObject so=new SoapObject(NAMESPACE, this.METHOD_NAME);
-            so.addProperty("usuario", this.Usuario.getCodigo());
-            so.addProperty("informacion",this.FcnArch.FileToArrayBytes("Descarga", this.Usuario.getCodigo()+"_"+params[0]+".txt",true));
-            so.addProperty("bluetooth", this.FcnBluetooth.GetOurDeviceByAddress());
+            this.so=new SoapObject(NAMESPACE, this.METHOD_NAME);
+            this.so.addProperty("usuario", this.Usuario.getCodigo());
+            this.so.addProperty("informacion",this.FcnArch.FileToArrayBytes("Descarga", this.Usuario.getCodigo() + "_" + params[0] + ".txt", true));
+            this.so.addProperty("bluetooth", this.FcnBluetooth.GetOurDeviceByAddress());
 
-            SoapSerializationEnvelope sse=new SoapSerializationEnvelope(SoapEnvelope.VER11);
-            new MarshalBase64().register(sse);
-            sse.dotNet=true;
-            sse.setOutputSoapObject(so);
-            HttpTransportSE htse=new HttpTransportSE(URL);
-            htse.call(SOAP_ACTION, sse);
-            response=(SoapPrimitive) sse.getResponse();
+            this.sse=new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            new MarshalBase64().register(this.sse);
+            this.sse.dotNet=true;
+            this.sse.setOutputSoapObject(this.so);
+            this.htse=new HttpTransportSE(URL);
+            this.htse.call(SOAP_ACTION, this.sse);
+            this.response=(SoapPrimitive) this.sse.getResponse();
 
             if(response==null) {
                 this.Respuesta = "-1";
             }else if(response.toString().isEmpty()){
                 this.Respuesta = "-2";
             }else {
-                try {
-                    String informacion[] = new String(response.toString()).trim().split("\\|");
-                    if(informacion.length>0){
-                        this._tempRegistro.clear();
-                        this._tempRegistro.put("estado","E");
+                String informacion[] = new String(response.toString()).trim().split("\\|");
+                if(informacion.length>0){
+                    this._tempRegistro1.clear();
+                    this._tempRegistro1.put("estado","E");
 
-                        for(int i=0;i<informacion.length;i++){
-                            //this.FcnSQL.DeleteRegistro("toma_lectura","id="+informacion[i]+"");
-                            //Se hace el cambio de estado de (T)erminado a (E)nviado
-                            this.FcnSQL.UpdateRegistro("toma_lectura",this._tempRegistro,"id="+informacion[i]);
-                        }
+                    for(int i=0;i<informacion.length;i++){
+                        //Con el id local se consulta los id_seriales originales para poder actualizar el registro general
+                        this._tempRegistro = this.FcnSQL.SelectDataRegistro("toma_lectura","id_serial1,id_serial2,id_serial3","id="+informacion[i]);
+                        //Se hace el cambio de estado de (T)erminado a (E)nviado
+                        this.FcnSQL.UpdateRegistro("maestro_clientes",
+                                                    this._tempRegistro1,
+                                                    "id_serial_1="+this._tempRegistro.getAsString("id_serial1")+" AND id_serial_2="+this._tempRegistro.getAsString("id_serial2")+" AND id_serial_3="+this._tempRegistro.getAsString("id_serial3"));
                     }
-                    _retorno = 1;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    _retorno = -3;
                 }
+                _retorno = 1;
             }
         } catch (Exception e) {
             this.Respuesta = e.toString();
             _retorno = -4;
+        }finally{
+            if(this.htse != null){
+                this.htse.reset();
+                try {
+                    this.htse.getServiceConnection().disconnect();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    _retorno = -5;
+                }
+            }
         }
         return _retorno;
     }

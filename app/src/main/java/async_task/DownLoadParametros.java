@@ -42,6 +42,10 @@ public class DownLoadParametros extends AsyncTask<String, Integer, Integer>{ //d
     private String URL;
     private String NAMESPACE;
 
+    private SoapObject so;
+    private SoapSerializationEnvelope sse;
+    private HttpTransportSE htse;
+
     //Variables con la informacion del web service
     private static final String METHOD_NAME	= "DownLoadParametros";
     private static final String SOAP_ACTION	= "DownLoadParametros";
@@ -80,14 +84,14 @@ public class DownLoadParametros extends AsyncTask<String, Integer, Integer>{ //d
     protected Integer doInBackground(String... params) {
         int _retorno = 0;
         try{
-            SoapObject so=new SoapObject(NAMESPACE, METHOD_NAME);
-            so.addProperty("id_interno", params[0]);
-            SoapSerializationEnvelope sse=new SoapSerializationEnvelope(SoapEnvelope.VER11);
-            sse.dotNet=true;
-            sse.setOutputSoapObject(so);
-            HttpTransportSE htse=new HttpTransportSE(URL);
-            htse.call(SOAP_ACTION, sse);
-            response=(SoapPrimitive) sse.getResponse();
+            this.so = new SoapObject(NAMESPACE, this.METHOD_NAME);
+            this.so.addProperty("id_interno", params[0]);
+            this.sse = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+            this.sse.dotNet=true;
+            this.sse.setOutputSoapObject(this.so);
+            this.htse = new HttpTransportSE(this.URL);
+            this.htse.call(SOAP_ACTION, this.sse);
+            response=(SoapPrimitive) this.sse.getResponse();
 
             /**Inicio de tratamiento de la informacion recibida**/
             if(response.toString()==null) {
@@ -95,22 +99,30 @@ public class DownLoadParametros extends AsyncTask<String, Integer, Integer>{ //d
             }else if(response.toString().isEmpty()){
                 _retorno = -2;
             }else{
-                try {
-                    this.FcnInformacion.EliminarParametros();
-                    String informacion[] = new String(Base64.decode(response.toString()), "ISO-8859-1").split("\\n");
-                    for(int i=0;i<informacion.length;i++){
-                        this.FcnInformacion.CargarParametros(informacion[i],"\\|");
-                        onProgressUpdate(i*100/informacion.length);
-                    }
-                    _retorno = 1;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    _retorno = -3;
+                this.FcnInformacion.EliminarParametros();
+                String informacion[] = new String(Base64.decode(response.toString()), "ISO-8859-1").split("\\n");
+                for(int i=0;i<informacion.length;i++){
+                    this.FcnInformacion.CargarParametros(informacion[i],"\\|");
+                    onProgressUpdate(i*100/informacion.length);
                 }
+                _retorno = 1;
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
+            e.printStackTrace();
+            _retorno = -3;
+        }catch (Exception e) {
             e.toString();
             _retorno = -4;
+        }finally{
+            if(this.htse != null){
+                this.htse.reset();
+                try {
+                    this.htse.getServiceConnection().disconnect();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    _retorno = -5;
+                }
+            }
         }
         return _retorno;
     }

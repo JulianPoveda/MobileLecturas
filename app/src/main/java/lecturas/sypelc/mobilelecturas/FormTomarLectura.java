@@ -26,10 +26,8 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.ArrayList;
 
-import Adapter.SpinnerAdapter;
 import Object.TomaLectura;
 import async_task.UpLoadFoto;
-import async_task.UploadLecturas;
 import clases.ClassAnomalias;
 import clases.ClassConfiguracion;
 import clases.ClassFormatos;
@@ -37,7 +35,6 @@ import clases.ClassSession;
 import clases.ClassTipoUso;
 import dialogos.DialogoInformativo;
 import dialogos.ShowDialog;
-import dialogos.showDialogBox;
 import sistema.GPS;
 
 
@@ -69,7 +66,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
     private Spinner     _cmbTipoUso, _cmbAnomalia;
     private Button      _btnGuardar, _btnSiguiente, _btnAnterior;
 
-    private String      _ruta;
+    private String      _ruta[];
     private String 		fotoParcial;
     private float       init_x;
 
@@ -85,7 +82,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
         setContentView(R.layout.activity_tomar_lectura);
 
         Bundle bundle       = getIntent().getExtras();
-        this._ruta          = bundle.getString("Ruta");
+        this._ruta          = bundle.getString("Ruta").split("\\-");
 
         this.IniciarCamara	= new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -94,7 +91,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
         this.FcnAnomalias       = ClassAnomalias.getInstance(this);
         this.FcnTipoUso         = ClassTipoUso.getInstance(this);
         this.FcnGPS             = GPS.getInstance();
-        this.FcnLectura         = new TomaLectura(this, this._ruta);
+        this.FcnLectura         = new TomaLectura(this, Integer.parseInt(this._ruta[0]), this._ruta[1]);
         this.FcnFormatos        = new ClassFormatos(this, false);
         this.dialogo            = new DialogoInformativo();
         //this.dialogoRendimiento = new DialogoRendimiento();
@@ -132,7 +129,8 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
             this._btnGuardar.setEnabled(!this.FcnLectura.getInfUsuario().isLeido());
         }
 
-        this.AdaptadorAnomalias = new SpinnerAdapter(this, R.layout.custom_spinner,this.FcnAnomalias.getAnomalias(this.FcnLectura.getInfUsuario().getTipo_uso()),"#FF5CBD79","#6B5656");
+        //this.AdaptadorAnomalias = new SpinnerAdapter(this, R.layout.custom_spinner,this.FcnAnomalias.getAnomalias(this.FcnLectura.getInfUsuario().getTipo_uso()),"#FF5CBD79","#6B5656");
+        this.AdaptadorAnomalias = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,this.FcnAnomalias.getAnomalias(this.FcnLectura.getInfUsuario().getTipo_uso()));
         this._cmbAnomalia.setAdapter(this.AdaptadorAnomalias);
 
 
@@ -140,7 +138,8 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
         this.listadoMsjCodificados  = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayMensajes);
         this._lstMsjCodificados.setAdapter(listadoMsjCodificados);
 
-        this.AdaptadorUso  = new SpinnerAdapter(this, R.layout.custom_spinner, this.FcnTipoUso.getTipoUso(),"#FF5CBD79","#6B5656");
+        //this.AdaptadorUso  = new SpinnerAdapter(this, R.layout.custom_spinner, this.FcnTipoUso.getTipoUso(),"#FF5CBD79","#6B5656");
+        this.AdaptadorUso = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, this.FcnTipoUso.getTipoUso());
 
         this._cmbTipoUso.setAdapter(this.AdaptadorUso);
 
@@ -174,7 +173,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
                 break;
 
             case R.id.LecturaMenuRendimiento:
-                new ShowDialog().showLoginDialog(this, this.FcnLectura.getInfUsuario().getRuta());
+                new ShowDialog().showLoginDialog(this, this.FcnLectura.getInfUsuario().getId_municipio(), this.FcnLectura.getInfUsuario().getRuta());
                 break;
 
             case R.id.LecturaMenuUbicacion:
@@ -185,6 +184,10 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
             case R.id.LecturaMenuReImprimir:
                 this.FcnFormatos.ActaLectura(this.FcnLectura.getInfUsuario().getTipo_energia1(),
                         this.FcnLectura.getInfUsuario().getLectura1(),
+                        this.FcnLectura.getInfUsuario().getTipo_energia2(),
+                        this.FcnLectura.getInfUsuario().getLectura2(),
+                        this.FcnLectura.getInfUsuario().getTipo_energia3(),
+                        this.FcnLectura.getInfUsuario().getLectura3(),
                         this.FcnLectura.getInfUsuario().getAnomalia() + "-" + this.FcnLectura.getInfUsuario().getStrAnomalia(),
                         this.FcnLectura.getInfUsuario().getCuenta(),
                         this.FcnLectura.getInfUsuario().getMunicipio(),
@@ -311,6 +314,10 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
 
                                 this.FcnFormatos.ActaLectura(this.FcnLectura.getInfUsuario().getTipo_energia1(),
                                         this.FcnLectura.getInfUsuario().getLectura1(),
+                                        this.FcnLectura.getInfUsuario().getTipo_energia2(),
+                                        this.FcnLectura.getInfUsuario().getLectura2(),
+                                        this.FcnLectura.getInfUsuario().getTipo_energia3(),
+                                        this.FcnLectura.getInfUsuario().getLectura3(),
                                         this.FcnLectura.getInfUsuario().getAnomalia() + "-" + this.FcnLectura.getInfUsuario().getStrAnomalia(),
                                         this.FcnLectura.getInfUsuario().getCuenta(),
                                         this.FcnLectura.getInfUsuario().getMunicipio(),
@@ -413,6 +420,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
             if(resultCode == RESULT_OK && requestCode == FROM_BUSCAR){
                 if(data.getExtras().getBoolean("response")){
                     this.FcnLectura.getInfUsuario().setFlagSearch(true);
+                    this.FcnLectura.getInfUsuario().setBackupMunicipio(this.FcnLectura.getInfUsuario().getMunicipio());
                     this.FcnLectura.getInfUsuario().setBackupRuta(this.FcnLectura.getInfUsuario().getRuta());
                     this.FcnLectura.getInfUsuario().setBackupConsecutivo(this.FcnLectura.getInfUsuario().getId_consecutivo());
 

@@ -95,9 +95,10 @@ public class SQLite {
 
             db.execSQL("CREATE TABLE    maestro_rutas   (id_inspector           INTEGER NOT NULL," +
                                                         "id_ciclo               INTEGER NOT NULL," +
+                                                        "id_municipio           INTEGER NOT NULL," +
                                                         "ruta                   VARCHAR(255) NOT NULL," +
                                                         "fecha_cargue           TIMESTAMP NOT NULL DEFAULT current_timestamp," +
-                                                        "PRIMARY KEY(id_inspector,ruta))");
+                                                        "PRIMARY KEY(id_inspector,id_ciclo,id_municipio,ruta))");
 
             db.execSQL("CREATE TABLE     maestro_clientes(id_serial             INTEGER PRIMARY KEY AUTOINCREMENT," +
                                                         "id_secuencia           NUMERIC(15,0) NOT NULL," +

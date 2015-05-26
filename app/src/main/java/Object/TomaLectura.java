@@ -23,9 +23,10 @@ public class TomaLectura {
     private ClassCritica                FcnCritica;
 
 
-    public TomaLectura(Context _ctx, String _ruta){
+    public TomaLectura(Context _ctx, int _municipio, String _ruta){
         this.Ctx        = _ctx;
         this.ObjUsuario = new UsuarioLeido();
+        this.ObjUsuario.setId_municipio(_municipio);
         this.ObjUsuario.setRuta(_ruta);
         this.FcnCritica     = ClassCritica.getInstance(this.Ctx);
         this.FcnSQL         = new SQLite(this.Ctx, FormInicioSession.path_files_app);
@@ -46,22 +47,22 @@ public class TomaLectura {
         if(this.ObjUsuario.getId_consecutivo() == -1){
             this._tempRegistro = this.FcnSQL.SelectDataRegistro("maestro_clientes",
                                                                 "ruta, id_serial,id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,tipo_uso,factor_multiplicacion,id_serial_1,lectura_anterior_1,tipo_energia_1,promedio_1,id_serial_2,lectura_anterior_2,tipo_energia_2,promedio_2,id_serial_3,lectura_anterior_3,tipo_energia_3,promedio_3,estado,id_municipio,anomalia_anterior_1,longitud,latitud,digitos",
-                                                                "ruta='"+this.ObjUsuario.getRuta()+"' AND estado='P' ORDER BY id_secuencia ASC");
+                                                                "id_municipio = "+this.ObjUsuario.getId_municipio()+" AND ruta='"+this.ObjUsuario.getRuta()+"' AND estado='P' ORDER BY id_secuencia ASC");
         }else if(this.ObjUsuario.isFlagSearch()){
             this._tempRegistro = this.FcnSQL.SelectDataRegistro("maestro_clientes",
                                                                 "ruta, id_serial,id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,tipo_uso,factor_multiplicacion,id_serial_1,lectura_anterior_1,tipo_energia_1,promedio_1,id_serial_2,lectura_anterior_2,tipo_energia_2,promedio_2,id_serial_3,lectura_anterior_3,tipo_energia_3,promedio_3,estado,id_municipio,anomalia_anterior_1,longitud,latitud,digitos",
-                                                                "ruta='"+this.ObjUsuario.getBackupRuta()+"' AND id_secuencia="+this.ObjUsuario.getBackupConsecutivo()+" ORDER BY id_secuencia ASC");
+                                                                "id_municipio = "+this.ObjUsuario.getId_municipio()+" AND ruta='"+this.ObjUsuario.getBackupRuta()+"' AND id_secuencia="+this.ObjUsuario.getBackupConsecutivo()+" ORDER BY id_secuencia ASC");
             this.ObjUsuario.setFlagSearch(false);
             this.ObjUsuario.setBackupRuta(null);
             this.ObjUsuario.setBackupConsecutivo(-1);
         }else if(_next){
             this._tempRegistro = this.FcnSQL.SelectDataRegistro("maestro_clientes",
                                                                 "ruta, id_serial,id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,tipo_uso,factor_multiplicacion,id_serial_1,lectura_anterior_1,tipo_energia_1,promedio_1,id_serial_2,lectura_anterior_2,tipo_energia_2,promedio_2,id_serial_3,lectura_anterior_3,tipo_energia_3,promedio_3,estado,id_municipio,anomalia_anterior_1,longitud,latitud,digitos",
-                                                                "ruta='"+this.ObjUsuario.getRuta()+"' AND id_secuencia>"+this.ObjUsuario.getId_consecutivo()+" AND estado='P' ORDER BY id_secuencia ASC");
+                                                                "id_municipio = "+this.ObjUsuario.getId_municipio()+" AND ruta='"+this.ObjUsuario.getRuta()+"' AND id_secuencia>"+this.ObjUsuario.getId_consecutivo()+" AND estado='P' ORDER BY id_secuencia ASC");
         }else{
             this._tempRegistro = this.FcnSQL.SelectDataRegistro("maestro_clientes",
                                                                 "ruta, id_serial,id_secuencia, cuenta,marca_medidor,serie_medidor,nombre,direccion,tipo_uso,factor_multiplicacion,id_serial_1,lectura_anterior_1,tipo_energia_1,promedio_1,id_serial_2,lectura_anterior_2,tipo_energia_2,promedio_2,id_serial_3,lectura_anterior_3,tipo_energia_3,promedio_3,estado,id_municipio,anomalia_anterior_1,longitud,latitud,digitos",
-                                                                "ruta='"+this.ObjUsuario.getRuta()+"' AND id_secuencia<"+this.ObjUsuario.getId_consecutivo()+" AND estado='P' ORDER BY id_secuencia DESC");
+                                                                "id_municipio = "+this.ObjUsuario.getId_municipio()+" AND ruta='"+this.ObjUsuario.getRuta()+"' AND id_secuencia<"+this.ObjUsuario.getId_consecutivo()+" AND estado='P' ORDER BY id_secuencia DESC");
         }
 
         if(this._tempRegistro.size()>0){

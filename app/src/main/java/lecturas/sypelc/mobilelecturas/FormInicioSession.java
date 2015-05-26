@@ -19,6 +19,7 @@ import java.io.File;
 import async_task.DownLoadParametros;
 import async_task.DownLoadTrabajo;
 import clases.ClassConfiguracion;
+import clases.ClassFlujoInformacion;
 import clases.ClassSession;
 import sistema.Beacon;
 
@@ -31,8 +32,9 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
     private Intent              new_form;
     Beacon envioActas;
 
-    private ClassSession        FcnSession;
-    private ClassConfiguracion  FcnCfg;
+    private ClassSession            FcnSession;
+    private ClassConfiguracion      FcnCfg;
+    private ClassFlujoInformacion   FcnInf;
 
     private Button      _btnLoggin;
     private EditText    _txtCodigo;
@@ -46,6 +48,7 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
 
         this.FcnSession     = ClassSession.getInstance(this);
         this.FcnCfg         = ClassConfiguracion.getInstance(this);
+        this.FcnInf         = new ClassFlujoInformacion(this);
 
         this._btnLoggin     = (Button) findViewById(R.id.LoginBtnIngresar);
         this._txtCodigo     = (EditText) findViewById(R.id.LoginEditTextCodigo);
@@ -92,7 +95,7 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
                 break;
 
             case R.id.InicioCargarRuta:
-                new DownLoadTrabajo(this).execute(this.FcnSession.getCodigo()+"");
+                new DownLoadTrabajo(this).execute(this.FcnSession.getCodigo()+"", this.FcnInf.getTrabajoCargdo(this.FcnSession.getCodigo()));
                 break;
 
             case R.id.InicioVerRutas:

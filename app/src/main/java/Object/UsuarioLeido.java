@@ -42,6 +42,7 @@ public class UsuarioLeido extends UsuarioEMSA {
 
     //Atributos usados para cuando se realiza una busqueda
     private boolean flagSearch;
+    public String   backupMunicipio;
     public String   backupRuta;
     public int      backupConsecutivo;
 
@@ -177,6 +178,14 @@ public class UsuarioLeido extends UsuarioEMSA {
 
     public String getBackupRuta() {
         return backupRuta;
+    }
+
+    public String getBackupMunicipio() {
+        return backupMunicipio;
+    }
+
+    public void setBackupMunicipio(String backupMunicipio) {
+        this.backupMunicipio = backupMunicipio;
     }
 
     public void setBackupRuta(String backupRuta) {

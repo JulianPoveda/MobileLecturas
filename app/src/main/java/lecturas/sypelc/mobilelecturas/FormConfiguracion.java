@@ -12,7 +12,6 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 
-import Adapter.SpinnerAdapter;
 import clases.ClassConfiguracion;
 import clases.ClassSession;
 import sistema.Bluetooth;
@@ -53,7 +52,9 @@ public class FormConfiguracion extends ActionBarActivity implements OnClickListe
         this._chkDebug          = (CheckBox) findViewById(R.id.ConfiguracionChkDebug);
 
         this._listaImpresoras   = this.FcnBluetooth.GetDeviceBluetoothByAddress();
-        this.AdapLstImpresoras  = new SpinnerAdapter(this, R.layout.custom_spinner, this._listaImpresoras,"#FF5CBD79","#6B5656");
+        //this.AdapLstImpresoras  = new SpinnerAdapter(this, R.layout.custom_spinner, this._listaImpresoras,"#FF5CBD79","#6B5656");
+        this.AdapLstImpresoras  = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,this._listaImpresoras);
+
         this._cmbImpresora.setAdapter(this.AdapLstImpresoras);
         this._cmbImpresora.setSelection(this.AdapLstImpresoras.getPosition(this.FcnCfg.getPrinter()));
 

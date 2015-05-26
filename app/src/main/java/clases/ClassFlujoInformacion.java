@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import lecturas.sypelc.mobilelecturas.FormInicioSession;
 import sistema.SQLite;
@@ -13,9 +14,10 @@ import sistema.SQLite;
  * Created by JULIANEDUARDO on 03/02/2015.
  */
 public class ClassFlujoInformacion {
-    private Context         context;
-    private String          _campos[];
-    private ContentValues   _tempRegistro;
+    private Context             context;
+    private String              _campos[];
+    private ContentValues       _tempRegistro;
+    private ArrayList<ContentValues> _tempTabla;
 
     private static SQLite FcnSQL;
 
@@ -34,6 +36,18 @@ public class ClassFlujoInformacion {
     }
 
 
+    public String getTrabajoCargdo(int _inspector){
+        String _retorno = "";
+        this._tempTabla = this.FcnSQL.SelectData("maestro_rutas","id_ciclo||'-'||id_municipio||'-'||ruta AS trabajo" ,"id_inspector="+_inspector);
+        for(int i=0; i<this._tempTabla.size();i++){
+            _retorno +="'"+this._tempTabla.get(i).getAsString("trabajo")+"',";
+        }
+        if(!_retorno.isEmpty()){
+            _retorno = _retorno.substring(0,_retorno.length()-1);
+        }
+        return _retorno;
+    }
+
     public void EliminarParametros(){
         /**Eliminar los parametros previamente cargados**/
         this.FcnSQL.DeleteRegistro("param_usuarios","perfil<>0");
@@ -42,7 +56,6 @@ public class ClassFlujoInformacion {
         this.FcnSQL.DeleteRegistro("param_critica","descripcion IS NOT NULL");
         this.FcnSQL.DeleteRegistro("param_codigos_mensajes","codigo IS NOT NULL");
     }
-
 
 
     public void CargarParametros(String _informacion, String _delimitador){
@@ -91,7 +104,8 @@ public class ClassFlujoInformacion {
             this.FcnSQL.DeleteRegistro("maestro_clientes","id_ciclo="+this._campos[2]+" AND ruta='"+this._campos[3]+"'");
             this._tempRegistro.put("id_inspector",this._campos[1]);
             this._tempRegistro.put("id_ciclo",this._campos[2]);
-            this._tempRegistro.put("ruta",this._campos[3]);
+            this._tempRegistro.put("id_municipio",this._campos[3]);
+            this._tempRegistro.put("ruta",this._campos[4]);
             this._tempRegistro.put("fecha_cargue",currentDateandTime);
             this.FcnSQL.InsertRegistro("maestro_rutas",this._tempRegistro);
         }else if(this._campos[0].equals("MaestroClientes")){
