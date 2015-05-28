@@ -79,6 +79,7 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
         menu.findItem(R.id.InicioCargarRuta).setEnabled(this.FcnSession.isInicio_sesion());
         menu.findItem(R.id.InicioVerRutas).setEnabled(this.FcnSession.isInicio_sesion());
         menu.findItem(R.id.InicioCrearBackup).setEnabled(this.FcnSession.isInicio_sesion());
+        menu.findItem(R.id.InicioConfiguracion).setEnabled(this.FcnSession.isInicio_sesion());
 
         this._txtCodigo.setEnabled(!this.FcnSession.isInicio_sesion());
         this._btnLoggin.setEnabled(!this.FcnSession.isInicio_sesion());

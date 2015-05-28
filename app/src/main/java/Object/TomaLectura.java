@@ -42,6 +42,19 @@ public class TomaLectura {
     }
 
 
+    public ArrayList<ContentValues> ListaClientes(String _ruta, boolean _filtro){
+        if(_filtro){
+            this._tempTabla = this.FcnSQL.SelectData(   "maestro_clientes",
+                    "cuenta,serie_medidor,nombre,direccion",
+                    "ruta='"+_ruta+"'");
+        }else{
+            this._tempTabla = this.FcnSQL.SelectData(   "maestro_clientes",
+                    "cuenta,serie_medidor,nombre,direccion",
+                    "id_serial IS NOT NULL");
+        }
+        return this._tempTabla;
+    }
+
     public boolean getDatosUsuario(boolean _next){
         boolean _retorno  = false;
         if(this.ObjUsuario.getId_consecutivo() == -1){

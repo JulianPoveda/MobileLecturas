@@ -165,6 +165,8 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
         switch(item.getItemId()){
             case R.id.LecturaMenuBuscar:
                 this.new_form = new Intent(this, FormBuscar.class);
+                this.new_form.putExtra("Ruta", this.FcnLectura.getInfUsuario().getRuta());
+                this.new_form.putExtra("Municipio",this.FcnLectura.getInfUsuario().getId_municipio());
                 startActivityForResult(this.new_form, FROM_BUSCAR);
                 break;
 

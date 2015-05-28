@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 import Adapter.AdaptadorFourItems;
 import Adapter.DetalleFourItems;
-import clases.ClassTomarLectura;
+import Object.TomaLectura;
 
 
 public class FormBuscar extends ActionBarActivity implements TextWatcher, OnItemSelectedListener {
@@ -41,20 +41,25 @@ public class FormBuscar extends ActionBarActivity implements TextWatcher, OnItem
     private ArrayList<ContentValues>    _tempTabla;
     private ContentValues               _tempRegistro;
 
-    private ClassTomarLectura           FcnLectura;
+    private TomaLectura                 FcnLectura;
 
     private String                      clienteSeleccionado;
     private String                      _cuenta;
     private String                      _medidor;
     private String                      _nombre;
     private String                      _direccion;
+    private String                      _ruta;
+    private int                         _municipio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.modal_form_buscar);
+        Bundle bundle       = getIntent().getExtras();
+        this._ruta          = bundle.getString("Ruta");
+        this._municipio     = bundle.getInt("Municipio");
 
-        this.FcnLectura         = new ClassTomarLectura(this, FormInicioSession.path_files_app);
+        this.FcnLectura         = new TomaLectura(this, this._municipio, this._ruta);
 
         this._txtBuscar     = (EditText) findViewById(R.id.BuscarTxtBuscar);
         this._cmbFiltro     = (Spinner) findViewById(R.id.BuscarCmbFiltro);
