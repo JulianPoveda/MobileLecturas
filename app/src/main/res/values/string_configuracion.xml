@@ -8,5 +8,6 @@
     <string name="ConfiguracionLblFotosOnLine">Fotos En Linea</string>
     <string name="ConfiguracionLblFacturasOnLine">Facturacion En Sitio</string>
     <string name="ConfiguracionLblDebug">Debug</string>
+    <string name="ConfiguracionLblComprobante">Imprimir Tiquete</string>
     <string name="ConfiguracionBtnGuardar">Guardar</string>
 </resources>

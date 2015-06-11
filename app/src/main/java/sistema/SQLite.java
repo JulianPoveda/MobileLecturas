@@ -26,7 +26,13 @@ import lecturas.sypelc.mobilelecturas.FormInicioSession;
 public class SQLite {
     private static Archivos ArchSQL;
     private static String N_BD = null;
-    private static final int VERSION_BD = 5;
+    //private static final int VERSION_BD = 5;
+
+    /**
+     * En la version 6 de la base de datos se incluye un parametro en la tabla param_configuracion para controlar si se requiere
+     * la impresion del tiquete o no.
+     */
+    private static final int VERSION_BD = 6;
 
     private BDHelper nHelper;
     private Context nContexto;
@@ -69,6 +75,7 @@ public class SQLite {
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('FotosOnLine','true',0)");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('FacturasOnLine','false',0)");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Debug','true',0)");
+            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Comprobante','true',0)");
 
             //Tabla con los datos de configuracion
             db.execSQL("CREATE TABLE    param_anomalias (id_anomalia            INTEGER NOT NULL PRIMARY KEY, " +
@@ -168,6 +175,11 @@ public class SQLite {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            db.execSQL("UPDATE param_configuracion SET valor = '1.1.3' WHERE item = 'Version_Software'");
+            db.execSQL("UPDATE param_configuracion SET valor = '6.0' WHERE item = 'Version_BD'");
+            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Comprobante','true',0)");
+
+
             //db.execSQL("UPDATE amd_configuracion SET valor = '2.2' WHERE item = 'version'");
 			
 			/*db.execSQL(	"CREATE TRIGGER tg_fecha_impresion AFTER INSERT ON dig_impresiones_inf FOR EACH ROW BEGIN " +

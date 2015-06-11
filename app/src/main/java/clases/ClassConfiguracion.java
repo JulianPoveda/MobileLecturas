@@ -35,6 +35,7 @@ public class ClassConfiguracion {
     private boolean fotos_en_linea;
     private boolean facturas_en_sitio;
     private boolean debug;
+    private boolean comprobante;
 
     public static ClassConfiguracion getInstance(Context _ctx) {
         if(ourInstance == null){
@@ -61,6 +62,7 @@ public class ClassConfiguracion {
         this.fotos_en_linea     = this.FcnSQL.ExistRegistros("param_configuracion","item='FotosOnLine' AND valor='true'");
         this.facturas_en_sitio  = this.FcnSQL.ExistRegistros("param_configuracion","item='FacturasOnLine' AND valor='true'");
         this.debug              = this.FcnSQL.ExistRegistros("param_configuracion","item='Debug' AND valor='true'");
+        this.comprobante        = this.FcnSQL.ExistRegistros("param_configuracion","item='Comprobante' AND valor='true'");
     }
 
     public String getIp_server() {
@@ -192,6 +194,22 @@ public class ClassConfiguracion {
         }
         if(this.FcnSQL.UpdateRegistro("param_configuracion", this._tempRegistro,"item='FacturasOnLine'")){
             this.facturas_en_sitio = facturas_en_sitio;
+        }
+    }
+
+    public boolean isComprobante() {
+        return comprobante;
+    }
+
+    public void setComprobante(boolean comprobante) {
+        this._tempRegistro.clear();
+        if (comprobante){
+            this._tempRegistro.put("valor","true");
+        }else{
+            this._tempRegistro.put("valor","false");
+        }
+        if(this.FcnSQL.UpdateRegistro("param_configuracion", this._tempRegistro, "item='Comprobante'")){
+            this.comprobante = comprobante;
         }
     }
 }

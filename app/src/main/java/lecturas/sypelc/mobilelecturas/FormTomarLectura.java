@@ -35,6 +35,7 @@ import clases.ClassSession;
 import clases.ClassTipoUso;
 import dialogos.DialogoInformativo;
 import dialogos.ShowDialog;
+import dialogos.showDialogBox;
 import sistema.GPS;
 
 
@@ -123,6 +124,13 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
         this._btnGuardar    = (Button) findViewById(R.id.LecturasBtnGuardar);
         this._btnSiguiente  = (Button) findViewById(R.id.LecturaBtnSiguiente);
         this._btnAnterior   = (Button) findViewById(R.id.LecturaBtnAnterior);
+
+        if(!this.FcnCfg.isComprobante()){
+            new showDialogBox().showLoginDialog(this,
+                                                3,
+                                                "COMPROBANTE", "No esta habilitado la impresion del comprobante.");
+        }
+
 
         if(this.FcnLectura.getDatosUsuario(true)){
             this.MostrarInformacionBasica();
@@ -314,19 +322,21 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
                                 this._btnGuardar.setEnabled(false);
                                 //new UploadLecturas(this).execute(this.FcnLectura.getInfUsuario().getRuta());
 
-                                this.FcnFormatos.ActaLectura(this.FcnLectura.getInfUsuario().getTipo_energia1(),
-                                        this.FcnLectura.getInfUsuario().getLectura1(),
-                                        this.FcnLectura.getInfUsuario().getTipo_energia2(),
-                                        this.FcnLectura.getInfUsuario().getLectura2(),
-                                        this.FcnLectura.getInfUsuario().getTipo_energia3(),
-                                        this.FcnLectura.getInfUsuario().getLectura3(),
-                                        this.FcnLectura.getInfUsuario().getAnomalia() + "-" + this.FcnLectura.getInfUsuario().getStrAnomalia(),
-                                        this.FcnLectura.getInfUsuario().getCuenta(),
-                                        this.FcnLectura.getInfUsuario().getMunicipio(),
-                                        this.FcnLectura.getInfUsuario().getNombre(),
-                                        this.FcnLectura.getInfUsuario().getDireccion(),
-                                        this.FcnLectura.getInfUsuario().getSerie_medidor() + "-" + this.FcnLectura.getInfUsuario().getMarca_medidor(),
-                                        this.FcnSession.getCodigo());
+                                if(this.FcnCfg.isComprobante()) {
+                                    this.FcnFormatos.ActaLectura(this.FcnLectura.getInfUsuario().getTipo_energia1(),
+                                            this.FcnLectura.getInfUsuario().getLectura1(),
+                                            this.FcnLectura.getInfUsuario().getTipo_energia2(),
+                                            this.FcnLectura.getInfUsuario().getLectura2(),
+                                            this.FcnLectura.getInfUsuario().getTipo_energia3(),
+                                            this.FcnLectura.getInfUsuario().getLectura3(),
+                                            this.FcnLectura.getInfUsuario().getAnomalia() + "-" + this.FcnLectura.getInfUsuario().getStrAnomalia(),
+                                            this.FcnLectura.getInfUsuario().getCuenta(),
+                                            this.FcnLectura.getInfUsuario().getMunicipio(),
+                                            this.FcnLectura.getInfUsuario().getNombre(),
+                                            this.FcnLectura.getInfUsuario().getDireccion(),
+                                            this.FcnLectura.getInfUsuario().getSerie_medidor() + "-" + this.FcnLectura.getInfUsuario().getMarca_medidor(),
+                                            this.FcnSession.getCodigo());
+                                }
 
                                 if (this.FcnLectura.getDatosUsuario(true)) {
                                     this._cmbAnomalia.setSelection(0);
@@ -384,7 +394,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
         switch(parent.getId()){
             case R.id.LecturaSpnAnomalia:
                 String _anomalia[] = this._cmbAnomalia.getSelectedItem().toString().split("-");
-                this.FcnLectura.getInfUsuario().setAnomalia(Integer.parseInt(_anomalia[0]),_anomalia[1]);
+                this.FcnLectura.getInfUsuario().setAnomalia(Integer.parseInt(_anomalia[0]), _anomalia[1]);
 
                 if((this.FcnLectura.getInfUsuario().getAnomalia_anterior() != Integer.parseInt(_anomalia[0]))  ){
                     if(this.FcnLectura.getInfUsuario().isNeedFoto() && this.FcnLectura.getInfUsuario().getCountFotos() == 0){

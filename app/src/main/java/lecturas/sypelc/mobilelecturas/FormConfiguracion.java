@@ -26,7 +26,7 @@ public class FormConfiguracion extends ActionBarActivity implements OnClickListe
     private ArrayList<String>   _listaImpresoras = new ArrayList<String>();
 
     private EditText            _txtServidor, _txtPuerto, _txtModulo, _txtWebService;
-    private CheckBox            _chkFotosOnLine, _chkFacturasOnLine, _chkDebug;
+    private CheckBox            _chkFotosOnLine, _chkFacturasOnLine, _chkDebug, _chkComprobante;
     private Spinner             _cmbImpresora;
     private Button              _btnGuardar;
 
@@ -50,6 +50,7 @@ public class FormConfiguracion extends ActionBarActivity implements OnClickListe
         this._chkFotosOnLine    = (CheckBox) findViewById(R.id.ConfiguracionChkFotosOnLine);
         this._chkFacturasOnLine = (CheckBox) findViewById(R.id.ConfiguracionChkFacturasOnLine);
         this._chkDebug          = (CheckBox) findViewById(R.id.ConfiguracionChkDebug);
+        this._chkComprobante    = (CheckBox) findViewById(R.id.ConfiguracionChkComprobante);
 
         this._listaImpresoras   = this.FcnBluetooth.GetDeviceBluetoothByAddress();
         //this.AdapLstImpresoras  = new SpinnerAdapter(this, R.layout.custom_spinner, this._listaImpresoras,"#FF5CBD79","#6B5656");
@@ -65,6 +66,7 @@ public class FormConfiguracion extends ActionBarActivity implements OnClickListe
         this._chkFotosOnLine.setChecked(this.FcnCfg.isFotos_en_linea());
         this._chkFacturasOnLine.setChecked(this.FcnCfg.isFacturas_en_sitio());
         this._chkDebug.setChecked(this.FcnCfg.isDebug());
+        this._chkComprobante.setChecked(this.FcnCfg.isComprobante());
 
         if(this.FcnUsuario.getNivel()==0){
             this._txtServidor.setEnabled(true);
@@ -74,6 +76,7 @@ public class FormConfiguracion extends ActionBarActivity implements OnClickListe
             this._chkFotosOnLine.setEnabled(true);
             this._chkFacturasOnLine.setEnabled(true);
             this._chkDebug.setEnabled(true);
+            this._chkComprobante.setEnabled(true);
         }else{
             this._txtServidor.setEnabled(false);
             this._txtPuerto.setEnabled(false);
@@ -82,6 +85,7 @@ public class FormConfiguracion extends ActionBarActivity implements OnClickListe
             this._chkFotosOnLine.setEnabled(false);
             this._chkFacturasOnLine.setEnabled(false);
             this._chkDebug.setEnabled(false);
+            this._chkComprobante.setEnabled(false);
         }
 
         this._btnGuardar.setOnClickListener(this);
@@ -99,6 +103,7 @@ public class FormConfiguracion extends ActionBarActivity implements OnClickListe
                 this.FcnCfg.setFotos_en_linea(this._chkFotosOnLine.isChecked());
                 this.FcnCfg.setFacturas_en_sitio(this._chkFacturasOnLine.isChecked());
                 this.FcnCfg.setDebug(this._chkDebug.isChecked());
+                this.FcnCfg.setComprobante(this._chkComprobante.isChecked());
                 break;
         }
     }

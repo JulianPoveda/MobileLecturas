@@ -57,7 +57,7 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
         this._lblVersionSoft= (TextView) findViewById(R.id.LoginTxtVersionSoft);
 
         this._lblVersionBD.setText("Version BD "+this.FcnCfg.getVersion_bd());
-        this._lblVersionSoft.setText("Version Software "+this.FcnCfg.getVersion_bd());
+        this._lblVersionSoft.setText("Version Software "+this.FcnCfg.getVersion_software());
 
         envioActas 	= new Beacon(this,path_files_app , 86400000, 60000);
         envioActas.start();
