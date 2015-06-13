@@ -22,6 +22,8 @@ import clases.ClassConfiguracion;
 import clases.ClassFlujoInformacion;
 import clases.ClassSession;
 import sistema.Beacon;
+import sistema.Bluetooth;
+import sistema.Utilidades;
 
 
 public class FormInicioSession extends ActionBarActivity implements OnClickListener{
@@ -38,7 +40,7 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
 
     private Button      _btnLoggin;
     private EditText    _txtCodigo;
-    private TextView    _lblNombre, _lblVersionSoft, _lblVersionBD;
+    private TextView    _lblNombre, _lblVersionSoft, _lblVersionBD, _lblMacBluetooth;
 
 
     @Override
@@ -55,9 +57,11 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
         this._lblNombre     = (TextView) findViewById(R.id.LoginTxtNombre);
         this._lblVersionBD  = (TextView) findViewById(R.id.LoginTxtVersionBD);
         this._lblVersionSoft= (TextView) findViewById(R.id.LoginTxtVersionSoft);
+        this._lblMacBluetooth=(TextView) findViewById(R.id.LoginTxtBluetooth);
 
         this._lblVersionBD.setText("Version BD "+this.FcnCfg.getVersion_bd());
         this._lblVersionSoft.setText("Version Software "+this.FcnCfg.getVersion_software());
+        this._lblMacBluetooth.setText("MAC Bluetooth "+ Bluetooth.getInstance().GetOurDeviceByAddress());
 
         envioActas 	= new Beacon(this,path_files_app , 86400000, 60000);
         envioActas.start();
@@ -96,7 +100,7 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
                 break;
 
             case R.id.InicioCargarRuta:
-                new DownLoadTrabajo(this).execute(this.FcnSession.getCodigo()+"", this.FcnInf.getTrabajoCargdo(this.FcnSession.getCodigo()));
+                new DownLoadTrabajo(this).execute(this.FcnSession.getCodigo()+"", this.FcnInf.getTrabajoCargdo(Integer.parseInt(this.FcnSession.getCodigo())));
                 break;
 
             case R.id.InicioVerRutas:
@@ -114,7 +118,7 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
                 break;
 
             case R.id.InicioMenuSalir:
-                this.FcnSession.IniciarSession(-1);
+                this.FcnSession.IniciarSession(null);
                 invalidateOptionsMenu();
                 finish();
             default:
@@ -128,7 +132,7 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
         switch(v.getId()){
             case R.id.LoginBtnIngresar:
                 if(!this._txtCodigo.getText().toString().isEmpty()){
-                    this.FcnSession.IniciarSession(Integer.parseInt(this._txtCodigo.getText().toString()));
+                    this.FcnSession.IniciarSession(this._txtCodigo.getText().toString());
                 }
                 invalidateOptionsMenu();
                 break;

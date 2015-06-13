@@ -257,7 +257,7 @@ public class TomaLectura {
     }
 
 
-    public boolean guardarLectura(String _lectura1, String _lectura2, String _lectura3, String _mensaje, String _longitud, String _latitud){
+    public boolean guardarLectura(String _lectura1, String _lectura2, String _lectura3, String _mensaje, String _longitud, String _latitud, int _id_inspector){
         boolean _retorno = false;
 
         if(_lectura1.isEmpty() && this.ObjUsuario.isView_tipo_energia1() && this.ObjUsuario.isNeedLectura()){
@@ -304,11 +304,12 @@ public class TomaLectura {
         this._tempRegistro.put("tipo_uso",  this.ObjUsuario.getNewTipoUso());
         this._tempRegistro.put("longitud",  this.ObjUsuario.getLongitudGPS());
         this._tempRegistro.put("latitud",   this.ObjUsuario.getLatitudGPS());
+        this._tempRegistro.put("id_inspector", _id_inspector);
 
         _retorno =  this.FcnSQL.InsertRegistro("toma_lectura",this._tempRegistro);
         this.getNumIntentos();
 
-        if(!this.ObjUsuario.isNeedLectura() || this.ObjUsuario.getIntentos() == 3 || !this.ObjUsuario.isHaveCritica() || this.ObjUsuario.isConfirmLectura()){
+        if(!this.ObjUsuario.isNeedLectura() || this.ObjUsuario.getIntentos() >= 3 || !this.ObjUsuario.isHaveCritica() || this.ObjUsuario.isConfirmLectura()){
             this.ObjUsuario.setLeido(true);
             this.setEstado("T");
             //this.ObjUsuario.setHaveCritica(false);

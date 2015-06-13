@@ -24,7 +24,7 @@ public class ClassSession {
      * Variables para los atributos del usuario
      */
     private static boolean  inicio_sesion;
-    private static int      codigo;
+    private static String   codigo;
     private static int      nivel;
     private static String   nombre;
 
@@ -41,7 +41,7 @@ public class ClassSession {
     private ClassSession(Context _ctx) {
         this.inicio_sesion  = false;
         this.context        = _ctx;
-        this.codigo         = -1;
+        this.codigo         = null;
         this.nivel          = -1;
         this.nombre         = "Sin Iniciar Session";
         this._tempRegistro  = new ContentValues();
@@ -50,21 +50,21 @@ public class ClassSession {
     }
 
 
-    public boolean IniciarSession(int _codigo){
-        if(this.FcnSQL.ExistRegistros("param_usuarios","id_inspector="+_codigo)){
+    public boolean IniciarSession(String _codigo){
+        if(!this.FcnSQL.ExistRegistros("param_usuarios","id_inspector='"+_codigo+"'") || _codigo == null){
+            this.inicio_sesion  = false;
+            this.codigo         = null;
+            this.nivel          = -1;
+            this.nombre         = "Sin Iniciar Session";
+        }else{
             this._tempRegistro   =  this.FcnSQL.SelectDataRegistro( "param_usuarios",
                                                                     "id_inspector,nombre,perfil",
-                                                                    "id_inspector="+_codigo);
+                                                                    "id_inspector='"+_codigo+"'");
 
-            this.setCodigo(this._tempRegistro.getAsInteger("id_inspector"));
+            this.setCodigo(this._tempRegistro.getAsString("id_inspector"));
             this.setNombre(this._tempRegistro.getAsString("nombre"));
             this.setNivel(this._tempRegistro.getAsInteger("perfil"));
             this.setInicio_sesion(true);
-        }else{
-            this.inicio_sesion  = false;
-            this.codigo         = -1;
-            this.nivel          = -1;
-            this.nombre         = "Sin Iniciar Session";
         }
         return this.inicio_sesion;
     }
@@ -89,11 +89,11 @@ public class ClassSession {
         this.nombre = nombre;
     }
 
-    public int getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
-    private void setCodigo(int codigo) {
+    private void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 

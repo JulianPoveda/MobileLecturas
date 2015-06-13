@@ -63,13 +63,13 @@ public class FormInformacionRutas extends Activity{
 
         arrayListadoRutas.clear();
 
-        this._tempTabla = sqlConsulta.SelectData("maestro_rutas","id_municipio, ruta","id_inspector="+this.FcnSession.getCodigo());
+        this._tempTabla = sqlConsulta.SelectData("maestro_rutas","id_ciclo,id_municipio,ruta","id_inspector="+this.FcnSession.getCodigo());
         for(int i=0;i<this._tempTabla.size();i++){
             this._tempRegistro = this._tempTabla.get(i);
             Integer totalR = sqlConsulta.CountRegistrosWhere("maestro_clientes","id_municipio="+this._tempRegistro.getAsInteger("id_municipio")+" AND ruta='"+this._tempRegistro.getAsString("ruta")+"'");
             Integer totalP = sqlConsulta.CountRegistrosWhere("maestro_clientes","id_municipio="+this._tempRegistro.getAsInteger("id_municipio")+" AND ruta='"+this._tempRegistro.getAsString("ruta")+"' AND estado='P'");
             Integer totalL = totalR - totalP;
-            arrayListadoRutas.add(new RutasData(this._tempRegistro.getAsString("id_municipio")+"-"+this._tempRegistro.getAsString("ruta"),
+            arrayListadoRutas.add(new RutasData(this._tempRegistro.getAsString("id_ciclo")+"-"+this._tempRegistro.getAsString("id_municipio")+"-"+this._tempRegistro.getAsString("ruta"),
                                                 String.valueOf(totalP),
                                                 String.valueOf(totalL),
                                                 String.valueOf(totalR)));

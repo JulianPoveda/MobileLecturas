@@ -3,5 +3,5 @@
     <string name="TituloRutas">Rutas</string>
     <string name="TituloTotal">Total</string>
     <string name="TituloLeidas">Leidas</string>
-    <string name="TituloPendientes">Pendientes</string>
+    <string name="TituloPendientes">Pend.</string>
 </resources>

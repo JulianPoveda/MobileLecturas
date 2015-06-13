@@ -139,6 +139,12 @@ public class ClassFlujoInformacion {
             this._tempRegistro.put("id_municipio",this._campos[27]);
             this._tempRegistro.put("estado",this._campos[28]);
             this.FcnSQL.InsertRegistro("maestro_clientes",this._tempRegistro);
+        }else if(this._campos[0].equals("MaestroRutasTerminadas")){
+            this.FcnSQL.DeleteRegistro( "maestro_rutas",
+                                        "id_inspector="+this._campos[1]+" AND id_ciclo="+this._campos[2]+" AND id_municipio="+this._campos[3]+" AND ruta='"+this._campos[4]+"'");
+
+            this.FcnSQL.DeleteRegistro( "maestro_clientes",
+                    "id_ciclo="+this._campos[2]+" AND id_municipio="+this._campos[3]+" AND ruta='"+this._campos[4]+"'");
         }
     }
 }

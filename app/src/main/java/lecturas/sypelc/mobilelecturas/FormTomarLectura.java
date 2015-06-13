@@ -27,6 +27,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import Object.TomaLectura;
+import async_task.PrintVoucher;
 import async_task.UpLoadFoto;
 import clases.ClassAnomalias;
 import clases.ClassConfiguracion;
@@ -92,7 +93,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
         this.FcnAnomalias       = ClassAnomalias.getInstance(this);
         this.FcnTipoUso         = ClassTipoUso.getInstance(this);
         this.FcnGPS             = GPS.getInstance();
-        this.FcnLectura         = new TomaLectura(this, Integer.parseInt(this._ruta[0]), this._ruta[1]);
+        this.FcnLectura         = new TomaLectura(this, Integer.parseInt(this._ruta[1]), this._ruta[2]);
         this.FcnFormatos        = new ClassFormatos(this, false);
         this.dialogo            = new DialogoInformativo();
         //this.dialogoRendimiento = new DialogoRendimiento();
@@ -126,9 +127,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
         this._btnAnterior   = (Button) findViewById(R.id.LecturaBtnAnterior);
 
         if(!this.FcnCfg.isComprobante()){
-            new showDialogBox().showLoginDialog(this,
-                                                3,
-                                                "COMPROBANTE", "No esta habilitado la impresion del comprobante.");
+            new showDialogBox().showLoginDialog(this,3,"COMPROBANTE", "No esta habilitado la impresion del comprobante.");
         }
 
 
@@ -192,19 +191,20 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
                 break;
 
             case R.id.LecturaMenuReImprimir:
-                this.FcnFormatos.ActaLectura(this.FcnLectura.getInfUsuario().getTipo_energia1(),
-                        this.FcnLectura.getInfUsuario().getLectura1(),
+                //new PrintVoucher(this).execute(this.FcnLectura.getInfUsuario());
+                new PrintVoucher(this).execute(this.FcnLectura.getInfUsuario().getTipo_energia1(),
+                        String.valueOf(this.FcnLectura.getInfUsuario().getLectura1()),
                         this.FcnLectura.getInfUsuario().getTipo_energia2(),
-                        this.FcnLectura.getInfUsuario().getLectura2(),
+                        String.valueOf(this.FcnLectura.getInfUsuario().getLectura2()),
                         this.FcnLectura.getInfUsuario().getTipo_energia3(),
-                        this.FcnLectura.getInfUsuario().getLectura3(),
+                        String.valueOf(this.FcnLectura.getInfUsuario().getLectura3()),
                         this.FcnLectura.getInfUsuario().getAnomalia() + "-" + this.FcnLectura.getInfUsuario().getStrAnomalia(),
-                        this.FcnLectura.getInfUsuario().getCuenta(),
+                        String.valueOf(this.FcnLectura.getInfUsuario().getCuenta()),
                         this.FcnLectura.getInfUsuario().getMunicipio(),
                         this.FcnLectura.getInfUsuario().getNombre(),
                         this.FcnLectura.getInfUsuario().getDireccion(),
                         this.FcnLectura.getInfUsuario().getSerie_medidor() + "-" + this.FcnLectura.getInfUsuario().getMarca_medidor(),
-                        this.FcnSession.getCodigo());
+                        String.valueOf(this.FcnSession.getCodigo()));
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -313,7 +313,8 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
                                 this._txtLectura3.getText().toString(),
                                 this._txtMensaje.getText().toString(),
                                 this.FcnGPS.getLongitudGPS(),
-                                this.FcnGPS.getLatitudGPS())) {
+                                this.FcnGPS.getLatitudGPS(),
+                                Integer.parseInt(this.FcnSession.getCodigo()))) {
                             this._txtLectura1.setText("");
                             this._txtLectura2.setText("");
                             this._txtLectura3.setText("");
@@ -322,20 +323,21 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
                                 this._btnGuardar.setEnabled(false);
                                 //new UploadLecturas(this).execute(this.FcnLectura.getInfUsuario().getRuta());
 
-                                if(this.FcnCfg.isComprobante()) {
-                                    this.FcnFormatos.ActaLectura(this.FcnLectura.getInfUsuario().getTipo_energia1(),
-                                            this.FcnLectura.getInfUsuario().getLectura1(),
+                                if(this.FcnCfg.isComprobante()){
+                                    //new PrintVoucher(this).execute(this.FcnLectura.getInfUsuario());
+                                    new PrintVoucher(this).execute(this.FcnLectura.getInfUsuario().getTipo_energia1(),
+                                            String.valueOf(this.FcnLectura.getInfUsuario().getLectura1()),
                                             this.FcnLectura.getInfUsuario().getTipo_energia2(),
-                                            this.FcnLectura.getInfUsuario().getLectura2(),
+                                            String.valueOf(this.FcnLectura.getInfUsuario().getLectura2()),
                                             this.FcnLectura.getInfUsuario().getTipo_energia3(),
-                                            this.FcnLectura.getInfUsuario().getLectura3(),
+                                            String.valueOf(this.FcnLectura.getInfUsuario().getLectura3()),
                                             this.FcnLectura.getInfUsuario().getAnomalia() + "-" + this.FcnLectura.getInfUsuario().getStrAnomalia(),
-                                            this.FcnLectura.getInfUsuario().getCuenta(),
+                                            String.valueOf(this.FcnLectura.getInfUsuario().getCuenta()),
                                             this.FcnLectura.getInfUsuario().getMunicipio(),
                                             this.FcnLectura.getInfUsuario().getNombre(),
                                             this.FcnLectura.getInfUsuario().getDireccion(),
                                             this.FcnLectura.getInfUsuario().getSerie_medidor() + "-" + this.FcnLectura.getInfUsuario().getMarca_medidor(),
-                                            this.FcnSession.getCodigo());
+                                            String.valueOf(this.FcnSession.getCodigo()));
                                 }
 
                                 if (this.FcnLectura.getDatosUsuario(true)) {

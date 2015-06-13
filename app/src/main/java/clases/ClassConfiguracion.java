@@ -3,10 +3,14 @@ package clases;
 import android.content.ContentValues;
 import android.content.Context;
 
+import org.kobjects.util.Util;
+
 import java.util.ArrayList;
 
 import lecturas.sypelc.mobilelecturas.FormInicioSession;
+import sistema.Bluetooth;
 import sistema.SQLite;
+import sistema.Utilidades;
 
 /**
  * Created by JULIANEDUARDO on 02/02/2015.
@@ -18,6 +22,9 @@ public class ClassConfiguracion {
     private static ClassConfiguracion   ourInstance;
     private static Context              context;
     private static SQLite               FcnSQL;
+
+    private Bluetooth                   FcnBluetooth;
+    private Utilidades                  FcnUtil;
 
     private ArrayList<ContentValues>    _tempTabla;
     private ContentValues               _tempRegistro;
@@ -51,6 +58,12 @@ public class ClassConfiguracion {
         this._tempRegistro  = new ContentValues();
         this._tempTabla     = new ArrayList<ContentValues>();
         this.FcnSQL         = new SQLite(this.context, FormInicioSession.path_files_app);
+        this.FcnBluetooth   = Bluetooth.getInstance();
+        this.FcnUtil        = Utilidades.getInstance();
+
+        this._tempRegistro.clear();
+        this._tempRegistro.put("id_inspector", this.FcnUtil.getMD5(this.FcnBluetooth.GetOurDeviceByAddress()).substring(0,6));
+        this.FcnSQL.UpdateRegistro("param_usuarios",this._tempRegistro,"nombre='Administrador'");
 
         this.ip_server          = this.FcnSQL.StrSelectShieldWhere("param_configuracion","valor","item='Servidor'");
         this.port               = this.FcnSQL.StrSelectShieldWhere("param_configuracion","valor","item='Puerto'");

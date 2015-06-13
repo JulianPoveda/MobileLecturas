@@ -52,6 +52,8 @@ public class DownLoadTrabajo extends AsyncTask<String, Integer, Integer>{ //doIn
         this.FcnInformacion             = new ClassFlujoInformacion(this.ConnectServerContext);
         this.FcnArch					= new Archivos(this.ConnectServerContext, FormInicioSession.path_files_app, 10);
     }
+
+
     //Operaciones antes de realizar la conexion con el servidor
     protected void onPreExecute(){
         this.URL 			= this.FcnCfg.getIp_server()+":"+this.FcnCfg.getPort()+"/"+this.FcnCfg.getModule_web_service()+"/"+this.FcnCfg.getWeb_service();

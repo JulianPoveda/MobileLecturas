@@ -76,7 +76,6 @@ public class FormConfiguracion extends ActionBarActivity implements OnClickListe
             this._chkFotosOnLine.setEnabled(true);
             this._chkFacturasOnLine.setEnabled(true);
             this._chkDebug.setEnabled(true);
-            this._chkComprobante.setEnabled(true);
         }else{
             this._txtServidor.setEnabled(false);
             this._txtPuerto.setEnabled(false);
@@ -85,7 +84,6 @@ public class FormConfiguracion extends ActionBarActivity implements OnClickListe
             this._chkFotosOnLine.setEnabled(false);
             this._chkFacturasOnLine.setEnabled(false);
             this._chkDebug.setEnabled(false);
-            this._chkComprobante.setEnabled(false);
         }
 
         this._btnGuardar.setOnClickListener(this);

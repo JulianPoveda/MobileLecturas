@@ -32,7 +32,13 @@ public class SQLite {
      * En la version 6 de la base de datos se incluye un parametro en la tabla param_configuracion para controlar si se requiere
      * la impresion del tiquete o no.
      */
-    private static final int VERSION_BD = 6;
+    //private static final int VERSION_BD = 6;
+
+    /**
+     * En la version 7 de la base de datos se cambia el id_inpector de la tabla param_usuarios de tipo INTEGER a VARCHAR(10), con el fin
+     * de poder crear aleatoriamente el codigo de acceso del administrador
+     */
+    private static final int VERSION_BD = 7;
 
     private BDHelper nHelper;
     private Context nContexto;
@@ -54,7 +60,7 @@ public class SQLite {
             /**************************************************************************************************************************/
 
             //Tabla con los usuarios del sistema
-            db.execSQL(	"CREATE TABLE param_usuarios(   id_inspector    INTEGER NOT NULL PRIMARY KEY,"
+            db.execSQL(	"CREATE TABLE param_usuarios(   id_inspector    VARCHAR(10) NOT NULL PRIMARY KEY,"
                                                     + "	nombre	        VARCHAR(255) NOT NULL,"
                                                     + "	perfil 		    INTEGER NOT NULL)");
 
@@ -70,12 +76,12 @@ public class SQLite {
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Modulo','DesarrolloLecturas/ServerMobile',0) ");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Web_Service','WS_Lecturas.php?wsdl',0)");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Impresora','Sin Asignar',1)");
-            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Version_Software','1.0',0)");
-            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Version_BD','1.0',0)");
+            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Version_Software','1.1.4',0)");
+            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Version_BD','7.0',0)");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('FotosOnLine','true',0)");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('FacturasOnLine','false',0)");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Debug','true',0)");
-            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Comprobante','true',0)");
+            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Comprobante','true',1)");
 
             //Tabla con los datos de configuracion
             db.execSQL("CREATE TABLE    param_anomalias (id_anomalia            INTEGER NOT NULL PRIMARY KEY, " +
@@ -154,7 +160,8 @@ public class SQLite {
                                                         "tipo_uso               VARCHAR(255)," +
                                                         "fecha_toma             TIMESTAMP NOT NULL DEFAULT current_timestamp," +
                                                         "longitud               VARCHAR(100)," +
-                                                        "latitud                VARCHAR(100))");
+                                                        "latitud                VARCHAR(100), " +
+                                                        "id_inspector           INTEGER NOT NULL)");
 
             db.execSQL(	"CREATE TRIGGER tg_fecha_cargue AFTER INSERT ON maestro_rutas FOR EACH ROW BEGIN " +
                         "	UPDATE maestro_rutas SET fecha_cargue = datetime('now','localtime') " +
