@@ -433,7 +433,7 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
         try{
             if(resultCode == RESULT_OK && requestCode == FROM_BUSCAR){
                 if(data.getExtras().getBoolean("response")){
-                    this.FcnLectura.getInfUsuario().setFlagSearch(true);
+                    this.FcnLectura.getInfUsuario().setFlagSearch(false);
                     this.FcnLectura.getInfUsuario().setBackupMunicipio(this.FcnLectura.getInfUsuario().getMunicipio());
                     this.FcnLectura.getInfUsuario().setBackupRuta(this.FcnLectura.getInfUsuario().getRuta());
                     this.FcnLectura.getInfUsuario().setBackupConsecutivo(this.FcnLectura.getInfUsuario().getId_consecutivo());
