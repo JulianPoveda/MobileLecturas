@@ -15,18 +15,22 @@ import android.widget.TextView;
 
 
 import java.io.File;
+import java.util.Date;
 
 import async_task.DownLoadParametros;
 import async_task.DownLoadTrabajo;
 import clases.ClassConfiguracion;
 import clases.ClassFlujoInformacion;
 import clases.ClassSession;
+import dialogos.showDialogBox;
 import sistema.Beacon;
 import sistema.Bluetooth;
+import sistema.DateTime;
+import global.global_var;
 import sistema.Utilidades;
 
 
-public class FormInicioSession extends ActionBarActivity implements OnClickListener{
+public class FormInicioSession extends ActionBarActivity implements OnClickListener, global_var{
     public static String name_database      = "TomaLecturasBD";
     public static String path_files_app     = Environment.getExternalStorageDirectory() + File.separator + "TomaLecturas";
     public static String sub_path_pictures  = "Fotos";
@@ -37,6 +41,7 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
     private ClassSession            FcnSession;
     private ClassConfiguracion      FcnCfg;
     private ClassFlujoInformacion   FcnInf;
+    private DateTime                FcnTime;
 
     private Button      _btnLoggin;
     private EditText    _txtCodigo;
@@ -51,6 +56,7 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
         this.FcnSession     = ClassSession.getInstance(this);
         this.FcnCfg         = ClassConfiguracion.getInstance(this);
         this.FcnInf         = new ClassFlujoInformacion(this);
+        this.FcnTime        = DateTime.getInstance();
 
         this._btnLoggin     = (Button) findViewById(R.id.LoginBtnIngresar);
         this._txtCodigo     = (EditText) findViewById(R.id.LoginEditTextCodigo);
@@ -100,7 +106,7 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
                 break;
 
             case R.id.InicioCargarRuta:
-                new DownLoadTrabajo(this).execute(this.FcnSession.getCodigo()+"", this.FcnInf.getTrabajoCargdo(Integer.parseInt(this.FcnSession.getCodigo())));
+                new DownLoadTrabajo(this).execute(this.FcnSession.getCodigo()+"", this.FcnInf.getTrabajoCargdo(), this.FcnTime.GetFecha(), this.FcnTime.GetHora());
                 break;
 
             case R.id.InicioVerRutas:
@@ -132,7 +138,9 @@ public class FormInicioSession extends ActionBarActivity implements OnClickListe
         switch(v.getId()){
             case R.id.LoginBtnIngresar:
                 if(!this._txtCodigo.getText().toString().isEmpty()){
-                    this.FcnSession.IniciarSession(this._txtCodigo.getText().toString());
+                    if(!this.FcnSession.IniciarSession(this._txtCodigo.getText().toString())){
+                        new showDialogBox().showLoginDialog(this,DIALOG_ERROR,"INICIO DE SESION", "Codigo incorrecto.");
+                    }
                 }
                 invalidateOptionsMenu();
                 break;

@@ -354,7 +354,8 @@ public class FormTomarLectura extends ActionBarActivity implements OnClickListen
                             } else if (this.FcnLectura.getInfUsuario().isHaveCritica()) {
                                 this.argumentos.clear();
                                 this.argumentos.putString("Titulo", "ERROR.");
-                                this.argumentos.putString("Mensaje", "Se ha generado critica, ingrese la lectura nuevamente.");
+                                //this.argumentos.putString("Mensaje", "Se ha generado critica, ingrese la lectura nuevamente.");
+                                this.argumentos.putString("Mensaje", this.FcnLectura.getInfUsuario().getMsjCritica1());
                                 this.dialogo.setArguments(argumentos);
                                 this.dialogo.show(getFragmentManager(), "SaveDialog");
                             }

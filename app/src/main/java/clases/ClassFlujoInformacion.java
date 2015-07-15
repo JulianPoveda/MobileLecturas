@@ -36,9 +36,9 @@ public class ClassFlujoInformacion {
     }
 
 
-    public String getTrabajoCargdo(int _inspector){
+    public String getTrabajoCargdo(){
         String _retorno = "";
-        this._tempTabla = this.FcnSQL.SelectData("maestro_rutas","id_ciclo||'-'||id_municipio||'-'||ruta AS trabajo" ,"id_inspector="+_inspector);
+        this._tempTabla = this.FcnSQL.SelectData("maestro_rutas","id_ciclo||'-'||id_municipio||'-'||ruta AS trabajo" ,"id_inspector IS NOT NULL");
         for(int i=0; i<this._tempTabla.size();i++){
             _retorno +="'"+this._tempTabla.get(i).getAsString("trabajo")+"',";
         }
@@ -84,6 +84,7 @@ public class ClassFlujoInformacion {
             this._tempRegistro.put("minimo",this._campos[1]);
             this._tempRegistro.put("maximo",this._campos[2]);
             this._tempRegistro.put("descripcion",this._campos[3]);
+            this._tempRegistro.put("mensaje",this._campos[4]);
             this.FcnSQL.InsertRegistro("param_critica",this._tempRegistro);
         }else if(this._campos[0].equals("Uso")){
             this._tempRegistro.put("id_uso",this._campos[1]);

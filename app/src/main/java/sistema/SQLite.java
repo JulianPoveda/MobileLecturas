@@ -29,16 +29,21 @@ public class SQLite {
     //private static final int VERSION_BD = 5;
 
     /**
-     * En la version 6 de la base de datos se incluye un parametro en la tabla param_configuracion para controlar si se requiere
+     * Version 6 de la base de datos --> se incluye un parametro en la tabla param_configuracion para controlar si se requiere
      * la impresion del tiquete o no.
      */
     //private static final int VERSION_BD = 6;
 
     /**
-     * En la version 7 de la base de datos se cambia el id_inpector de la tabla param_usuarios de tipo INTEGER a VARCHAR(10), con el fin
+     * Version 7 de la base de datos --> se cambia el id_inpector de la tabla param_usuarios de tipo INTEGER a VARCHAR(10), con el fin
      * de poder crear aleatoriamente el codigo de acceso del administrador
      */
-    private static final int VERSION_BD = 7;
+
+    /**
+     * En la version 8 de la base de datos se adiciona el campo mensaje en la tabla critica, el cual contendra el mensaje a mostrar
+     * al usuario cuando se generen las diferentes criticas.
+     */
+    private static final int VERSION_BD = 8;
 
     private BDHelper nHelper;
     private Context nContexto;
@@ -76,8 +81,8 @@ public class SQLite {
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Modulo','DesarrolloLecturas/ServerMobile',0) ");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Web_Service','WS_Lecturas.php?wsdl',0)");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Impresora','Sin Asignar',1)");
-            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Version_Software','1.1.4',0)");
-            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Version_BD','7.0',0)");
+            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Version_Software','1.1.8',0)");
+            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Version_BD','8.0',0)");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('FotosOnLine','true',0)");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('FacturasOnLine','false',0)");
             db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Debug','true',0)");
@@ -95,6 +100,7 @@ public class SQLite {
             //Tabla con los datos de configuracion
             db.execSQL("CREATE TABLE    param_critica   (minimo                 NUMERIC(15,7) NOT NULL," +
                                                         "maximo                 NUMERIC(15,7) NOT NULL," +
+                                                        "mensaje                VARCHAR(255) NOT NULL," +
                                                         "descripcion            VARCHAR(255) PRIMARY KEY)");
 
             db.execSQL("CREATE TABLE    param_municipios(id_municipio           INTEGER NOT NULL PRIMARY KEY," +
@@ -182,12 +188,7 @@ public class SQLite {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            db.execSQL("UPDATE param_configuracion SET valor = '1.1.3' WHERE item = 'Version_Software'");
-            db.execSQL("UPDATE param_configuracion SET valor = '6.0' WHERE item = 'Version_BD'");
-            db.execSQL("INSERT INTO     param_configuracion (item,valor,nivel) VALUES ('Comprobante','true',0)");
-
-
-            //db.execSQL("UPDATE amd_configuracion SET valor = '2.2' WHERE item = 'version'");
+            //db.execSQL("UPDATE amd_configuracion SET valor = '1.1.8' WHERE item = 'Version_Software'");
 			
 			/*db.execSQL(	"CREATE TRIGGER tg_fecha_impresion AFTER INSERT ON dig_impresiones_inf FOR EACH ROW BEGIN " +
 						"	UPDATE dig_impresiones_inf SET fecha_imp=datetime('now','localtime') WHERE solicitud = NEW.solicitud AND id_impresion = NEW.id_impresion;" +

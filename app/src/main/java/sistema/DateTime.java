@@ -49,7 +49,7 @@ public class DateTime {
 
     public String GetFecha(){
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat df1 = new SimpleDateFormat("dd/MM/yyyy");
         String formattedDate = df1.format(c.getTime());
         return formattedDate;
     }
@@ -64,14 +64,14 @@ public class DateTime {
 
     public String DateWithNameMonthShort() {
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat df1 = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat df1 = new SimpleDateFormat("dd/MM/yyyy");
         String formattedDate[] = df1.format(c.getTime()).split("-");
         return NameOfMonthShort[Integer.parseInt(formattedDate[1])-1]+" "+formattedDate[0]+" de "+formattedDate[2];
     }
 
     public String GetHora(){
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat df1 = new SimpleDateFormat("HH:mm:ss a");
+        SimpleDateFormat df1 = new SimpleDateFormat("HH:mm:ss");
         String formattedDate = df1.format(c.getTime());
         return formattedDate;
     }

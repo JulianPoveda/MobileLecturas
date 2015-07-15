@@ -268,22 +268,16 @@ public class ClassPrinter {
                     printerConnection.write(configLabel);
                     DemoSleeper.sleep(150);
                 }else if(this.printer.getCurrentStatus().isHeadOpen){
-                    //Mensaje de tapa abierta
                     new showDialogBox().showLoginDialog(this.ctx, 2, "ERROR EN IMPRESION", "La tapa de la impresora esta abierta.");
                 }else if(this.printer.getCurrentStatus().isHeadCold){
-                    //Cabezal frio para imprimir
                     new showDialogBox().showLoginDialog(this.ctx, 2, "ERROR EN IMPRESION", "El cabezal de impresion aun no esta listo.");
                 }else if(this.printer.getCurrentStatus().isHeadTooHot){
-                    //Cabezal de impresora sobrecalentado
                     new showDialogBox().showLoginDialog(this.ctx, 2, "ERROR EN IMPRESION", "El cabezal de impresion esta sobrecalentado.");
                 }else if(this.printer.getCurrentStatus().isPaperOut){
-                    //Impresora sin papel
                     new showDialogBox().showLoginDialog(this.ctx, 2, "ERROR EN IMPRESION", "Impresora sin papel.");
                 }else if(this.printer.getCurrentStatus().isPaused){
-                    //Impresora en estado pause
                     new showDialogBox().showLoginDialog(this.ctx, 2, "ERROR EN IMPRESION", "Impresora pausada.");
                 }else if(this.printer.getCurrentStatus().isReceiveBufferFull){
-                    //Impresora con el buffer lleno
                     new showDialogBox().showLoginDialog(this.ctx, 2, "ERROR EN IMPRESION", "Buffer lleno.");
                 }
             }catch (ConnectionException e) {

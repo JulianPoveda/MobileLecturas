@@ -9,16 +9,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import global.global_var;
 import lecturas.sypelc.mobilelecturas.FormInicioSession;
 import lecturas.sypelc.mobilelecturas.R;
 
 /**
  * Created by DesarrolloJulian on 19/05/2015.
  */
-public class showDialogBox {
-    final int DIALOG_WARNING       = 1;
+public class showDialogBox implements global_var {
+    /*final int DIALOG_WARNING       = 1;
     final int DIALOG_ERROR         = 2;
-    final int DIALOG_INFORMATIVE   = 3;
+    final int DIALOG_INFORMATIVE   = 3;*/
 
 
     private TextView    _txtMensaje;

@@ -223,6 +223,9 @@ public class TomaLectura {
                                                                                 this.ObjUsuario.getLectura_anterior1(),
                                                                                 this.ObjUsuario.getPromedio1(),
                                                                                 this.ObjUsuario.getFactor_multiplicacion()));
+
+                this.ObjUsuario.setMsjCritica1(this.FcnCritica.getMensajeCritica(this.ObjUsuario.getCritica1()));
+
             }else{
                 this.ObjUsuario.setLectura1(-1);
                 this.ObjUsuario.setCritica1(1);
@@ -233,6 +236,8 @@ public class TomaLectura {
                                                                                 this.ObjUsuario.getLectura_anterior2(),
                                                                                 this.ObjUsuario.getPromedio1(),
                                                                                 this.ObjUsuario.getFactor_multiplicacion()));
+
+                this.ObjUsuario.setMsjCritica2(this.FcnCritica.getMensajeCritica(this.ObjUsuario.getCritica2()));
             }else{
                 this.ObjUsuario.setLectura2(-1);
                 this.ObjUsuario.setCritica2(1);
@@ -243,6 +248,8 @@ public class TomaLectura {
                                                                                 this.ObjUsuario.getLectura_anterior3(),
                                                                                 this.ObjUsuario.getPromedio1(),
                                                                                 this.ObjUsuario.getFactor_multiplicacion()));
+
+                this.ObjUsuario.setMsjCritica3(this.FcnCritica.getMensajeCritica(this.ObjUsuario.getCritica3()));
             }else{
                 this.ObjUsuario.setLectura3(-1);
                 this.ObjUsuario.setCritica3(1);

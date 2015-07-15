@@ -2,6 +2,7 @@ package lecturas.sypelc.mobilelecturas;
 
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.app.Activity;
@@ -18,6 +19,7 @@ import Adapter.RutasData;
 import async_task.UploadLecturas;
 import clases.ClassConfiguracion;
 import clases.ClassSession;
+import dialogos.ShowDialog;
 import sistema.Bluetooth;
 import sistema.SQLite;
 import dialogos.showDialogBox;
@@ -26,8 +28,9 @@ import dialogos.showDialogBox;
  * Created by SypelcDesarrollo on 04/02/2015.
  */
 public class FormInformacionRutas extends Activity{
-    private String FolderAplicacion;
-    private String ruta_seleccionada;
+    private String  FolderAplicacion;
+    private String  ruta_seleccionada;
+    private int     pend_ruta_seleccionada;
 
     private Intent              new_form;
     private ListView            listadoRutas;
@@ -49,8 +52,6 @@ public class FormInformacionRutas extends Activity{
         setContentView(R.layout.activity_informacion_rutas);
 
         Bundle bundle = getIntent().getExtras();
-        //this.FolderAplicacion= bundle.getString("FolderAplicacion");
-
         this.FcnSession     = ClassSession.getInstance(this);
         this.FcnCfg         = ClassConfiguracion.getInstance(this);
         this.FcnBluetooth   = Bluetooth.getInstance();
@@ -66,8 +67,8 @@ public class FormInformacionRutas extends Activity{
         this._tempTabla = sqlConsulta.SelectData("maestro_rutas","id_ciclo,id_municipio,ruta","id_inspector="+this.FcnSession.getCodigo());
         for(int i=0;i<this._tempTabla.size();i++){
             this._tempRegistro = this._tempTabla.get(i);
-            Integer totalR = sqlConsulta.CountRegistrosWhere("maestro_clientes","id_municipio="+this._tempRegistro.getAsInteger("id_municipio")+" AND ruta='"+this._tempRegistro.getAsString("ruta")+"'");
-            Integer totalP = sqlConsulta.CountRegistrosWhere("maestro_clientes","id_municipio="+this._tempRegistro.getAsInteger("id_municipio")+" AND ruta='"+this._tempRegistro.getAsString("ruta")+"' AND estado='P'");
+            Integer totalR = sqlConsulta.CountRegistrosWhere("maestro_clientes","id_ciclo="+this._tempRegistro.getAsInteger("id_ciclo")+" AND id_municipio="+this._tempRegistro.getAsInteger("id_municipio")+" AND ruta='"+this._tempRegistro.getAsString("ruta")+"'");
+            Integer totalP = sqlConsulta.CountRegistrosWhere("maestro_clientes","id_ciclo="+this._tempRegistro.getAsInteger("id_ciclo")+" AND id_municipio="+this._tempRegistro.getAsInteger("id_municipio")+" AND ruta='"+this._tempRegistro.getAsString("ruta")+"' AND estado='P'");
             Integer totalL = totalR - totalP;
             arrayListadoRutas.add(new RutasData(this._tempRegistro.getAsString("id_ciclo")+"-"+this._tempRegistro.getAsString("id_municipio")+"-"+this._tempRegistro.getAsString("ruta"),
                                                 String.valueOf(totalP),
@@ -82,7 +83,8 @@ public class FormInformacionRutas extends Activity{
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-        this.ruta_seleccionada = arrayListadoRutas.get(info.position).getCodigoRuta();
+        this.ruta_seleccionada      = arrayListadoRutas.get(info.position).getCodigoRuta();
+        this.pend_ruta_seleccionada = Integer.parseInt(arrayListadoRutas.get(info.position).getTotalPendientes());
         switch(v.getId()){
             case R.id.InfoListRutas:
                 menu.setHeaderTitle("Ruta " + this.ruta_seleccionada);
@@ -93,11 +95,16 @@ public class FormInformacionRutas extends Activity{
         }
     }
 
+
+
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.RutasMenuIniciar:
-                if(this.FcnCfg.getPrinter().isEmpty()){
+                if (this.pend_ruta_seleccionada == 0) {
+                    String DatosSeleccion[] = this.ruta_seleccionada.split("\\-");
+                    new ShowDialog().showLoginDialog(this, Integer.parseInt(DatosSeleccion[1]), DatosSeleccion[2]);
+                }else if(this.FcnCfg.getPrinter().isEmpty() && this.FcnCfg.isComprobante() ){
                     new showDialogBox().showLoginDialog(this, 2, "ERROR IMPRESORA", "No ha seleccionado la impresora con cual trabajar, verfique los parametros de configuracion.");
                 }else if(!this.FcnBluetooth.EnabledBluetoth()) {
                     new showDialogBox().showLoginDialog(this, 2, "ERROR BLUETOOTH", "Error con el bluetooth, verifique que se encuentre encendido.");

@@ -49,4 +49,8 @@ public class ClassCritica {
     public String getDescripcionCritica(double _critica){
         return this.FcnSQL.StrSelectShieldWhere("param_critica","descripcion","minimo<="+_critica+" AND maximo >= "+_critica+"");
     }
+
+    public String getMensajeCritica(double _critica){
+        return this.FcnSQL.StrSelectShieldWhere("param_critica","mensaje","minimo<="+_critica+" AND maximo >= "+_critica+"");
+    }
 }

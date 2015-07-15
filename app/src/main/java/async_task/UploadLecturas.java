@@ -85,75 +85,82 @@ public class UploadLecturas extends AsyncTask<String, Void, Integer> {
             this._tempTabla = this.FcnSQL.SelectData("maestro_clientes", "id_serial_1, id_serial_2, id_serial_3", "estado='T'");
         }else {
             this.infRuta = params[0].split("\\-");
-            this._tempTabla = this.FcnSQL.SelectData("maestro_clientes", "id_serial_1, id_serial_2, id_serial_3", "estado='T' AND ruta='" + infRuta[1] + "' AND id_municipio = "+infRuta[0]);
+            this._tempTabla = this.FcnSQL.SelectData("maestro_clientes", "id_serial_1, id_serial_2, id_serial_3", "estado='T' AND ruta='" + infRuta[2] + "' AND id_municipio = "+infRuta[1]);
         }
-        for(int i=0; i<this._tempTabla.size();i++){
-            this._tempRegistro  = this._tempTabla.get(i);
-            this._tempTabla1	= this.FcnSQL.SelectData(   "toma_lectura",
-                                                            "id, id_serial1, lectura1, critica1, id_serial2, lectura2, critica2, id_serial3, lectura3, critica3, anomalia, mensaje, tipo_uso,fecha_toma,longitud,latitud,id_inspector",
-                                                            "id_serial1="+this._tempRegistro.getAsString("id_serial_1")+" AND id_serial2="+this._tempRegistro.getAsString("id_serial_2")+" and id_serial3="+this._tempRegistro.getAsString("id_serial_3")+"");
 
-            for(int j=0; j<this._tempTabla1.size();j++){
-                this._tempRegistro1 = this._tempTabla1.get(j);
-                this.InformacionCarga += this._tempRegistro1.getAsString("id")+","+this._tempRegistro1.getAsString("id_serial1") + "," + this._tempRegistro1.getAsString("lectura1") + "," + this._tempRegistro1.getAsString("critica1") + "," +
-                        "" + this._tempRegistro1.getAsString("id_serial2") + "," + this._tempRegistro1.getAsString("lectura2") + "," + this._tempRegistro1.getAsString("critica2") + "," +
-                        "" + this._tempRegistro1.getAsString("id_serial3") + "," + this._tempRegistro1.getAsString("lectura3") + "," + this._tempRegistro1.getAsString("critica3") + "," +
-                        "" + this._tempRegistro1.getAsString("anomalia") + "," + this._tempRegistro1.getAsString("mensaje") + "," + this._tempRegistro1.getAsString("tipo_uso") + "," +
-                        "" + this._tempRegistro1.getAsString("fecha_toma") + "," +this._tempRegistro1.getAsString("longitud")+","+this._tempRegistro1.getAsString("latitud")+ "," +
-                        "" + this._tempRegistro1.getAsString("id_inspector")+ "\r\n";
+        if(this._tempTabla.size()>0){
+            for(int i=0; i<this._tempTabla.size();i++){
+                this._tempRegistro  = this._tempTabla.get(i);
+                this._tempTabla1	= this.FcnSQL.SelectData(   "toma_lectura",
+                        "id, id_serial1, lectura1, critica1, id_serial2, lectura2, critica2, id_serial3, lectura3, critica3, anomalia, mensaje, tipo_uso,fecha_toma,longitud,latitud,id_inspector",
+                        "id_serial1="+this._tempRegistro.getAsString("id_serial_1")+" AND id_serial2="+this._tempRegistro.getAsString("id_serial_2")+" and id_serial3="+this._tempRegistro.getAsString("id_serial_3")+"");
+
+                for(int j=0; j<this._tempTabla1.size();j++){
+                    this._tempRegistro1 = this._tempTabla1.get(j);
+                    this.InformacionCarga += this._tempRegistro1.getAsString("id")+","+this._tempRegistro1.getAsString("id_serial1") + "," + this._tempRegistro1.getAsString("lectura1") + "," + this._tempRegistro1.getAsString("critica1") + "," +
+                            "" + this._tempRegistro1.getAsString("id_serial2") + "," + this._tempRegistro1.getAsString("lectura2") + "," + this._tempRegistro1.getAsString("critica2") + "," +
+                            "" + this._tempRegistro1.getAsString("id_serial3") + "," + this._tempRegistro1.getAsString("lectura3") + "," + this._tempRegistro1.getAsString("critica3") + "," +
+                            "" + this._tempRegistro1.getAsString("anomalia") + "," + this._tempRegistro1.getAsString("mensaje").replace("\n",".") + "," + this._tempRegistro1.getAsString("tipo_uso") + "," +
+                            "" + this._tempRegistro1.getAsString("fecha_toma") + "," +this._tempRegistro1.getAsString("longitud")+","+this._tempRegistro1.getAsString("latitud")+ "," +
+                            "" + this._tempRegistro1.getAsString("id_inspector")+ "\r\n";
+                }
             }
-        }
 
-        this.FcnArch.DoFile("Descarga",this.Usuario.getCodigo()+"_"+params[0]+".txt",this.InformacionCarga);
+            //this.FcnArch.DoFile("Descarga",this.Usuario.getCodigo()+"_"+params[0]+".txt",this.InformacionCarga);
 
-        try{
-            this.so=new SoapObject(NAMESPACE, this.METHOD_NAME);
-            this.so.addProperty("informacion",this.FcnArch.FileToArrayBytes("Descarga", this.Usuario.getCodigo() + "_" + params[0] + ".txt", true));
-            this.so.addProperty("bluetooth", this.FcnBluetooth.GetOurDeviceByAddress());
+            try{
+                this.so=new SoapObject(NAMESPACE, this.METHOD_NAME);
+                //this.so.addProperty("informacion",this.FcnArch.FileToArrayBytes("Descarga", this.Usuario.getCodigo() + "_" + params[0] + ".txt", true));
+                this.so.addProperty("Informacion",this.InformacionCarga);
+                this.so.addProperty("Bluetooth", this.FcnBluetooth.GetOurDeviceByAddress());
 
-            this.sse=new SoapSerializationEnvelope(SoapEnvelope.VER11);
-            new MarshalBase64().register(this.sse);
-            this.sse.dotNet=true;
-            this.sse.setOutputSoapObject(this.so);
-            this.htse=new HttpTransportSE(URL);
-            this.htse.call(SOAP_ACTION, this.sse);
-            this.response=(SoapPrimitive) this.sse.getResponse();
+                this.sse=new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                //new MarshalBase64().register(this.sse);
+                this.sse.dotNet=true;
+                this.sse.setOutputSoapObject(this.so);
+                this.htse=new HttpTransportSE(URL,45000);
+                this.htse.call(SOAP_ACTION, this.sse);
+                this.response=(SoapPrimitive) this.sse.getResponse();
 
-            if(response==null) {
-                this.Respuesta = "-1";
-            }else if(response.toString().isEmpty()){
-                this.Respuesta = "-2";
-            }else {
-                String informacion[] = new String(response.toString()).trim().split("\\|");
-                if(informacion.length>0){
-                    this._tempRegistro1.clear();
-                    this._tempRegistro1.put("estado","E");
+                if(response==null) {
+                    this.Respuesta = "-1";
+                }else if(response.toString().isEmpty()){
+                    this.Respuesta = "-2";
+                }else {
+                    String informacion[] = new String(response.toString()).trim().split("\\|");
+                    if(informacion.length>0){
+                        this._tempRegistro1.clear();
+                        this._tempRegistro1.put("estado","E");
 
-                    for(int i=0;i<informacion.length;i++){
-                        //Con el id local se consulta los id_seriales originales para poder actualizar el registro general
-                        this._tempRegistro = this.FcnSQL.SelectDataRegistro("toma_lectura","id_serial1,id_serial2,id_serial3","id="+informacion[i]);
-                        //Se hace el cambio de estado de (T)erminado a (E)nviado
-                        this.FcnSQL.UpdateRegistro("maestro_clientes",
-                                                    this._tempRegistro1,
-                                                    "id_serial_1="+this._tempRegistro.getAsString("id_serial1")+" AND id_serial_2="+this._tempRegistro.getAsString("id_serial2")+" AND id_serial_3="+this._tempRegistro.getAsString("id_serial3"));
+                        for(int i=0;i<informacion.length;i++){
+                            //Con el id local se consulta los id_seriales originales para poder actualizar el registro general
+                            this._tempRegistro = this.FcnSQL.SelectDataRegistro("toma_lectura","id_serial1,id_serial2,id_serial3","id="+informacion[i]);
+                            //Se hace el cambio de estado de (T)erminado a (E)nviado
+                            this.FcnSQL.UpdateRegistro("maestro_clientes",
+                                    this._tempRegistro1,
+                                    "id_serial_1="+this._tempRegistro.getAsString("id_serial1")+" AND id_serial_2="+this._tempRegistro.getAsString("id_serial2")+" AND id_serial_3="+this._tempRegistro.getAsString("id_serial3"));
+                        }
+                    }
+                    _retorno = 1;
+                }
+            } catch (Exception e) {
+                this.Respuesta = e.toString();
+                _retorno = -4;
+            }finally{
+                if(this.htse != null){
+                    this.htse.reset();
+                    try {
+                        this.htse.getServiceConnection().disconnect();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        _retorno = -5;
                     }
                 }
-                _retorno = 1;
             }
-        } catch (Exception e) {
-            this.Respuesta = e.toString();
-            _retorno = -4;
-        }finally{
-            if(this.htse != null){
-                this.htse.reset();
-                try {
-                    this.htse.getServiceConnection().disconnect();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    _retorno = -5;
-                }
-            }
+        }else{
+            _retorno = 0;
         }
+
         return _retorno;
     }
 

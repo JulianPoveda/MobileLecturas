@@ -22,6 +22,10 @@ public class UsuarioLeido extends UsuarioEMSA {
     private double  critica2;
     private double  critica3;
 
+    private String  msjCritica1;
+    private String  msjCritica2;
+    private String  msjCritica3;
+
     private int     anomalia;
     private int     intentos;
     private int     countFotos;
@@ -98,6 +102,30 @@ public class UsuarioLeido extends UsuarioEMSA {
 
     public void setCritica3(double critica3) {
         this.critica3 = critica3;
+    }
+
+    public String getMsjCritica1() {
+        return msjCritica1;
+    }
+
+    public void setMsjCritica1(String msjCritica1) {
+        this.msjCritica1 = msjCritica1;
+    }
+
+    public String getMsjCritica2() {
+        return msjCritica2;
+    }
+
+    public void setMsjCritica2(String msjCritica2) {
+        this.msjCritica2 = msjCritica2;
+    }
+
+    public String getMsjCritica3() {
+        return msjCritica3;
+    }
+
+    public void setMsjCritica3(String msjCritica3) {
+        this.msjCritica3 = msjCritica3;
     }
 
     public int getAnomalia() {
